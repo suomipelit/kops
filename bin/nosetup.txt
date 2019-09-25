@@ -1,0 +1,91 @@
+
+No Setup/Configuration Utility?
+-------------------------------
+
+That's true. The DOS to Win32 port was made rather quickly and I didn't
+have time to make a new windows application for configuring the control
+keys etc. Below is a list of default keys you have to stick with. If you
+are a programmer, see the end of this file for configuration file format.
+
+Player 1
+       UP	Cursor up
+       LEFT	Cursor left
+       RIGHT	Cursor right
+       FIRE	Right shift
+       SPECIAL	Cursor down
+
+Player 2
+       UP	[W]
+       LEFT	[A]
+       RIGHT	[D]
+       FIRE	Left shift
+       SPECIAL	[S]
+
+Player 3
+       UP	[Y]
+       LEFT	[G]
+       RIGHT	[J]
+       FIRE	[F]
+       SPECIAL	[H]
+
+Player 4
+       UP	[L]
+       LEFT	[,]
+       RIGHT	[/] (en) or [-] (fi)
+       FIRE	M
+       SPECIAL	[.]
+
+
+Information for programmers
+---------------------------
+If you want to code your own setup utility, below is the file format of
+the configuration file KOPS.CFG. Note that if the file does not exist,
+file is invalid or the file is wrong version, game automatically creates
+a new one with default settings. 
+List of key symbols can be found in SDL documentation/headers
+(see http://www.libsdl.org).
+
+List of fields starting from beginning of file (sizes in bytes)
+
+Size	Default		Description
+----	-------		-----------
+4	1		Major version number
+4	0		Minor version number
+1	0		Reserved
+4	SDLK_UP		Player 1 key up
+4	SDLK_LEFT	Player 1 key left
+4	SDLK_RIGHT	Player 1 key right
+4	SDLK_RSHIFT	Player 1 key fire
+4	SDLK_DOWN	Player 1 key special
+1	0		Reserved
+4	SDLK_w		Player 2 key up
+4	SDLK_a		Player 2 key left
+4	SDLK_d		Player 2 key right
+4	SDLK_LSHIFT	Player 2 key fire
+4	SDLK_s		Player 2 key special
+1	0		Reserved
+4	SDLK_y		Player 3 key up
+4	SDLK_g		Player 3 key left
+4	SDLK_j		Player 3 key right
+4	SDLK_f		Player 3 key fire
+4	SDLK_h		Player 3 key special
+1	0		Reserved
+4	SDLK_l		Player 4 key up
+4	SDLK_COMMA	Player 4 key left
+4	SDLK_SLASH	Player 4 key right
+4	SDLK_m		Player 4 key fire
+4	SDLK_PERIOD	Player 4 key special
+1	2		Number of players (1-4)
+1	1		Parallax drawing (1=on, 0=off)
+1	1		Number of special weapon slots (2-16)
+1	1		Sound playing (1=enable, 0=disable)
+1	44100		Sound sampling rate (8000-44100)
+1	8		Number of sound fx channels for short sounds (1-8)
+1	8		Number of sound fx channels for long sounds (1-8)
+1	24		Music volume (0-64)
+1	64		Sound fx volume (0-64)
+1	2		Gravity setting (0-3)
+
+
+--
+$Id: nosetup.txt,v 1.1 2003/04/15 17:26:31 tonic Exp $

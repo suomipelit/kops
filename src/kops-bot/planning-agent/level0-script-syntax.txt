@@ -1,0 +1,147 @@
+# $Id: level0-script-syntax.txt,v 1.1 2003/04/15 18:15:54 tonic Exp $
+
+# Functions
+direction      return current direction where to vehicle is moving.
+(position       return current position of vehicle.)
+speed          return current speed.
+location       return current location.
+angle          return vehicle angle to given target.
+distance       return distance to given target.
+
+# KB queries
+kb(var)        return KB variable value.
+grid(x,y)      return map status from location (x,y).
+target         return current move target.
+
+# Actions
+turnLeft;
+turnRight;
+thrust;
+fireMain;
+fireSpecial;
+
+# Keywords
+direction
+upright
+myself            reference to own vehicle.
+while
+do
+done
+script
+if
+then
+else
+end
+set
+yield
+
+# Examples
+speed(target)
+speed(myself)
+
+location(target)
+location(myself)
+
+angle(target)
+angle(upright)
+angle(direction)
+
+script stopVehicle {
+
+  while speed(myself) > kb(stop_speed_limit) 
+  do
+    if | angle(direction) | > 5 degrees
+    then
+        if angle(direction) > 0
+        then
+            turnLeft;
+        else
+            turnRight;
+        end
+    end
+
+    if | angle(direction) |  > 30 degrees
+    then
+        thrust;
+    end
+
+    yield;
+
+  done
+}
+
+script turnUpright {
+
+  while | angle(upright) | > 1
+  do
+     if angle(upright) > 0
+     then
+        turnLeft
+     else
+        turnRight
+     end
+    
+     yield
+
+  done
+}
+
+script turnTowardsTarget {
+
+  while | angle(target) | > 1 
+  do
+     if angle(target) > 0
+     then
+        turnLeft
+     else
+        turnRight
+     end
+    
+     yield
+
+  done
+}
+
+script flyToVisibleTarget {
+
+  while location(myself)  != location(target)
+  do
+    if | angle(target) | > 1
+    then
+       if angle(target) > 0
+       then
+           turnLeft
+       else
+           turnRight
+       end
+    end
+
+    if | angle(target) | < 90
+    then
+      if distance(target) > kb(target_far) or speed(myself) < kb(medium_speed)
+      then
+         thrust
+      end
+    end
+
+    yield
+
+  done
+}
+
+script turnAwayFromTarget {
+
+  while | angle(target) | < 170
+  do
+       if angle(target) > 0
+       then
+           turnRight
+       else
+           turnLeft
+       end
+
+       yield
+
+  done
+}
+

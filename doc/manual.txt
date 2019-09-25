@@ -1,0 +1,587 @@
+      .#.                        ######..                   .###.
+     .####           .#########. `###########.         ..########.
+     #####      ###.##############. "##########.     .############:
+    ######    .###;################  .. `"#######   #########"'`"#
+   ######'  .###' :#####'   `###### ###     "#####.:######'
+  ######. .###'  .#####:      `###:.###.     .####:#####'
+ .##########'    ######       .###'####: .#########:####:
+ :########:     :#####       .### ################' `#######.
+ ##########.    #####'    .#####  `##########"'        `"######.
+ ###"#########.  #####..#######   ###"'                 ..######
+ ##'   "########  `##########'    ###                .########'
+          `##"'       "###"       ###                `##""' [Sol]
+                                   "#
+Freeware Release User Manual v 1.1
+
+Contents
+1. What's KOPS?
+2. Legal stuff
+3. How to play
+  3.1 Weapon descriptions
+4. Registering
+5. Troubleshooting
+6. Acknowledgements
+7. Revision History
+8. Customization
+
+.------------------------------------------------------------------------.
+| 1. What's KOPS?                                                        |
+`------------------------------------------------------------------------'
+
+  Kops is a two-dimensional gravitational shoot'yer'friend game in
+640x480x256 graphics mode. The original version was made back in 1996.
+This is port from the DOS version to Windows and released as "freeware",
+i.e. there is no need to register the game since this free release
+is fully functional with all the features previously available only in
+registered shareware version.
+
+Requirements
+------------
+    Pentium-class computer with 32MB memory. (probably works with less)
+    A decent graphics adaptor.
+    DirectX (windows)
+    SDL 1.2 (linux)
+
+Optional:
+    A decent sound card (with windows drivers)
+
+Recommended:
+    Pentium II (or faster)
+    Lots of memory
+
+Author contact info
+-------------------
+  Internet E-mail:    jetro (at) iki (dot) fi
+     Internet WWW:    http://iki.fi/jetro/
+
+.------------------------------------------------------------------------.
+| 2. Legal stuff.                                                        |
+`------------------------------------------------------------------------'
+LICENSE
+
+    Using this software means that you accept this license agreement:
+
+    This software/data is owned by Jetro Lauha (hereinafter referred as
+    "author"). This software/data is protected by both Finland's Copyright
+    Law and international copyright trade provisions. By your using the
+    software/data, you accept the terms and conditions of this agreement.
+    You have no rights or privileges beyond those specifically spelled out
+    under this license agreement. The author retains title to this
+    software/data.
+
+    You assume complete responsibility for the selection, installation, and
+    use of this program. If you do not agree with the terms and conditions
+    contained in this agreement, please return the packaged media and
+    possible associated documentation to the author (no reimbursement).
+
+    1. AUTHORIZED USE OF THE SOFTWARE/DATA: Under this agreement, your
+    authorized use of this program is limited to these
+    activities/functions:
+
+	a. You may use the software/data on one or more computers at a time.
+        b. You may freely move the program from one computer location to
+           another.
+	c. You may distribute copies of the software/data. You must transfer
+	   whole unaltered original copy of the software/data installation
+	   package and the receiving person must accept this license as well.
+	   If these conditions are not met you may not transfer the
+	   software/data.
+
+    2. UNAUTHORIZED USE OF THE SOFTWARE/DATA:
+    By law you MAY NOT DO THE FOLLOWING:
+
+        a. Modify, alter, merge or adapt the software/data or portions of it.
+        b. Reverse assemble, reverse engineer, decompile, reverse compile,
+           or disassemble the program or create derivative works.
+        c. Sublicense, time-share, rent, lease, sublease, assign the software,
+           disk, or documentation.
+        d. Remove or obscure the author's copyright.
+        e. Use the software/data for any commercial transaction, sale,
+           barter, or exchange for anything of value.
+
+        Contact the author for inclusion with magazines or other compilations.
+
+    3. LIMITED WARRANTIES: The product is provided "AS IS" without warranty
+    of any kind, either expressed or implied, including but not limited to
+    the implied warranties of merchantability and fitness for a particular
+    purpose. The entire risk as to quality and performance of this program
+    is with you. You assume the entire expense of necessary servicing and
+    repair.
+
+    4. TERMS: This license agreement is effective from the day you use the
+    software/data first time and continues until you return the original
+    software/data to the author and certify in writing that you have
+    destroyed all copies you may have recorded on any storage system or
+    other medium.
+
+    5. TERMINATION OF THE AGREEMENT: If any of the terms of this agreement
+    are broken, the author has the right to terminate the license agreement
+    and request that you return the software/data to the author. If such
+    should occur, then you must also certify in writing that you have not
+    retained or transferred any copy of the software/data.
+
+    6. GOVERNING LAW: This license agreement is to be governed by the laws
+    of Finland and all relevant international laws and treaties. In case of
+    dispute arbitration the place of arbitration shall be Helsinki, Finland.
+    The language of arbitration shall be Finnish.
+
+    7. PURPOSE OF DISTRIBUTION OF LICENSE: You agree to use your best
+    efforts and take every reasonable step to protect the software from
+    use, reproduction, or distribution except as authorized by this license
+    agreement. Much time and effort has been spent to develop this program.
+    To use the product in violation of copyright laws and this license
+    agreement is illegal, dishonest and unfair.
+
+    8. ENTIRE AGREEMENT: This license agreement constitutes the entire
+    agreement between you and the author for use of this software/data.
+
+    You acknowledge that you have read this agreement, understand it, and
+    agree to be bound by the terms and conditions.
+
+.------------------------------------------------------------------------.
+| 3. How to play                                                         |
+`------------------------------------------------------------------------'
+
+  You control your ship with five keys; thrust (move forward), turn left,
+turn right, fire main gun and fire special gun. Both main and special guns
+can be upgraded by picking up power-ups that appear around the level from
+time to time.
+  When you pick up a main gun power-up, your gun is replaced instantly.
+Your main gun also has unlimited ammo. If you pick up worse gun than you
+already had, tough luck.
+  Your ship also has special weapon with 2 to 16 slots; only one slot can
+be active at a time. To activate another slot, you must either visit a
+base and pick the slot, or pick up a "next slot"-power-up. The special
+weapons have limited ammo.
+  When you visit a base, your ship is also automatically repaired; this takes
+time, and you are literally a sitting duck when you are being repaired.
+You also must return to a base when the last enemy goes down.
+  The bases may also be destroyed along with all the other terrain, but
+they regenerate in time.
+  The game can be paused with key F11 (and unpaused with the same key).
+You can also save a screenshot by pressing key F12 (fileformat is
+640x480x256 RIX and filename is KOPSSHOT.RIX). The game can be run in
+windowed mode if started with parameter -c1.
+
+.------------------------------------------------------------------------.
+| 3.1 Weapons                                                            |
+`------------------------------------------------------------------------'
+
+Main weapon slots
+-----------------
+  The main weapon slot power-ups can be identified by looking at them;
+the boxes don't have corners. Other weapons use one of the special weapon
+slots Damage ratings; '+' means very little damage, 'x' is the basic unit
+of damage, and 'X' means 5*x.
+
+Weapon name.............: tuhnu
+Destructive power rating: +
+  This weapon is very pathetic. It's even worse than what you begin with.
+Don't pick it up if any way possible; if you accidentally grab it, RUN to
+grab *any* other weapon.
+
+Weapon name.............: peagun
+Destructive power rating: x
+  This is what you begin with. It's pretty pathetic; to get anything done,
+go grab something more powerful.
+
+Weapon name.............: sling
+Destructive power rating: x+
+  Better than nothing, but worse than most. But hey, it does 50% more damage
+than your original weapon, so isn't this something? Nah.
+
+Weapon name.............: big peagun
+Destructive power rating: xx
+  So here's an upgrade for the old classic. The peagun mk II is a bit
+outdated these days, but it comes cheap. Pretty good for home defence,
+you know..
+
+Weapon name.............: big sling
+Destructive power rating: xx+
+  And here's the long-awaited upgrade for the good old sling. Well, not
+much better than it's cheaper brother, big peagun, but still better than
+nothing.
+
+Weapon name.............: blastgun
+Destructive power rating: xxx
+  The blastgun is a high-power version of the hand-held weapon; cheap
+to build, but still pretty impressive in real-life situations.
+
+Weapon name.............: mini blaster
+Destructive power rating: Xxxx
+  Welcome to the 90's! This toy here is the economic version of the
+famous blaster series. Blaster lite, you might call it.
+
+Weapon name.............: blaster
+Destructive power rating: Xxxxx
+  And here's the classical blaster itself! Have a wall you don't like?
+Press the trigger a couple times and there you go!
+
+Weapon name.............: big blaster
+Destructive power rating: XX
+  This is *the* most powerful thing you can jam into the main weapon
+slot of your fighter. After you get one of these, you don't need much
+else; just go and blast 'em away. Okay, it's pretty rare, but if you
+find one, grab it at no cost.
+
+Special weapon slot
+-------------------
+  The special weapon slot can handle much heavier weapons than the
+main slot. Bad side is, the special weapons are not powered by your
+ship's main fusion generator, and thus have limited ammo. Not all
+toys you can jam there are necessarily weapons..
+
+Weapon name.............: gas blaster
+Destructive power rating: XXx
+  The gas blaster is even more powerful than the big blaster, as it
+uses its own power source.
+
+Weapon name.............: mega blaster
+Destructive power rating: XXxx
+  The mega blaster is all the blaster family really can offer. Creating
+more powerful weapons with the technology would be far too costly; the
+research has to find another way to make deadlier weapons.
+
+Weapon name.............: mine
+Destructive power rating: XXXx
+  The antimatter proximity mines are pretty much fun; drop few of them
+into a tight spot and then chase your enemy there. When you drop them,
+they take a short while to activate, but I wouldn't stand close when
+they do.. They also tend to self-destruct in time in order to save in
+post-war cleaning costs.
+
+Weapon name.............: heatseeker
+Destructive power rating: Xxxxx
+  These 'smart' missiles always aim at the closest spot with ultra-high
+temperature ratings; usually the fusion generator of the closest ship.
+If you find one of these in your tail, either go around the next wall and
+watch the seeker to hit the wall, or if you're close enough to another
+ship, fool the seeker to follow it, instead.
+
+Weapon name.............: morning star
+Destructive power rating: Xxxx / xxxx * 64
+  The morning star is a neat-looking weapon with great psychological
+value. Shoot this to a wall close to couple enemies and watch them
+panic. The star shoots 64 small explosive packs around it, each doing
+damage on impact.
+
+Weapon name.............: sensor jammer
+Destructive power rating: +
+  The sensor jammer messes up the ship's view for a while. Ever tried
+to dodge a stream of blaster shots while you can't see all too well?
+
+Weapon name.............: pyrotechnics
+Destructive power rating: X / xxxx * N
+  This is a pretty good tool for terraforming. Drop one in a cave and
+run. After a while there should be pretty much more room than there was.
+Don't let it get wet, tho..
+
+Weapon name.............: toaster
+Destructive power rating: x
+  This toy shoots out bursts of liquid fire. Pretty bad for a spacecraft,
+for example. Ruins the paint, if you know what I mean. Also leaves the
+terrain in pretty bad shape, melting just about anything into jagged
+edges. I wouldn't try to fly close to a wall after that..
+
+Weapon name.............: rear sling
+Destructive power rating: xxx
+  They just keep on chasing you, don't they? What about a rapid-fire
+sling, backwards? Really drops them from your tail.
+
+Weapon name.............: ring of fire
+Destructive power rating: X * 32
+  Another pretty impressive looking weapon, the ring of fire. If multiple
+enemies are onto you, blow one of these; a ring of 32 fireballs erupt from
+your ship; if they don't dodge, well, that's their problem.
+
+Weapon name.............: crawler
+Destructive power rating: Xxxxx
+  This is a slow-velocity heatseeker, launched backwards. Using this
+effectively is pretty hard, but if you manage it, it's a real killer.
+The joke is to spawn a swarm of these behind yourself and *then* fly
+by a bunch of enemies.
+
+Weapon name.............: gravity flow
+Destructive power rating: +
+  This weapon generates a wind of inverted gravity flows, effectively
+pushing the target wherever you like. Okay, it takes a bit of creativity,
+but it can be great fun.
+
+Weapon name.............: bomb
+Destructive power rating: XXXxxx
+  Okay, there the dude is again, sitting on that base with his megablaster
+ready to blow you away. Drop a couple of these at him, and the base is no
+longer one of your problems.
+
+Weapon name.............: lash
+Destructive power rating: X / xxx * N
+  This weapon launches a pod that drops small explosives as it flies. Looks
+pretty, but takes skill to use effectively.
+
+Weapon name.............: ultrathrust
+Destructive power rating: -
+  Ever needed a kick?
+
+Weapon name.............: toxic waste
+Destructive power rating: X / xxxx * N
+  You're minding your own business, swimming in a pool, and then some
+jerk comes and drops in a barrel of toxic waste. Don't you just hate it?
+
+Weapon name.............: hyperspace projector
+Destructive power rating: -
+  This is pretty evil one. Grab a good primary weapon and project yourself
+partially into hyperspace; no matter can touch you, but your gun is
+synchronized with the real-space, so you can waste them. They still can hit
+you, too, but you no longer have to dodge *around* that hill.. The system
+still seems to have some problems with water.
+
+Weapon name.............: plasma ball
+Destructive power rating: xx * N
+  This ball of super-heated gas goes through anything. And I mean *anything*.
+And as long as your enemy stays in contact with it, the more she burns.
+A real killer if your enemy happens to be going in the same direction.
+
+Weapon name.............: pulse laser
+Destructive power rating: xxx
+  It doesn't do much to the terrain, but it's the nightmare of the repair
+personnel back in the base.
+
+Weapon name.............: delayed blast
+Destructive power rating: XXXXX
+  This toy creates a chain-reaction in the space-time, effectively creating
+a wormhole into the center of a star. You know, HOT. Takes a while, tho.
+
+Weapon name.............: retroboost
+Destructive power rating: -
+  And they *still* keep chasing you? Fly backwards and give 'em a stream
+with your blaster.
+
+Weapon name.............: flipper virus
+Destructive power rating: +
+  This marvel of the modern computer technology flips your enemy's video
+feed upside-down. Then just watch 'em bang their heads into walls. Great
+fun.
+
+Weapon name.............: signal jammer
+Destructive power rating: +
+  Signal jammer brings you yet another form of pain. By focusing radiation
+at the video system of your enemy's ship, his video feed gets out of sync,
+causing blurred vision.
+
+Weapon name.............: spiller
+Destructive power rating: xxxx
+  This is a rotative blaster weapon, pretty good for self-defence.
+
+Weapon name.............: tuhnuruisku           (originally in registered only)
+Destructive power rating: +
+  This is an early result of the new rapid-fire technology. The researchers
+took the worst weapon they could find and developed the technology to get
+it to fire VERY rapidly.
+
+Weapon name.............: tractor beam          (originally in registered only)
+Destructive power rating: +
+  Cm-ere! 'Nuff said.
+
+Weapon name.............: twin laser            (originally in registered only)
+Destructive power rating: xxx * 2
+  A pretty good offensive weapon; just fly into a swarm of enemies with
+your weapons blazing. The psychological value of this weapon is also
+pretty good.
+
+Weapon name.............: super pyrotechnics    (originally in registered only)
+Destructive power rating: XX / XX * N
+  Happen to have a mountain that annoys you?
+
+Weapon name.............: hyper blaster         (originally in registered only)
+Destructive power rating: Xxxxx
+  This is the latest thing out of the research labs in the lines of
+rapid-fire technology. Literally death in a package. Too bad it's so
+rare. Only known defence against it is to flee.
+
+.------------------------------------------------------------------------.
+| 4. Registering                                                         |
+`------------------------------------------------------------------------'
+
+There is no need to register the game any more since this version is
+freeware release of the original shareware version. If you still feel
+like making a donation, then use the provided E-mail address.
+
+.------------------------------------------------------------------------.
+| 5. Troubleshooting                                                     |
+`------------------------------------------------------------------------'
+
+Problem:
+    Game runs slowly.
+Solutions:
+    - Turn off parallax in options menu.
+    - Play with fewer players.
+    - Buy faster videocard.
+    - Buy faster computer.
+
+Problem:
+    Graphics are too light or too dark.
+Solution:
+    - Adjust the setting on your monitor.
+
+Problem:
+    Game doesn't work or it hangs.
+Solution:
+    - See that you have recent DirectX or SDL installed.
+    - Buy more memory.
+    - If you can't get the game working, send e-mail to
+      author and explain your problem.
+
+Problem:
+    Music/sound doesn't work.
+Solutions:
+    - Make sure you have installed your soundcard drivers
+    correctly.
+
+.------------------------------------------------------------------------.
+| 6. Revision History                                                    |
+`------------------------------------------------------------------------'
+
+Version 1.1         (September 2001)
+  + Code cleanups
+  + Port level file converter to work with windows/linux
+  + Command line parameter for nosound
+  + Add window caption / hide mouse cursor for
+    windowed game play
+  + Port to linux, this was supposed to be released
+    a week after 1.0 release, but I got lazy, sorry
+    about that. The biggest headache was to get the
+    audio working, fmod 3.4 appears to work correctly
+    so I didn't have to write support for mikmod,
+    maybe later, if people are having problems.
+Version 1.0         (June 2001)
+  + Freeware release of the full game
+  + Ported to win32 platform
+  + Corrected some instability bugs
+Version 0.52        (18.11.96/dd.mm.yy)
+  + New keyboard handler (fixed kopsetup also a little)
+  + Gravity can now be set from options menu
+  + Killed players get now some of their old weapons back for
+    the next level. Winner gets less weapons back.
+  + Some other little fixes
+  + Totally new music by Erkki Turunen
+Version 0.51        (09.11.96/dd.mm.yy)
+  + Test mode with '-t' parameter (shows free mem, average fps etc)
+  + Some fixes with sound support - not sure if the SB works yet though
+  + Some other little fixes
+Version 0.50 Beta   (01.11.96/dd.mm.yy)
+  First released version.
+
+.------------------------------------------------------------------------.
+| 7. Acknowledgements                                                    |
+`------------------------------------------------------------------------'
+
+Credits
+-------
+
+    Programming, artwork and sound effects by
+        Jetro Lauha
+
+    Music by
+        Erkki Turunen
+
+    Uses SDL (http://www.libsdl.org)
+    Uses FMOD (http://www.fmod.org)
+    Uses ZLIB (by Jean-loup Gailly and Mark Adler)
+
+    Thanks to
+        Jari Komppa (constructive criticism, ideas, betatesting,
+                     technical bullshit in this manual, etc..)
+        Pepe Taskinen (betatesting, help with some sound effects)
+        Antti Tapaninen (initial Linux port)
+
+.------------------------------------------------------------------------.
+| 8. Customization                                                       |
+`------------------------------------------------------------------------'
+
+Run EXAMPLE.BAT inside command prompt to see the customization
+possibilities.
+
+Creating new levels
+
+    Make level picture and background picture to different PCX files.
+    Note that the format of PCX image files must 8-bit (256 colors).
+    Be sure that the pictures use the same palette and use only the
+    colors which are available (see table below). When the pictures
+    are ready you can use CONV-utility to create YOURLEV.KOP file.
+    Note that the filename extension must be ".KOP" so the game finds
+    it. Start CONV without parameters to see help on how to use it.
+    Look at EX_MAP.PCX, EX_BACK.PCX for example level graphics.
+
+        Table of reserved and usable color values in palette:
+
+              0   = flying space
+             1-7  = colors of water (use color 1 to draw the water)
+              7   = mark water wave places with this (use thin lines)
+              8   = color of water bubbles
+              9   = spot for ammo picking - mark some spots with this color
+                    to level and don't use this color on level drawing
+            10-14 = colors of base
+              15  = reserved
+           16-127 = free to use for drawing level
+          128-255 = reserved
+
+
+        Parallax backgroundmap size calculation formula:
+
+                                  (LevelWIDTH-320)
+            Backgroundmap_WIDTH = ---------------- + 320
+                                          2
+
+                                  (LevelHEIGHT-240)
+           Backgroundmap_HEIGHT = ----------------- + 240
+                                          2
+
+        Parallax backgroundmap picture can be larger than the
+        minimum size but then only portion of that is used.
+
+
+Using & creating external music files
+
+    You can use external music files by entering /mFILE.KMU parameter
+    when starting the game. KMU means the music init file (see below).
+
+    Example external music init file. Numbers mean orders in the
+    sound data. There should be max 16 channels in the music (original
+    music uses only 8 channels).
+
+    Look at EXAMPLE.KMU and EXAMPLE.S3M for example external music.
+
+        - - -----starts-here---------------cut------- - -
+            ; My external music init file
+            ; ---------------------------
+            file=mytune.s3m
+            startmenu=0
+            status=5
+            endgame=6
+            info=7
+            ; ... game musics ...
+            game=9
+            game=14
+            game=20
+            game=29
+            game=32
+            # order infos must terminate with line which starts with "#"
+            ; this line won't be processed
+        - - -------ends-here---------------cut------- - -
+
+    Tag types:
+              file = tune filename (supported types: XM, S3M, MOD, MTM)
+         startmenu = menu music order
+            status = status (or "level change") music order
+           endgame = match ending music order
+              info = infoscreen music order
+              game = game background music order -
+                     there can be multiple (max 256) of them
+
+.------------------------------------------------------------------------.
+| End of document                                                        |
+`------------------------------------------------------------------------'
+
+--
+$Id: manual.txt,v 1.1 2003/04/15 18:01:36 tonic Exp $
+$Revision: 1.1 $

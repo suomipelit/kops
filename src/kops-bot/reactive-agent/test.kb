@@ -1,0 +1,19 @@
+# This a test file for kb-parser.
+#
+# $Revision: 1.1 $
+# $Id: test.kb,v 1.1 2003/04/15 18:15:56 tonic Exp $
+
+* wimpy           # The name of the bot.
+
+%VARIABLE_1      # First variable definition.
+%VARIABLE_2
+%VARIABLE_3
+%VARIABLE_4
+
+# Set some parameters.
+player_scan_range := 200
+bot_scan_range := 200
+
+# The actual rules start here.
+{VARIABLE_1, ^VARIABLE_2 => ^VARIABLE_1, VARIABLE_2, ACTION_FIRE_MAIN }
+{^VARIABLE_1, ^VARIABLE_2, ^VARIABLE_3 => VARIABLE_1, VARIABLE_2 }

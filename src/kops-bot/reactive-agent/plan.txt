@@ -1,0 +1,76 @@
+Two modes tactical and strategical.
+In strategical mode bot plans general moves towards win.
+In tactical mode bot collects items close to it and 
+performs fighting actions.
+
+turn clockwise, 
+turn counter-clockwise, 
+thrust
+fire main gun, 
+fire special gun.
+
+tuhnu +
+peagun x
+sling x+
+big peagun xx
+big sling xx+
+blastgun xxx
+mini blaster Xxxx
+blaster Xxxxx
+big blaster XX
+
+gas blaster XXx
+mega blaster XXxx
+mine XXXx
+heatseeker Xxxxx
+morning star Xxxx / xxxx * 64
+sensor jammer +
+pyrotechnics X / xxxx * N
+toaster x 
+rear sling xxx
+ring of fire X * 32
+crawler Xxxxx
+gravity flow +
+bomb XXXxxx
+lash X / xxx * N
+ultrathrust - 
+toxic waste X / xxxx * N
+
+Knowledge Base:
+
+BASE_CLOSE          true, iff there is a base inside the base scan range.  
+BOT_CLOSE           true, iff there is one or more other bots flying inside the bot scan range. 
+PLAYER_CLOSE        true, iff there is one or more players flying inside the player scan range. 
+FIRED_SPECIAL_CLOSE true, iff there is fired special inside the fired special scan range. 
+FIRED_AMMO_CLOSE    true, iff there is fired ammo inside the fired ammo scan range. 
+BETTER_MAIN_CLOSE   
+WORSE_MAIN_CLOSE    
+SPECIAL_CLOSE       
+HIGH_ENERGY         
+LOW_ENERGY          
+IN_BASE             
+SLOTS_EMPTY         
+SLOTS_FULL          
+MAIN_IS_PREFERRED   
+FLYING_AROUND       
+COLLECTING_ITEM     
+GOING_BASE          
+FIGHTING            
+FLYING_AWAY         
+AVOID_ITEM          
+FLEEING             
+WAITING             
+HUNTING             
+DIR_IN_5_DEG        
+DIR_IN_35_DEG       
+STOPPED             
+LOW_SPEED           
+MEDIUM_SPEED        
+HIGH_SPEED          
+FULL_SPEED          
+MOVE_TARGET_SET     
+FIRE_TARGET_SET     
+
+
+--
+$Id: plan.txt,v 1.1 2003/04/15 18:15:56 tonic Exp $

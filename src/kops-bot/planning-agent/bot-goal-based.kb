@@ -1,0 +1,23 @@
+# General game rules.
+ForAll (x): Player(x) & ^MySelf(x) & Dead(x) & Alive(my_bot) => win_game
+ForAll (x): Player(x) & >(Energy(x), 0) => Alive(x)
+ForAll (x): Player(x) & <=(Energy(x), 0) => Dead(x)
+ForAll (x): Player(x) & InBase(x) & ^Full(Energy(x)) => Increase(Energy(x))
+ForAll (x,y): Player(x) & Ammo(y) & Hit(x,y) & >(Energy(x), 0) => Decrease(Energy(x))
+ForSome (x): Player(x) & Equal(x, my_bot) => Self(x)
+ForAll (x): Player(x) & <(Distance(x), MAINRANGE) => InRange(x)
+ForAll (x): Player(x) & <(Direction(x), FOV) => Ahead(x)
+ForAll (x): Player(x) & Equal(GetAction(x), thrust) => <calculate speed>
+ForAll (x): Player(x) & Equal(GetAction(x), turn_left) => <set direction>
+ForAll (x): Player(x) & Equal(GetAction(x), turn_right) => <set direction>
+ForAll (x,y): Player(x) & Collectable(y) & Hit(x, y) => Has(x, y) & ^Exist(y)
+ForAll
+
+- how to specify collision to walls?
+
+
+=> Goal(win_game)
+ForAll (x): Player(x) & Ahead(x) & InRange(x) => Action(fire_main)
+ForAll (x,y): Player(x) & InRange(x) & Behind(x) & ForSome(z): Special(y) & Have(y)
+
+

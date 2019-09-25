@@ -1,0 +1,10 @@
+data
+*.exe
+*.dll
+*.s3m
+*.pcx
+*.kop
+*.bmp
+*.cfg
+*.log
+*.jfl

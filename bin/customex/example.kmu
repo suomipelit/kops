@@ -1,0 +1,15 @@
+; Example external music init file for KOPS
+; -----------------------------------------
+; To be copied only with registered version of the Kops.
+file=example.s3m
+startmenu=0
+status=3
+endgame=4
+info=5
+; ... game musics ...
+game=6
+game=7
+# order infos must terminate with line which starts with "#"
+; this line won't be processed
+;
+; $Id: example.kmu,v 1.1 2003/04/15 17:26:32 tonic Exp $

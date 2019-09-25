@@ -1,0 +1,70 @@
+TODO items for KOPS
+-------------------
+
+For release 1.2:
+
+- update and revise doc/manual.txt
+- update and revise installer/*
+- test, fix and update build/makefiles for all supported
+  platforms as needed
+
+Long term:
+
+- replace FMOD with an open source sound library
+- AI
+- multiplayer via network
+
+
+Below is selected list of items from old todo/wishlist written
+in 1996. Many of these originate to features which some players
+have asked via E-mail to future versions of the game.
+
+- deathmatch mode (respawn on death)
+- different kinds of ships
+- player database, stats (own menu section for players)
+- small people walking around levels
+- possibility to choose weapons which are available in the game
+- some softer kind of outer walls for levels
+- alternative point-based scoring system, giving points from
+  hits, hit percent, destroying ships, etc.
+- adjustable amount of "hit points" of ships
+- graphics tweaking for big explosions to make them look
+  better, add random particles etc.
+- gun turrets
+- weapon info/description writer to be shown when a ship
+  is viewing weapons in a base
+- multiple lives per level
+- status screen for player after ship is dead
+- game mode where there are no special weapons
+- game mode with a shop where players can buy weapons, armor,
+  new thrusters and new ships
+- adjustment possibility for damage from a hit to ground/wall
+- collisions to other ships
+- add dangerous particles and flying bits to big explosions
+- possibility to cycle between special weapons while flying
+- Special weapons or items:
+    - invisibility (player ship can be seen only in own screen)
+    - rubber bullets
+    - some sort of (weak) pulse laser which can pass walls
+    - plastic explosive which can be stuck on walls and then
+      blow later all at the same time
+    - sheep bomb :-)
+    - steering jammer
+    - extra shield
+    - hologram projector
+    - mines could be only small dots in other players' screens
+    - bubble gun (when a ship is hit, left inside for a moment
+      while rotating randomly)
+    - rubber band, can connect two ships or a ship to a wall
+    - freezer (freezes a ships controls totally for a moment)
+    - razor wire
+    - special making it possible to collide other players
+    - shield which makes gun bullets to stop and drop to ground
+      when hit
+    - different kinds of mines, e.g. a magnetic mine
+    - better crawler which avoids walls
+    - (seeking) missiles
+
+--
+$Id: TODO.txt,v 1.1 2003/04/15 18:01:34 tonic Exp $
+$Revision: 1.1 $
