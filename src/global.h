@@ -363,7 +363,7 @@ extern unsigned int s_samprate;	/* sound infos */
 extern Uint8     snd;		/* sounds on/off (1/0) */
 extern Uint8     kludgesnd;		/* force sound disable as an command line parameter */
 extern int       wins[MAXPLAYERS+MAXBOTS];	/* win table */
-extern int       round;		/* round number */
+extern int       round_number;		/* round number */
 extern int       totalframes, drawnframes;	/* for average FPS */
 extern Uint8     gamewindowcolorrand;
 extern Uint8     players;

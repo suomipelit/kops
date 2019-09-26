@@ -747,6 +747,7 @@ addLabel(KBContext* ctx, const char* str) {
     return label;
 }
 
+#if 0 // SP-TODO
 int
 main(int argc, char *argv[]) {
 
@@ -821,3 +822,4 @@ main(int argc, char *argv[]) {
 
     return 0;
 }
+#endif

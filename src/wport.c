@@ -58,7 +58,7 @@ void update()
                 break;
 	}
     }
-    SDL_Flip(screen);
+    //SDL_Flip(screen); SP-TODO
 }
 
 Uint8 fileexists(char *filename)
@@ -376,7 +376,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
 	update();
     }
     for (a = from; a <= tocl; ++a)
@@ -385,7 +385,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	palette[a].g = cdest[a * 3 + 1] << 2;
 	palette[a].b = cdest[a * 3 + 2] << 2;
     }
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
     update();
 }
 
@@ -403,7 +403,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
     }
     else {
 	for (a = from; a <= tocl; ++a)
@@ -412,7 +412,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = cdest[a * 3 + 1] << 2;
 	    palette[a].b = cdest[a * 3 + 2] << 2;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
     }
 }
 
@@ -487,7 +487,7 @@ void jloadpcxpalpart(char *filename, Uint8 from, Uint8 tocl)
 	    palette[a].g = *(buf + a * 3 + 1);
 	    palette[a].b = *(buf + a * 3 + 2);
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
 	free(buf);
 	util_fclose(f);
     }
@@ -498,7 +498,7 @@ void jclearpal()
     int a;
     for (a = 0; a < 256; ++a)
 	palette[a].r = palette[a].g = palette[a].b = 0;
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, 0, 256);
+    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, 0, 256); SP-TODO
 
 }
 
@@ -514,7 +514,7 @@ void jpal(int color, int r, int g, int b)
     palette[color].r = r << 2;
     palette[color].g = g << 2;
     palette[color].b = b << 2;
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, color, 1);
+    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, color, 1); SP-TODO
 
 }
 

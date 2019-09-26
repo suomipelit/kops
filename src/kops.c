@@ -71,7 +71,7 @@ unsigned int s_samprate = 22050;	/* sound infos */
 Uint8 snd = 1;			/* sounds on/off (1/0) */
 Uint8 kludgesnd = 0;		/* force sound disable as an command line parameter */
 int wins[MAXPLAYERS+MAXBOTS];   /* win table */
-int round;			/* round number */
+int round_number;		/* round_number number */
 int totalframes, drawnframes;	/* for average FPS */
 Uint8 gamewindowcolorrand;
 Uint8 players;
@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
 	initgravity();
     }
 
-    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2);
+    //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2); SP-TODO
 
     while (mainmenu() != 6)
     {
@@ -208,7 +208,7 @@ int main(int argc, char *argv[])
 
 	for (a = 0; a < levels; a++)
         {
-	    round = a + 1;
+	    round_number = a + 1;
 	    jloadpcxpalpartdest((char *) (&levlist[a]) + 1, 0, 127);
 	    jloadpcxpalpartdest(KOPSGFXFILE, 128, 191);
 	    jloadpcxpalpartdest(KOPSSHIPFILE, 192, 255);
@@ -217,9 +217,9 @@ int main(int argc, char *argv[])
 	    jinitreal();
 	    gamewindowbackgrounds();
 	    loadlevel((char *) (&levlist[a]) + 1);
-	    SDL_EnableKeyRepeat(0, 0);
+	    //SDL_EnableKeyRepeat(0, 0); SP-TODO
 	    game();
-	    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2);
+	    //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2); SP-TODO
 	    jatko = 0;
 	    if (a < levels - 1)
 		jatko = statusscreen();

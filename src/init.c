@@ -62,8 +62,8 @@ void initGraphics()
     /* Clean up on exit */
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("KOPS", NULL);
-    SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL);
+    // SDL_WM_SetCaption("KOPS", NULL); SP-TODO
+    // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
 
 #ifdef NDEBUG
 #define FULLSCREEN SDL_FULLSCREEN
@@ -75,7 +75,7 @@ void initGraphics()
 	fullscreen = FULLSCREEN;
 
     /* Initialize the display in a 640x480 8-bit palettized mode */
-    screen = SDL_SetVideoMode(640, 480, 8, SDL_SWSURFACE | SDL_HWPALETTE | fullscreen);
+    //screen = SDL_SetVideoMode(640, 480, 8, SDL_SWSURFACE | SDL_HWPALETTE | fullscreen); SP-TODO
     if (screen == NULL)
     {
 	char sdf[1024];

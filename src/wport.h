@@ -34,13 +34,15 @@
 #define K_ENTER		SDLK_RETURN
 #define K_ENTER2	SDLK_KP_ENTER
 #define K_SPACE		SDLK_SPACE
-#define K_UP2		SDLK_KP8
-#define K_LEFT2		SDLK_KP4
-#define K_RIGHT2	SDLK_KP6
-#define K_DOWN2		SDLK_KP2
+#define K_UP2		SDLK_KP_8
+#define K_LEFT2		SDLK_KP_4
+#define K_RIGHT2	SDLK_KP_6
+#define K_DOWN2		SDLK_KP_2
 
 // flips screen and updates keyboard state
 extern void update();
+
+#define SDLK_LAST 1 // SP-TODO
 
 extern volatile Uint8 key[SDLK_LAST],waskey[SDLK_LAST];
 

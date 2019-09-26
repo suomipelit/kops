@@ -106,9 +106,9 @@ Uint8 statusscreen()
     dostatus();
     kprintfs(bigfont[0], 195, 32, "Ü status Ü");
     kprintfs(bigfont[0], 257, 80, "round");
-    kprintfs(bigfont[1], 170, 120, "%4d    %d", round, levels);
+    kprintfs(bigfont[1], 170, 120, "%4d    %d", round_number, levels);
     kprintfs(bigfont[0], 295, 120, "of");
-    kprintfs(bigfont[0], 70, 425, "next level: %s", lscut(levlist[round]) + 1);
+    kprintfs(bigfont[0], 70, 425, "next level: %s", lscut(levlist[round_number]) + 1);
     kprintfs(font, 108, 465, "press enter or space to continue or esc to exit");
 
     jrealfade(0, 255, 8);
