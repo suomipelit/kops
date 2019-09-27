@@ -53,3 +53,8 @@ if (WIN32)
 	set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "KOPS" SUFFIX ".exe")
 	target_link_libraries(${PROJECT_NAME} winmm.lib)
 endif()
+
+if (APPLE)
+	add_compile_definitions(_POSIX_SOURCE)
+	add_compile_definitions(PATH_MAX=260)
+endif()

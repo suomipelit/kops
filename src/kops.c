@@ -24,7 +24,6 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
-#include <malloc.h>
 #include "wport.h"
 #include "global.h"
 #include "load.h"

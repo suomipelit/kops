@@ -24,7 +24,6 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
-#include <malloc.h>
 #include "global.h"
 #include "wport.h"
 #ifdef _WIN32

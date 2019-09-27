@@ -34,6 +34,7 @@
 #ifdef _POSIX_SOURCE
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #endif
 #include "wport.h"
 #include "global.h"
