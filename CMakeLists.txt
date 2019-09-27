@@ -9,9 +9,6 @@ endif()
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/cmake-modules/FindSDL2_mixer.cmake")
 	file(DOWNLOAD "https://github.com/tcbrindle/sdl2-cmake-scripts/raw/master/FindSDL2_mixer.cmake" "${CMAKE_BINARY_DIR}/cmake-modules/FindSDL2_mixer.cmake")
 endif()
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/cmake-modules/FindSDL2_image.cmake")
-	file(DOWNLOAD "https://github.com/tcbrindle/sdl2-cmake-scripts/raw/master/FindSDL2_image.cmake" "${CMAKE_BINARY_DIR}/cmake-modules/FindSDL2_image.cmake")
-endif()
 if(NOT EXISTS "${CMAKE_BINARY_DIR}/cmake-modules/FindZLIB.cmake")
 	file(DOWNLOAD "https://raw.githubusercontent.com/Kitware/CMake/master/Modules/FindZLIB.cmake" "${CMAKE_BINARY_DIR}/cmake-modules/FindZLIB.cmake")
 endif()
@@ -27,7 +24,6 @@ endif()
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_mixer REQUIRED)
-find_package(SDL2_image REQUIRED)
 find_package(ZLIB REQUIRED)
 
 if (NOT CMAKE_BUILD_TYPE)
@@ -46,12 +42,23 @@ file(GLOB SOURCES
 	src/kops-bot/reactive-agent/*.h src/kops-bot/reactive-agent/*.c)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
-target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/SRC ${SDL2_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS} ${ZLIB_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${SDL2_MIXER_LIBRARIES} ${ZLIB_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
+	${CMAKE_CURRENT_SOURCE_DIR}/SRC
+	${SDL2_INCLUDE_DIR}
+	${SDL2_MIXER_INCLUDE_DIRS}
+	${ZLIB_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME}
+	${SDL2_LIBRARY}
+	${SDL2_MIXER_LIBRARIES}
+	${ZLIB_LIBRARIES})
 
 if (WIN32)
 	set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "KOPS" SUFFIX ".exe")
 	target_link_libraries(${PROJECT_NAME} winmm.lib)
+elseif (UNIX)
+	target_link_libraries(${PROJECT_NAME} m)
 endif()
 
 if (APPLE)
