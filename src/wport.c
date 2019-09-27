@@ -399,7 +399,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
 	update();
     }
     for (a = from; a <= tocl; ++a)
@@ -408,7 +408,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	palette[a].g = cdest[a * 3 + 1] << 2;
 	palette[a].b = cdest[a * 3 + 2] << 2;
     }
-    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
+    SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     update();
 }
 
@@ -426,7 +426,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     }
     else {
 	for (a = from; a <= tocl; ++a)
@@ -435,7 +435,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = cdest[a * 3 + 1] << 2;
 	    palette[a].b = cdest[a * 3 + 2] << 2;
 	}
-	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     }
 }
 
@@ -510,7 +510,7 @@ void jloadpcxpalpart(char *filename, Uint8 from, Uint8 tocl)
 	    palette[a].g = *(buf + a * 3 + 1);
 	    palette[a].b = *(buf + a * 3 + 2);
 	}
-	//SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1); SP-TODO
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
 	free(buf);
 	util_fclose(f);
     }
@@ -521,8 +521,7 @@ void jclearpal()
     int a;
     for (a = 0; a < 256; ++a)
 	palette[a].r = palette[a].g = palette[a].b = 0;
-    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, 0, 256); SP-TODO
-
+    SDL_SetPaletteColors(screen->format->palette, palette, 0, 256);
 }
 
 void jclearstart()
@@ -537,8 +536,7 @@ void jpal(int color, int r, int g, int b)
     palette[color].r = r << 2;
     palette[color].g = g << 2;
     palette[color].b = b << 2;
-    //SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, color, 1); SP-TODO
-
+    SDL_SetPaletteColors(screen->format->palette, palette, color, 1);
 }
 
 void jvcsprite(int x, int y, int wid, int hei, Uint8 * sour)
