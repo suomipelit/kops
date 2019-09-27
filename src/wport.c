@@ -31,35 +31,57 @@
 #include "global.h"
 #include "wport.h"
 
-volatile Uint8 key[SDLK_LAST] = { 0, }, waskey[SDLK_LAST] = { 0, };
 volatile short int cstart[768], cdest[768], ctemp[768];
 volatile short int realfadecount;
 
 SDL_Color palette[256];
-SDL_Surface *screen;
-SDL_Window *window;
+SDL_Surface *screen = NULL;
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
+SDL_Texture *texture = NULL;
+
+int waskey(int key)
+{
+    // SP-TODO
+    return 0;
+}
+
+int key(int key)
+{
+    // SP-TODO
+    return 0;
+}
+
+void clearkey(int key)
+{
+    // SP-TODO
+}
 
 void update()
 {
     SDL_Event ev;
 
+    // SP-TODO
     while (SDL_PollEvent(&ev))
     {
 	switch (ev.type)
         {
             case SDL_KEYDOWN:
-                key[ev.key.keysym.sym] = 1;
-                waskey[ev.key.keysym.sym] = 1;
+                //key(ev.key.keysym.sym) = 1;
+                //waskey(ev.key.keysym.sym) = 1;
                 break;
             case SDL_KEYUP:
-                key[ev.key.keysym.sym] = 0;
+                //key(ev.key.keysym.sym) = 0;
                 break;
             case SDL_QUIT:
                 exit(0);
                 break;
 	}
     }
-    //SDL_Flip(screen); SP-TODO
+    SDL_UpdateTexture(texture, NULL, screen->pixels, X_RESOLUTION * sizeof(Uint32));
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
 }
 
 Uint8 fileexists(char *filename)

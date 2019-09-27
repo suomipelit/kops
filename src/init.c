@@ -63,7 +63,6 @@ void initGraphics()
     /* Clean up on exit */
     atexit(SDL_Quit);
 
-    // SDL_WM_SetCaption("KOPS", NULL); SP-TODO
     // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
 
 #ifdef NDEBUG
@@ -78,7 +77,7 @@ void initGraphics()
     /* Initialize the display in a 640x480 8-bit palettized mode */
     window = SDL_CreateWindow("KOPS", SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        640, 480,
+        X_RESOLUTION, Y_RESOLUTION,
         fullscreen | SDL_WINDOW_OPENGL);
 
     if (window == NULL)
@@ -88,6 +87,44 @@ void initGraphics()
 	jerror(sdf, EXIT_FAILURE);
     }
     SDL_ShowCursor(SDL_DISABLE);
+
+    renderer = SDL_CreateRenderer(window, -1, 0);
+
+    if (renderer == NULL)
+    {
+        char sdf[1024];
+        sprintf(sdf, "Couldn't create renderer\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    screen = SDL_GetWindowSurface(window);
+
+    if (screen == NULL)
+    {
+        char sdf[1024];
+        sprintf(sdf, "Couldn't get surface\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    texture = SDL_CreateTexture(renderer,
+        SDL_PIXELFORMAT_ARGB8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        X_RESOLUTION, Y_RESOLUTION);
+
+    if (texture == NULL)
+    {
+        char sdf[1024];
+        sprintf(sdf, "Couldn't create texture\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+}
+
+static void uninitGraphics()
+{
+    if (texture) SDL_DestroyTexture(texture);
+    if (renderer) SDL_DestroyRenderer(renderer);
+    if (window) SDL_DestroyWindow(window);
+    SDL_Quit();
 }
 
 void initgfxstructures()

@@ -17,6 +17,9 @@
 #endif
 
 /*********  general constants  ***********************************/
+#define X_RESOLUTION 640
+#define Y_RESOLUTION 480
+
 #define FIXP        10		/* .x fixed point */
 #define FIXS        (1<<FIXP)
 #define STARTENERGY 100
@@ -388,6 +391,8 @@ extern int       ammogravity;
 
 extern SDL_Surface *screen;
 extern SDL_Window *window;
+extern SDL_Renderer *renderer;
+extern SDL_Texture *texture;
 
 /* Added by SMO */
 extern WEAPON_INFO weapons[];

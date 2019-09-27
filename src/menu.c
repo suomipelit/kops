@@ -42,7 +42,7 @@ void dostatus()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     jvcfillbox(0, 0, 639, 479, 0);
@@ -111,8 +111,8 @@ Uint8 statusscreen()
     kprintfs(font, 108, 465, "press enter or space to continue or esc to exit");
 
     jrealfade(0, 255, 8);
-    while ((waskey[K_ENTER] == 0) && (waskey[K_SPACE] == 0) &&
-	   (waskey[K_ESC] == 0) && (waskey[K_ENTER2] == 0))
+    while ((waskey(K_ENTER) == 0) && (waskey(K_SPACE) == 0) &&
+	   (waskey(K_ESC) == 0) && (waskey(K_ENTER2) == 0))
     {
 	update();
     };
@@ -127,7 +127,7 @@ Uint8 statusscreen()
 	jrealfade1(0, 255, 7);
     }
     jvcfillbox(0, 0, 639, 479, 0);
-    if (waskey[K_ESC])
+    if (waskey(K_ESC))
 	return (1);
     return (0);
 }
@@ -144,8 +144,8 @@ void endgamescreen()
     kprintfs(font, 153, 465, "press enter, space or esc to continue");
 
     jrealfade(0, 255, 8);
-    while ((waskey[K_ENTER] == 0) && (waskey[K_SPACE] == 0) &&
-	   (waskey[K_ESC] == 0) && (waskey[K_ENTER2] == 0))
+    while ((waskey(K_ENTER) == 0) && (waskey(K_SPACE) == 0) &&
+	   (waskey(K_ESC) == 0) && (waskey(K_ENTER2) == 0))
     {
 	update();
     };
@@ -175,7 +175,7 @@ void info()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     jvdump(0, 640 * 480, menupic.pic);
@@ -201,14 +201,14 @@ void info()
     kprintfs(bigfont[0], 32, 410, "freely if intact.");
 
     kprintfs(font, 153, 465, "press enter, space or esc to continue");
-    while ((waskey[K_ENTER] == 0) && (waskey[K_SPACE] == 0) &&
-	   (waskey[K_ESC] == 0) && (waskey[K_ENTER2] == 0))
+    while ((waskey(K_ENTER) == 0) && (waskey(K_SPACE) == 0) &&
+	   (waskey(K_ESC) == 0) && (waskey(K_ENTER2) == 0))
     {
 	update();
     };
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     sound_stopplay();
@@ -261,7 +261,7 @@ void levwin1()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     for (a = 205; a < 480; a++)
@@ -287,7 +287,7 @@ void levwin2()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     for (a = 205; a < 480; a++)
@@ -322,7 +322,7 @@ void levwin3()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     for (a = 0; a < LEVMENUOPT; a++)
@@ -351,7 +351,7 @@ void levelsmenu()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     jvdump(180 * 640, 300 * 640, menupic.pic + 180 * 640);
@@ -388,15 +388,15 @@ void levelsmenu()
 	switch (lmsel)
         {
             case 1:
-                if ((waskey[K_RIGHT]) || (waskey[K_RIGHT2]))
+                if ((waskey(K_RIGHT)) || (waskey(K_RIGHT2)))
                 {
                     sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
                     lmsel++;
                     levwin1();
                     levwin2();
-                    waskey[K_RIGHT] = 0;
+                    clearkey(K_RIGHT);
                 }
-                if (((waskey[K_UP]) || (waskey[K_UP2])) && (lm1sel > 0))
+                if (((waskey(K_UP)) || (waskey(K_UP2))) && (lm1sel > 0))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm1sel--;
@@ -404,7 +404,7 @@ void levelsmenu()
                         lm1win--;
                     levwin1();
                 }
-                if (((waskey[K_DOWN]) || (waskey[K_DOWN2])) && (lm1sel < alllevels - 1))
+                if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm1sel < alllevels - 1))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm1sel++;
@@ -412,7 +412,7 @@ void levelsmenu()
                         lm1win++;
                     levwin1();
                 }
-                if (((waskey[K_SPACE]) || (waskey[K_ENTER]) || (waskey[K_ENTER2])) && (levels < MAXLEVELS))
+                if (((waskey(K_SPACE)) || (waskey(K_ENTER)) || (waskey(K_ENTER2))) && (levels < MAXLEVELS))
                 {
                     sound_eff(S_MENUCHOOS, 48, 128, 16384, 1);
                     for (a = levels; a > lm2sel; a--)
@@ -424,23 +424,23 @@ void levelsmenu()
                 }
                 break;
             case 2:
-                if ((waskey[K_LEFT]) || (waskey[K_LEFT2]))
+                if ((waskey(K_LEFT)) || (waskey(K_LEFT2)))
                 {
                     sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
                     lmsel--;
                     levwin1();
                     levwin2();
-                    waskey[K_LEFT] = 0;
+                    clearkey(K_LEFT);
                 }
-                if ((waskey[K_RIGHT]) || (waskey[K_RIGHT2]))
+                if ((waskey(K_RIGHT)) || (waskey(K_RIGHT2)))
                 {
                     sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
                     lmsel++;
                     levwin2();
                     levwin3();
-                    waskey[K_RIGHT] = 0;
+                    clearkey(K_RIGHT);
                 }
-                if (((waskey[K_UP]) || (waskey[K_UP2])) && (lm2sel > 0))
+                if (((waskey(K_UP)) || (waskey(K_UP2))) && (lm2sel > 0))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm2sel--;
@@ -448,7 +448,7 @@ void levelsmenu()
                         lm2win--;
                     levwin2();
                 }
-                if (((waskey[K_DOWN]) || (waskey[K_DOWN2])) && (lm2sel < levels - 1))
+                if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm2sel < levels - 1))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm2sel++;
@@ -458,28 +458,28 @@ void levelsmenu()
                 }
                 break;
             case 3:
-                if (((waskey[K_UP]) || (waskey[K_UP2])) && (lm3sel > 0))
+                if (((waskey(K_UP)) || (waskey(K_UP2))) && (lm3sel > 0))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm3sel--;
                     levwin3();
                 }
-                if (((waskey[K_DOWN]) || (waskey[K_DOWN2])) && (lm3sel < LEVMENUOPT - 1))
+                if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm3sel < LEVMENUOPT - 1))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm3sel++;
                     levwin3();
                 }
-                if ((waskey[K_LEFT]) || (waskey[K_LEFT2]))
+                if ((waskey(K_LEFT)) || (waskey(K_LEFT2)))
                 {
                     sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
                     lmsel--;
                     levwin3();
                     levwin2();
-                    waskey[K_LEFT] = 0;
-                    waskey[K_LEFT2] = 0;
+                    clearkey(K_LEFT);
+                    clearkey(K_LEFT2);
                 }
-                if ((waskey[K_ENTER]) || (waskey[K_SPACE]) || (waskey[K_ENTER2]))
+                if ((waskey(K_ENTER)) || (waskey(K_SPACE)) || (waskey(K_ENTER2)))
                 {
                     sound_eff(S_MENUCHOOS, 48, 128, 16384, 1);
                     switch (lm3sel)
@@ -509,15 +509,15 @@ void levelsmenu()
                             menuexit = 3;
                             break;
                     }
-                    waskey[K_ENTER] = 0;
-                    waskey[K_SPACE] = 0;
-                    waskey[K_ENTER2] = 0;
+                    clearkey(K_ENTER);
+                    clearkey(K_SPACE);
+                    clearkey(K_ENTER2);
                 }
                 break;
 	}
-	if (waskey[K_ESC])
+	if (waskey(K_ESC))
         {
-	    waskey[K_ESC] = 0;
+        clearkey(K_ESC);
 	    menuexit = 3;
 	}
 	update();
@@ -560,7 +560,7 @@ void optionsmenu()
 
     for (a = 0; a < SDLK_LAST; a++)
     {
-	waskey[a] = 0;
+	clearkey(a);
     }
 
     while (menuexit == 255)
@@ -630,7 +630,7 @@ void optionsmenu()
 	jvdump((270 + sel * 25) * 640, 640 * 25, menutmp);
 
 	/*  keyboard check */
-	if ((waskey[K_UP]) || (waskey[K_DOWN]) || (waskey[K_ESC]) || (waskey[K_UP2]) || (waskey[K_DOWN2]))
+	if ((waskey(K_UP)) || (waskey(K_DOWN)) || (waskey(K_ESC)) || (waskey(K_UP2)) || (waskey(K_DOWN2)))
         {
 	    sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
 	    memcpy(menutmp, menupic.pic + (sel * 25 + 270) * 640, 640 * 25);
@@ -652,25 +652,25 @@ void optionsmenu()
 		kprintf(menutmp, bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 0, 640,
 			gravtxt[gravvalue]);
 	    jvdump((270 + sel * 25) * 640, 640 * 25, menutmp);
-	    if (((waskey[K_UP]) || (waskey[K_UP2])) && (sel > 0))
+	    if (((waskey(K_UP)) || (waskey(K_UP2))) && (sel > 0))
             {
 		sel--;
 	    }
-	    if (((waskey[K_DOWN]) || (waskey[K_DOWN2])) && (sel < OPTMENUOPT - 1))
+	    if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (sel < OPTMENUOPT - 1))
             {
 		sel++;
 	    }
-	    if (waskey[K_ESC])
+	    if (waskey(K_ESC))
             {
 		menuexit = 4;
 	    }
-	    waskey[K_UP] = 0;
-	    waskey[K_DOWN] = 0;
-	    waskey[K_ESC] = 0;
-	    waskey[K_UP2] = 0;
-	    waskey[K_DOWN2] = 0;
+        clearkey(K_UP);
+        clearkey(K_DOWN);
+        clearkey(K_ESC);
+        clearkey(K_UP2);
+        clearkey(K_DOWN2);
 	}
-	if ((waskey[K_ENTER]) || (waskey[K_SPACE]) || (waskey[K_ENTER2]))
+	if ((waskey(K_ENTER)) || (waskey(K_SPACE)) || (waskey(K_ENTER2)))
         {
 	    sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
 	    switch (sel)
@@ -682,11 +682,11 @@ void optionsmenu()
                     menuexit = 5;
                     break;
 	    }
-	    waskey[K_ENTER] = 0;
-	    waskey[K_SPACE] = 0;
-	    waskey[K_ENTER2] = 0;
+        clearkey(K_ENTER);
+        clearkey(K_SPACE);
+        clearkey(K_ENTER2);
 	}
-	if ((waskey[K_LEFT]) || (waskey[K_RIGHT]) || (waskey[K_LEFT2]) || (waskey[K_RIGHT2]))
+	if ((waskey(K_LEFT)) || (waskey(K_RIGHT)) || (waskey(K_LEFT2)) || (waskey(K_RIGHT2)))
         {
 	    sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
 	    switch (sel)
@@ -695,38 +695,38 @@ void optionsmenu()
                     parallaxdraw = (Uint8) (1 - parallaxdraw);
                     break;
                 case 1:
-                    if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (slots > 2))
+                    if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (slots > 2))
                         slots--;
-                    if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (slots < 16))
+                    if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (slots < 16))
                         slots++;
                     break;
                 case 2:
-                    if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (s_musvol / 8 > 0))
+                    if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (s_musvol / 8 > 0))
                         s_musvol = ((s_musvol / 8) - 1) * 8;
-                    if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (s_musvol / 8 < 8))
+                    if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (s_musvol / 8 < 8))
                         s_musvol = ((s_musvol / 8) + 1) * 8;
                     sound_pvol(64);
                     break;
                 case 3:
-                    if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (s_effvol / 8 > 0))
+                    if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (s_effvol / 8 > 0))
                         s_effvol = ((s_effvol / 8) - 1) * 8;
-                    if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (s_effvol / 8 < 8))
+                    if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (s_effvol / 8 < 8))
                         s_effvol = ((s_effvol / 8) + 1) * 8;
                     sound_pvol(64);
                     break;
                 case 4:
-                    if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (gravvalue > 0))
+                    if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (gravvalue > 0))
                         gravvalue--;
-                    if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (gravvalue < 3))
+                    if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (gravvalue < 3))
                         gravvalue++;
                     initgravity();
                     sound_pvol(64);
                     break;
 	    }
-	    waskey[K_LEFT] = 0;
-	    waskey[K_RIGHT] = 0;
-	    waskey[K_LEFT2] = 0;
-	    waskey[K_RIGHT2] = 0;
+        clearkey(K_LEFT);
+        clearkey(K_RIGHT);
+        clearkey(K_LEFT2);
+        clearkey(K_RIGHT2);
 	}
 
 	update();
@@ -816,7 +816,7 @@ Uint8 mainmenu()
     menufrm = 0;
 
     for (a = 0; a < SDLK_LAST; a++)
-	waskey[a] = 0;
+	clearkey(a);
 
     while (menuexit == 255)
     {
@@ -876,7 +876,7 @@ Uint8 mainmenu()
 	jvdump((216 + sel * 32) * 640, 640 * 32, menutmp);
 
 	/*  keyboard check */
-	if ((waskey[K_UP]) || (waskey[K_DOWN]) || (waskey[K_ESC]) || (waskey[K_UP2]) || (waskey[K_DOWN2]))
+	if ((waskey(K_UP)) || (waskey(K_DOWN)) || (waskey(K_ESC)) || (waskey(K_UP2)) || (waskey(K_DOWN2)))
         {
 
 	    sound_eff(S_MENUMOVE, 64, 128, 16384, 0);
@@ -897,7 +897,7 @@ Uint8 mainmenu()
 
 	    jvdump((216 + sel * 32) * 640, 640 * 32, menutmp);
 
-	    if (((waskey[K_UP]) || (waskey[K_UP2])) && (sel > 0))
+	    if (((waskey(K_UP)) || (waskey(K_UP2))) && (sel > 0))
             {
 		sel--;
 		if (sel == MENU_ignore )
@@ -905,7 +905,7 @@ Uint8 mainmenu()
 		    sel--;
 		}
 	    }
-	    if (((waskey[K_DOWN]) || (waskey[K_DOWN2])) && (sel < MENU_total - 1))
+	    if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (sel < MENU_total - 1))
             {
 		sel++;
 		if (sel == MENU_ignore )
@@ -913,7 +913,7 @@ Uint8 mainmenu()
 		    sel++;
 		}
 	    }
-	    if (waskey[K_ESC])
+	    if (waskey(K_ESC))
             {
 		if (sel == MENU_quit)
                 {
@@ -922,26 +922,26 @@ Uint8 mainmenu()
 		sel = MENU_quit;
 	    }
 
-	    waskey[K_UP]    = 0;
-	    waskey[K_DOWN]  = 0;
-	    waskey[K_ESC]   = 0;
-	    waskey[K_UP2]   = 0;
-	    waskey[K_DOWN2] = 0;
+        clearkey(K_UP);
+        clearkey(K_DOWN);
+        clearkey(K_ESC);
+        clearkey(K_UP2);
+        clearkey(K_DOWN2);
 	}
 
-	if ((waskey[K_LEFT]) || (waskey[K_RIGHT]) || (waskey[K_LEFT2]) || (waskey[K_RIGHT2]))
+	if ((waskey(K_LEFT)) || (waskey(K_RIGHT)) || (waskey(K_LEFT2)) || (waskey(K_RIGHT2)))
         {
 
 	    sound_eff(S_MENUCHANG, 48, 128, 16384, 1);
 
 	    if (sel == MENU_players)
             {
-		if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (players > 1))
+		if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (players > 1))
                 {
 		    deinitplayer(players - 1);
 		    players--;
 		}
-		if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (players < MAXPLAYERS))
+		if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (players < MAXPLAYERS))
                 {
 		    initplayer(players);
 		    players++;
@@ -949,23 +949,23 @@ Uint8 mainmenu()
 	    }
 	    else if (sel == MENU_bots)
             {
-		if (((waskey[K_LEFT]) || (waskey[K_LEFT2])) && (bots > 0))
+		if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (bots > 0))
                 {
 		    deinitplayer(MAXPLAYERS + bots - 1);
 		    --bots;
 		}
-		if (((waskey[K_RIGHT]) || (waskey[K_RIGHT2])) && (bots < MAXBOTS))
+		if (((waskey(K_RIGHT)) || (waskey(K_RIGHT2))) && (bots < MAXBOTS))
                 {
 		    initplayer(MAXPLAYERS + bots);
 		    ++bots;
 		}
 	    }
-	    waskey[K_LEFT]   = 0;
-	    waskey[K_RIGHT]  = 0;
-	    waskey[K_LEFT2]  = 0;
-	    waskey[K_RIGHT2] = 0;
+        clearkey(K_LEFT);
+        clearkey(K_RIGHT);
+        clearkey(K_LEFT2);
+        clearkey(K_RIGHT2);
 	}
-	if (((waskey[K_ENTER]) || (waskey[K_SPACE]) || (waskey[K_ENTER2])) && (fade <= 0))
+	if (((waskey(K_ENTER)) || (waskey(K_SPACE)) || (waskey(K_ENTER2))) && (fade <= 0))
         {
 	    sound_eff(S_MENUCHOOS, 48, 128, 16384, 1);
 	    switch (sel)
@@ -1007,9 +1007,9 @@ Uint8 mainmenu()
                     kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
                     break;
 	    }
-	    waskey[K_ENTER] = 0;
-	    waskey[K_SPACE] = 0;
-	    waskey[K_ENTER2] = 0;
+        clearkey(K_ENTER);
+        clearkey(K_SPACE);
+        clearkey(K_ENTER2);
 	}
 
 	update();
@@ -1018,7 +1018,7 @@ Uint8 mainmenu()
     free(menutmp);
     menutmp = NULL;
 
-    waskey[K_ESC] = 0;
+    clearkey(K_ESC);
     logo_deinit();
     util_freepi(&menublur);
     util_freepi(&menupic);

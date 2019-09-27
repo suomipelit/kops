@@ -39,12 +39,14 @@
 #define K_RIGHT2	SDLK_KP_6
 #define K_DOWN2		SDLK_KP_2
 
+#define SDLK_LAST 256 // SP-TODO
+
 // flips screen and updates keyboard state
 extern void update();
 
-#define SDLK_LAST 1 // SP-TODO
-
-extern volatile Uint8 key[SDLK_LAST],waskey[SDLK_LAST];
+extern int waskey(int key);
+extern int key(int key);
+extern void clearkey(int key);
 
 extern volatile short int cstart[768],cdest[768],ctemp[768];
 extern volatile short int realfadecount;
