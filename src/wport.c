@@ -80,7 +80,7 @@ void update()
 	}
     }
 
-    /* Blit 8-bit texture to 32-bit surface */
+    /* Blit 8-bit surface to 32-bit surface */
     SDL_BlitSurface(screen, NULL, windowSurface, NULL);
 
     void *pixels;

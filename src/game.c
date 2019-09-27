@@ -1021,7 +1021,7 @@ void game()
     drawscreen();
     /*
      * #ifdef VRC #ifdef RASTER jpal(0,0,0,0); #endif jvrc(); #ifdef
-     * RASTER if (key(K_SPACE]) jpal(0,0,0,63); #endif #endif
+     * RASTER if (key(K_SPACE)) jpal(0,0,0,63); #endif #endif
      */
     updatescreen();
 
