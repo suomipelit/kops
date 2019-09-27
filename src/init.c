@@ -50,12 +50,12 @@ char musicfile[80];
 
 void initGraphics()
 {
+    char sdf[1024];
     int fullscreen = 0;
 
     /* Initialize the SDL library */
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
     {
-	char sdf[1024];
 	sprintf(sdf, "Couldn't initialize SDL: %s\n", SDL_GetError());
 	jerror(sdf, EXIT_FAILURE);
     }
@@ -66,7 +66,7 @@ void initGraphics()
     // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
 
 #ifdef NDEBUG
-#define FULLSCREEN SDL_FULLSCREEN
+#define FULLSCREEN SDL_WINDOW_FULLSCREEN
 #else
 #define FULLSCREEN 0
 #endif
@@ -74,46 +74,62 @@ void initGraphics()
     if (!windowed)
 	fullscreen = FULLSCREEN;
 
-    /* Initialize the display in a 640x480 8-bit palettized mode */
+    /* 8-bit surface for game to write directly to */
+    screen = SDL_CreateRGBSurface(0,
+        X_RESOLUTION, Y_RESOLUTION,
+        8, 0, 0, 0, 0);
+
+    if (screen == NULL)
+    {
+        sprintf(sdf, "Couldn't create surface\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    /* Initialize the display in a 640x480 mode */
     window = SDL_CreateWindow("KOPS", SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        X_RESOLUTION, Y_RESOLUTION,
+        screen->w, screen->h,
         fullscreen | SDL_WINDOW_OPENGL);
 
     if (window == NULL)
     {
-	char sdf[1024];
 	sprintf(sdf, "Couldn't set 640x480x8 video mode: %s\n", SDL_GetError());
 	jerror(sdf, EXIT_FAILURE);
     }
+
     SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_RenderSetLogicalSize(renderer,
+        screen->w, screen->h);
 
     renderer = SDL_CreateRenderer(window, -1, 0);
 
     if (renderer == NULL)
     {
-        char sdf[1024];
         sprintf(sdf, "Couldn't create renderer\n");
         jerror(sdf, EXIT_FAILURE);
     }
 
-    screen = SDL_GetWindowSurface(window);
+    /* Surface matching display colors */
+    windowSurface = SDL_CreateRGBSurface(0,
+        screen->w, screen->h,
+        32, 0, 0, 0, 0);
 
-    if (screen == NULL)
+    if (windowSurface == NULL)
     {
-        char sdf[1024];
-        sprintf(sdf, "Couldn't get surface\n");
+        sprintf(sdf, "Couldn't create window surface\n");
         jerror(sdf, EXIT_FAILURE);
     }
 
+    /* And finally a texture also matching display colors */
     texture = SDL_CreateTexture(renderer,
-        SDL_PIXELFORMAT_ARGB8888,
+        SDL_PIXELFORMAT_RGBA8888,
         SDL_TEXTUREACCESS_STREAMING,
-        X_RESOLUTION, Y_RESOLUTION);
+        screen->w,
+        screen->h);
 
     if (texture == NULL)
     {
-        char sdf[1024];
         sprintf(sdf, "Couldn't create texture\n");
         jerror(sdf, EXIT_FAILURE);
     }
@@ -122,8 +138,10 @@ void initGraphics()
 static void uninitGraphics()
 {
     if (texture) SDL_DestroyTexture(texture);
+    if (windowSurface) SDL_FreeSurface(windowSurface);
     if (renderer) SDL_DestroyRenderer(renderer);
     if (window) SDL_DestroyWindow(window);
+    if (screen) SDL_FreeSurface(screen);
     SDL_Quit();
 }
 

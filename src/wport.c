@@ -36,6 +36,7 @@ volatile short int realfadecount;
 
 SDL_Color palette[256];
 SDL_Surface *screen = NULL;
+SDL_Surface *windowSurface = NULL;
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *texture = NULL;
@@ -78,8 +79,25 @@ void update()
                 break;
 	}
     }
-    SDL_UpdateTexture(texture, NULL, screen->pixels, X_RESOLUTION * sizeof(Uint32));
-    SDL_RenderClear(renderer);
+
+    /* Blit 8-bit texture to 32-bit surface */
+    SDL_BlitSurface(screen, NULL, windowSurface, NULL);
+
+    void *pixels;
+    int pitch;
+
+    SDL_LockTexture(texture, NULL, &pixels, &pitch);
+
+    /* Convert 8-bit data to renderable 32-bit data */
+    SDL_ConvertPixels(windowSurface->w, windowSurface->h,
+        windowSurface->format->format,
+        windowSurface->pixels, windowSurface->pitch,
+        SDL_PIXELFORMAT_RGBA8888,
+        pixels, pitch);
+
+    SDL_UnlockTexture(texture);
+
+    /* Render texture to display */
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent(renderer);
 }

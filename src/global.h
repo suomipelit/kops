@@ -390,6 +390,7 @@ extern int       watergrav;
 extern int       ammogravity;
 
 extern SDL_Surface *screen;
+extern SDL_Surface *windowSurface;
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 extern SDL_Texture *texture;
