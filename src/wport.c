@@ -37,6 +37,7 @@ volatile short int realfadecount;
 
 SDL_Color palette[256];
 SDL_Surface *screen;
+SDL_Window *window;
 
 void update()
 {

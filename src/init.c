@@ -76,8 +76,12 @@ void initGraphics()
 	fullscreen = FULLSCREEN;
 
     /* Initialize the display in a 640x480 8-bit palettized mode */
-    //screen = SDL_SetVideoMode(640, 480, 8, SDL_SWSURFACE | SDL_HWPALETTE | fullscreen); SP-TODO
-    if (screen == NULL)
+    window = SDL_CreateWindow("KOPS", SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        640, 480,
+        fullscreen | SDL_WINDOW_OPENGL);
+
+    if (window == NULL)
     {
 	char sdf[1024];
 	sprintf(sdf, "Couldn't set 640x480x8 video mode: %s\n", SDL_GetError());

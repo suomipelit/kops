@@ -387,6 +387,7 @@ extern int       watergrav;
 extern int       ammogravity;
 
 extern SDL_Surface *screen;
+extern SDL_Window *window;
 
 /* Added by SMO */
 extern WEAPON_INFO weapons[];
