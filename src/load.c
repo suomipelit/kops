@@ -410,10 +410,10 @@ void loadships(char *filename)
 
 void loadgfx(char *filename)
 {
-    Uint8 fontstr[FONTCHARS] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" "()%#@$!\"/\\+-_?=*.,><:;åäö°±²Ûúùþ "
+    Uint8 fontstr[FONTCHARS] = { "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" "()%#@$!\"/\\+-_?=*.,><:;\345\344\366\260\261\262\333\372\371\376 "
     };
     Uint8 bigfontstr[BIGFONTCHRS] =
-	{ "ABCDEFGHIJKLMNOPQRSTUVWXYZåäö0123456789" "!\"?:.;,+-=@Üß()/#%$\\_*<>°±²Ûúùþ "
+	{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ\345\344\3660123456789" "!\"?:.;,+-=@\334\337()/#%$\\_*<>\260\261\262\333\372\371\376 "
         };
     unsigned long pkgfxlen, gfxlen, unplen;
     int gfxw, gfxh;
@@ -598,8 +598,8 @@ void loadgfx(char *filename)
     tmp += bullet[38].siz;	// super pyrotechnics
     bullet[39].pic = tmp;
     tmp += bullet[39].siz;	// spiller
-    //  bullet[°°].pic=tmp; tmp+=bullet[°°].siz;  //
-    //  jcgetblock(°°°,°°°,bullet[°°].w,bullet[°°].h,gfxw,unp,bullet[°°].pic);
+    //  bullet[\260\260].pic=tmp; tmp+=bullet[\260\260].siz;  //
+    //  jcgetblock(\260\260\260,\260\260\260,bullet[\260\260].w,bullet[\260\260].h,gfxw,unp,bullet[\260\260].pic);
 
     /*  bulletboxes */
     bulletbox[0].pic = tmp;
@@ -722,8 +722,8 @@ void loadgfx(char *filename)
     bulletbox[39].pic = tmp;
     tmp += bulletbox[39].siz;	// spiller
     jcgetblock(538, 174, bulletbox[39].w, bulletbox[39].h, gfxw, unp, bulletbox[39].pic);
-    //  bulletbox[°°].pic=tmp; tmp+=bulletbox[°°].siz;
-    //  jcgetblock(°°°,°°°,bulletbox[°°].w,bulletbox[°°].h,gfxw,unp,bulletbox[°°].pic);
+    //  bulletbox[\260\260].pic=tmp; tmp+=bulletbox[\260\260].siz;
+    //  jcgetblock(\260\260\260,\260\260\260,bulletbox[\260\260].w,bulletbox[\260\260].h,gfxw,unp,bulletbox[\260\260].pic);
 
     /*  other gfx (0,1) */
     othgfx[0].pic = tmp;

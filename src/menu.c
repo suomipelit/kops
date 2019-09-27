@@ -103,7 +103,7 @@ Uint8 statusscreen()
     sound_play(m_status);
     sound_pvol(64);
     dostatus();
-    kprintfs(bigfont[0], 195, 32, "Ü status Ü");
+    kprintfs(bigfont[0], 195, 32, "\334 status \334");
     kprintfs(bigfont[0], 257, 80, "round");
     kprintfs(bigfont[1], 170, 120, "%4d    %d", round_number, levels);
     kprintfs(bigfont[0], 295, 120, "of");
@@ -140,7 +140,7 @@ void endgamescreen()
     sound_play(m_endgame);
     sound_pvol(64);
     dostatus();
-    kprintfs(bigfont[0], 107, 32, "ß final results ß");
+    kprintfs(bigfont[0], 107, 32, "\337 final results \337");
     kprintfs(font, 153, 465, "press enter, space or esc to continue");
 
     jrealfade(0, 255, 8);
@@ -528,7 +528,7 @@ void optionsmenu()
 {
 #define OPTMENUOPT 6
     char *menustr[OPTMENUOPT] = { "parallax <   >", "weapon slots <  >",
-                                  "music volume ±±±±±±±±", "effects vol. ±±±±±±±±",
+                                  "music volume \261\261\261\261\261\261\261\261", "effects vol. \261\261\261\261\261\261\261\261",
                                   "gravity <   >", "exit"
     };
     char *gravtxt[5] = { "no ", "low", "med", "hi ", "*hi" };
@@ -548,12 +548,12 @@ void optionsmenu()
 
     for (a = 0; a < s_musvol / 8; a++)
     {
-	kprintfs(bigfont[0], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 320, "Û");
+	kprintfs(bigfont[0], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 320, "\333");
     }
 
     for (a = 0; a < s_effvol / 8; a++)
     {
-	kprintfs(bigfont[0], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 345, "Û");
+	kprintfs(bigfont[0], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 345, "\333");
     }
 
     kprintfs(bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 370, gravtxt[gravvalue]);
@@ -595,7 +595,7 @@ void optionsmenu()
         {
 	    for (a = 0; a < s_musvol / 8; a++)
             {
-		kprintf(menutmp, bigfont[1], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 0, 640, "Û");
+		kprintf(menutmp, bigfont[1], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 0, 640, "\333");
 	    }
 	}
 
@@ -603,7 +603,7 @@ void optionsmenu()
         {
 	    for (a = 0; a < s_effvol / 8; a++)
             {
-		kprintf(menutmp, bigfont[1], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 0, 640, "Û");
+		kprintf(menutmp, bigfont[1], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 0, 640, "\333");
 	    }
 	}
 
@@ -643,11 +643,11 @@ void optionsmenu()
 	    if (sel == 2)
 		for (a = 0; a < s_musvol / 8; a++)
 		    kprintf(menutmp, bigfont[0], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 0, 640,
-			    "Û");
+			    "\333");
 	    if (sel == 3)
 		for (a = 0; a < s_effvol / 8; a++)
 		    kprintf(menutmp, bigfont[0], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 0, 640,
-			    "Û");
+			    "\333");
 	    if (sel == 4)
 		kprintf(menutmp, bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 0, 640,
 			gravtxt[gravvalue]);
@@ -753,7 +753,7 @@ Uint8 mainmenu()
 	"players < >",
 	"bots < >",
 	"choose levels",
-	"úú",
+	"\372\372",
 	"options",
 	"info",
 	"quit"

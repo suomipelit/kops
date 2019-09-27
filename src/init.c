@@ -209,7 +209,7 @@ void initgfxstructures()
     bullet[38].h = 0;		// super pyrotechnics
     bullet[39].w = 0;
     bullet[39].h = 0;		// spiller
-    //  bullet[°°].w=°; bullet[°°].h=°;   //
+    //  bullet[\260\260].w=\260; bullet[\260\260].h=\260;   //
     for (a = 0; a < BULLETTYPES; a++)
 	bullet[a].siz = bullet[a].w * bullet[a].h * bullet[a].frames;
 
@@ -293,7 +293,7 @@ void initgfxstructures()
     bulletbox[38].h = 11;	// super pyrotechnics
     bulletbox[39].w = 11;
     bulletbox[39].h = 11;	// spiller
-    //  bulletbox[°°].w=; bulletbox[°°].h=;     //
+    //  bulletbox[\260\260].w=; bulletbox[\260\260].h=;     //
     for (a = 0; a < BULLETBOXTS; a++)
 	bulletbox[a].siz = bulletbox[a].w * bulletbox[a].h;
 
@@ -392,7 +392,7 @@ void initgfxstructures()
     strcpy(&wnames[37][0], "twin laser");
     strcpy(&wnames[38][0], "super pyrotechnics");
     strcpy(&wnames[39][0], "spiller");
-    //  strcpy(&wnames[°°][0],"");
+    //  strcpy(&wnames[\260\260][0],"");
 
     /*  pickammo total probability value */
     totalprob = 0;
@@ -420,25 +420,25 @@ void initlevels()
     levels = 0;
     alllevels = LEVELS;
     for (a = 0; a < MAXLEVELS; a++)
-	strcpy(levall[a], "Ü");
+	strcpy(levall[a], "\334");
 #ifndef REG
-    strcpy(levall[0], "ßsteppe.kil");
-    strcpy(levall[1], "ßcoldone.kil");
-    strcpy(levall[2], "ßcave.kil");
-    strcpy(levall[3], "ßblobs.kil");
+    strcpy(levall[0], "\337steppe.kil");
+    strcpy(levall[1], "\337coldone.kil");
+    strcpy(levall[2], "\337cave.kil");
+    strcpy(levall[3], "\337blobs.kil");
 #ifndef ONEDISK
-    strcpy(levall[4], "ßtubes.kil");
+    strcpy(levall[4], "\337tubes.kil");
 #endif
 #else
-    strcpy(levall[0], "ßsteppe.kil");
-    strcpy(levall[1], "ßcoldone.kil");
-    strcpy(levall[2], "ßcave.kil");
-    strcpy(levall[3], "ßrude.kil");
-    strcpy(levall[4], "ßscape.kil");
-    strcpy(levall[5], "ßblobs.kil");
-    strcpy(levall[6], "ßsad.kil");
-    strcpy(levall[7], "ßtubes.kil");
-    strcpy(levall[8], "ßspace.kil");
+    strcpy(levall[0], "\337steppe.kil");
+    strcpy(levall[1], "\337coldone.kil");
+    strcpy(levall[2], "\337cave.kil");
+    strcpy(levall[3], "\337rude.kil");
+    strcpy(levall[4], "\337scape.kil");
+    strcpy(levall[5], "\337blobs.kil");
+    strcpy(levall[6], "\337sad.kil");
+    strcpy(levall[7], "\337tubes.kil");
+    strcpy(levall[8], "\337space.kil");
 #endif
     levels = 1;
     strcpy(levlist[0], levall[rand() % LEVELS]);
