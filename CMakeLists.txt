@@ -31,9 +31,10 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 if (WIN32)
-	add_compile_options(/MP /MT /WX /wd4244 /wd4996)
-else()
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -funsigned-char -Wall -Wno-pedantic -Wsign-compare")
+	add_compile_options(/MP /MT /WX /wd4996)
+    else()
+	# Warnings to be fixed
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
 endif()
 
 file(GLOB SOURCES
