@@ -41,39 +41,106 @@ SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Texture *texture = NULL;
 
-int waskey(int key)
+typedef struct
 {
-    // SP-TODO
-    return 0;
+    SDL_Keycode keycode;
+    bool pressed;
+    bool was_pressed;
+} Key;
+
+static Key keys[MAX_NUMBER_OF_PRESSED_KEYS] = { 0 };
+
+Key* find_key(SDL_Keycode keycode)
+{
+    int i;
+    /* Look if key already exists in array */
+    for (i = 0; i < MAX_NUMBER_OF_PRESSED_KEYS; ++i)
+    {
+        if (keys[i].keycode == keycode)
+        {
+            return &keys[i];
+        }
+    }
+    /* Find free entry if key didn't previously exist */
+    for (i = 0; i < MAX_NUMBER_OF_PRESSED_KEYS; ++i)
+    {
+        if (!keys[i].keycode)
+        {
+            return &keys[i];
+        }
+    }
+    /* Out of slots. Should never happen with big enough MAX_NUMBER_OF_PRESSED_KEYS */
+    return NULL;
 }
 
-int key(int key)
+bool waskey(SDL_Keycode key)
 {
-    // SP-TODO
-    return 0;
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        return searched_key->was_pressed;
+    }
+    return true;
 }
 
-void clearkey(int key)
+bool key(SDL_Keycode key)
 {
-    // SP-TODO
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        return searched_key->pressed;
+    }
+    return true;
+}
+
+void clearkey(SDL_Keycode key)
+{
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        searched_key->was_pressed = 0;
+        if (!searched_key->pressed)
+        {
+            searched_key->keycode = 0;
+        }
+    }
 }
 
 void update()
 {
     SDL_Event ev;
+    Key* key = NULL;
 
-    // SP-TODO
     while (SDL_PollEvent(&ev))
     {
 	switch (ev.type)
         {
             case SDL_KEYDOWN:
-                //key(ev.key.keysym.sym) = 1;
-                //waskey(ev.key.keysym.sym) = 1;
+            {
+                const SDL_Keycode pressed = ev.key.keysym.sym;
+                key = find_key(pressed);
+                if (key)
+                {
+                    key->keycode = pressed;
+                    key->pressed = 1;
+                    key->was_pressed = 1;
+                }
                 break;
+            }
             case SDL_KEYUP:
-                //key(ev.key.keysym.sym) = 0;
+            {
+                const SDL_Keycode pressed = ev.key.keysym.sym;
+                key = find_key(pressed);
+                if (key && key->keycode == pressed)
+                {
+                    key->pressed = 0;
+                    if (!key->was_pressed)
+                    {
+                        key->keycode = 0;
+                    }
+                }
                 break;
+            }
             case SDL_QUIT:
                 exit(0);
                 break;
