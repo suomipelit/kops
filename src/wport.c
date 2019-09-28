@@ -48,7 +48,7 @@ typedef struct
     bool was_pressed;
 } Key;
 
-static Key keys[MAX_NUMBER_OF_PRESSED_KEYS] = { 0 };
+static Key keys[MAX_NUMBER_OF_PRESSED_KEYS] = { { 0 } };
 
 Key* find_key(SDL_Keycode keycode)
 {
