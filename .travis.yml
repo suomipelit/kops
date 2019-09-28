@@ -1,0 +1,42 @@
+language: c
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+            - libsdl2-dev
+            - libsdl2-mixer-dev
+            - libsdl2-image-dev
+            - libsdl2-net-dev
+      before_install:
+        - CC=gcc-8 && CXX=g++-8
+    - os: linux
+      compiler: clang
+    - os: osx
+      compiler: clang
+
+addons:
+  apt:
+    packages:
+      - libsdl2-dev
+      - libsdl2-mixer-dev
+      - zlib1g-dev
+  homebrew:
+    packages:
+      - sdl2
+      - sdl2_mixer
+    update: true
+
+script:
+  - mkdir build
+  - cd build
+  - cmake ..
+  - cmake --build .

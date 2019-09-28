@@ -1,3 +1,5 @@
+#if 0 // SP-TODO
+
 /* sound.c
  * Copyright 1996,2001,2003 Jetro Lauha.
  *
@@ -187,3 +189,37 @@ void sound_play(int order)
     playing = 1;
     FMUSIC_SetOrder(mod, order);
 }
+
+#else
+void sound_init()
+{
+}
+
+void sound_deinit()
+{
+}
+
+void sound_effvol(int volume)
+{
+}
+
+void sound_musvol(int volume)
+{
+}
+
+void sound_pvol(int volume)
+{
+}
+
+void sound_eff(int sampleno, int volume, int panpos, int freq, int chgroup)
+{
+}
+
+void sound_stopplay()
+{
+}
+
+void sound_play(int order)
+{
+}
+#endif

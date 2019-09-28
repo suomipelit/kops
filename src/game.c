@@ -97,7 +97,7 @@ void preparegame()
     }
 
     for (a = 0; a < SDLK_LAST; a++)
-	waskey[a] = 0;
+        clearkey(a);
 
     basepixcount = 0;
     cnt = 0;
@@ -180,7 +180,7 @@ void game()
 
     preparegame();
 
-    while ((!key[K_ESC]) && (!waskey[K_ESC]) && (victory == 0) && (dead < players))
+    while ((!key(K_ESC)) && (!waskey(K_ESC)) && (victory == 0) && (dead < players))
     {
 
 	while (framecounter == 0)
@@ -255,7 +255,7 @@ void game()
              * movement key checks
              */
             if ((plr[p].bot && IS_SET(ACTION_THRUST, plr[p].action)) ||
-                (!plr[p].bot && ( (key[plr[p].k_up]) || (waskey[plr[p].k_up]))))
+                (!plr[p].bot && ( (key(plr[p].k_up)) || (waskey(plr[p].k_up)))))
             {
                 plr[p].xi += cost[((plr[p].dir >> FIXP) * FRFIX + SCT * 3 / 4) % SCT] / ACCELDIV;
                 plr[p].yi += sint[((plr[p].dir >> FIXP) * FRFIX + SCT * 3 / 4) % SCT] / ACCELDIV;
@@ -263,7 +263,7 @@ void game()
 
                 if( ! plr[p].bot )
                 {
-                    waskey[plr[p].k_up] = 0;
+                    clearkey(plr[p].k_up);
                 }
 
                 if (basedetect( plr[p].xp, plr[p].yp ) == 1)
@@ -280,24 +280,24 @@ void game()
             if ((basedetect(plr[p].xp, plr[p].yp) != 1) || (plr[p].hyperspac))
             {
                 if ((plr[p].bot && IS_SET(ACTION_TURN_RIGHT, plr[p].action)) ||
-                    (!plr[p].bot && ((key[plr[p].k_right]) || (waskey[plr[p].k_right]))) )
+                    (!plr[p].bot && ((key(plr[p].k_right)) || (waskey(plr[p].k_right)))) )
                 {
                     plr[p].dir = (plr[p].dir + TURNRATE) % (SHIPFRM << FIXP);
                     /*logDebug(0, "dir = %f", (double) (plr[p].dir/FIXS));*/
 
                     if( ! plr[p].bot )
                     {
-                        waskey[plr[p].k_right] = 0;
+                        clearkey(plr[p].k_right);
                     }
                 }
                 if ((plr[p].bot && IS_SET(ACTION_TURN_LEFT, plr[p].action)) ||
-                    (!plr[p].bot && ((key[plr[p].k_left])  || (waskey[plr[p].k_left]))))
+                    (!plr[p].bot && ((key(plr[p].k_left))  || (waskey(plr[p].k_left)))))
                 {
                     plr[p].dir = (plr[p].dir + ((SHIPFRM << FIXP) - TURNRATE)) % (SHIPFRM << FIXP);
 
                     if( ! plr[p].bot )
                     {
-                        waskey[plr[p].k_left] = 0;
+                        clearkey(plr[p].k_left);
                     }
                 }
             }
@@ -307,7 +307,7 @@ void game()
              */
             if (plr[p].fireflag &&
                 ((plr[p].bot && --plr[p].fire_rate < 0) || /* && IS_CLR(ACTION_FIRE_MAIN, plr[p].action) */
-                 (!plr[p].bot && !key[plr[p].k_fire1])) )
+                 (!plr[p].bot && !key(plr[p].k_fire1))) )
             {
                 plr[p].fireflag  = 0;
                 plr[p].fire_rate = 7;
@@ -320,7 +320,7 @@ void game()
 
             if ((plr[p].fireflag == 0) &&
                 ((plr[p].bot && IS_SET(ACTION_FIRE_MAIN, plr[p].action)) ||
-                 (! plr[p].bot && (key[plr[p].k_fire1] || waskey[plr[p].k_fire1]))))
+                 (! plr[p].bot && (key(plr[p].k_fire1) || waskey(plr[p].k_fire1)))))
             {
 
                 sound_eff(plr[p].ammo1, 64, pan, 16384, 0);
@@ -329,22 +329,22 @@ void game()
 
                 if( ! plr[p].bot )
                 {
-                    waskey[plr[p].k_fire1] = 0;
+                    clearkey(plr[p].k_fire1);
                 }
             }
 
             if ((plr[p].firepause > 0) &&
                 ((plr[p].bot && IS_SET(ACTION_FIRE_SPECIAL, plr[p].action)) ||
-                 (!plr[p].bot && (key[plr[p].k_fire2] || waskey[plr[p].k_fire2]))) )
+                 (!plr[p].bot && (key(plr[p].k_fire2) || waskey(plr[p].k_fire2)))) )
             {
                 if( ! plr[p].bot )
                 {
-                    waskey[plr[p].k_fire2] = 0;
+                    clearkey(plr[p].k_fire2);
                 }
             }
 
             if (((plr[p].bot && IS_SET(ACTION_FIRE_SPECIAL, plr[p].action)) ||
-                 (!plr[p].bot && (key[plr[p].k_fire2] || waskey[plr[p].k_fire2])))
+                 (!plr[p].bot && (key(plr[p].k_fire2) || waskey(plr[p].k_fire2))))
                 && (plr[p].firepause == 0)
                 && (plr[p].ammo2 != W_NOWEAPON) )
             {
@@ -375,7 +375,7 @@ void game()
 
             if( ! plr[p].bot )
             {
-                waskey[plr[p].k_fire2] = 0;
+                clearkey(plr[p].k_fire2);
             }
 
             /*
@@ -567,33 +567,33 @@ void game()
                     /*
                      * weapon change
                      */
-                    if (((!key[plr[p].k_left])
+                    if (((!key(plr[p].k_left))
                          && !plr[p].bot
-                         && (waskey[plr[p].k_left]))
+                         && (waskey(plr[p].k_left)))
                         && (plr[p].slotchangepause == 0))
                     {
                         sound_eff(S_TUHNU, 32, pan, 8192, 0);
                         plr[p].activeslot = (Uint8) ((plr[p].activeslot + slots - 1) % slots);
                         plr[p].ammo2 = plr[p].slots[plr[p].activeslot];
                         plr[p].slotchangepause += 15;
-                        waskey[plr[p].k_left] = 0;
+                        clearkey(plr[p].k_left);
                     }
-                    if (((!key[plr[p].k_right])
+                    if (((!key(plr[p].k_right))
                          && !plr[p].bot
-                         && (waskey[plr[p].k_right]))
+                         && (waskey(plr[p].k_right)))
                         && (plr[p].slotchangepause == 0))
                     {
                         sound_eff(S_TUHNU, 32, pan, 8192, 0);
                         plr[p].activeslot = (Uint8) ((plr[p].activeslot + 1) % slots);
                         plr[p].ammo2 = plr[p].slots[plr[p].activeslot];
                         plr[p].slotchangepause += 15;
-                        waskey[plr[p].k_right] = 0;
+                        clearkey(plr[p].k_right);
                     }
-                    if (((!key[plr[p].k_right])
+                    if (((!key(plr[p].k_right))
                          && !plr[p].bot
-                         && (!key[plr[p].k_left]))
-                        && ((!waskey[plr[p].k_right])
-                            && (!waskey[plr[p].k_left])))
+                         && (!key(plr[p].k_left)))
+                        && ((!waskey(plr[p].k_right))
+                            && (!waskey(plr[p].k_left))))
                         plr[p].slotchangepause = 0;
                 }
                 else {	/*
@@ -973,11 +973,11 @@ void game()
          * f12 saves screen to SHOT.RIX
          */
 #ifdef SCREENSHOTS
-        if (key[K_F12])
+        if (key(K_F12))
         {
             gamepause = 1;
             savescreenrix("kopsshot.rix");
-            while (key[K_F12])
+            while (key(K_F12))
             {
                 update();
             }
@@ -988,7 +988,7 @@ void game()
         /*
          * game pause
          */
-        if ((key[K_F11]) || (waskey[K_F11]))
+        if ((key(K_F11)) || (waskey(K_F11)))
         {
             gamepause = 1;
             jsavestart();
@@ -996,15 +996,15 @@ void game()
                 cdest[a * 3] = cdest[a * 3 + 1] = cdest[a * 3 + 2] =
                     (short) ((cstart[a * 3] + cstart[a * 3 + 1] + cstart[a * 3 + 2]) / 4);
             jrealfade(0, 255, 7);
-            while (key[K_F11])
+            while (key(K_F11))
             {
                 update();
             }
-            while (!key[K_F11])
+            while (!key(K_F11))
             {
                 update();
             }
-            while (key[K_F11])
+            while (key(K_F11))
             {
                 update();
             }
@@ -1012,7 +1012,7 @@ void game()
                 cdest[a] = cstart[a];
             jsavestart();
             jrealfade(0, 255, 7);
-            waskey[K_F11] = 0;
+            clearkey(K_F11);
             gamepause = 0;
         }
 
@@ -1021,7 +1021,7 @@ void game()
     drawscreen();
     /*
      * #ifdef VRC #ifdef RASTER jpal(0,0,0,0); #endif jvrc(); #ifdef
-     * RASTER if (key[K_SPACE]) jpal(0,0,0,63); #endif #endif
+     * RASTER if (key(K_SPACE)) jpal(0,0,0,63); #endif #endif
      */
     updatescreen();
 

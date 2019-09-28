@@ -17,6 +17,9 @@
 #endif
 
 /*********  general constants  ***********************************/
+#define X_RESOLUTION 640
+#define Y_RESOLUTION 480
+
 #define FIXP        10		/* .x fixed point */
 #define FIXS        (1<<FIXP)
 #define STARTENERGY 100
@@ -363,7 +366,7 @@ extern unsigned int s_samprate;	/* sound infos */
 extern Uint8     snd;		/* sounds on/off (1/0) */
 extern Uint8     kludgesnd;		/* force sound disable as an command line parameter */
 extern int       wins[MAXPLAYERS+MAXBOTS];	/* win table */
-extern int       round;		/* round number */
+extern int       round_number;		/* round number */
 extern int       totalframes, drawnframes;	/* for average FPS */
 extern Uint8     gamewindowcolorrand;
 extern Uint8     players;
@@ -387,6 +390,10 @@ extern int       watergrav;
 extern int       ammogravity;
 
 extern SDL_Surface *screen;
+extern SDL_Surface *windowSurface;
+extern SDL_Window *window;
+extern SDL_Renderer *renderer;
+extern SDL_Texture *texture;
 
 /* Added by SMO */
 extern WEAPON_INFO weapons[];

@@ -5,7 +5,7 @@
 #ifndef WPORT_H_INCLUDED
 #define WPORT_H_INCLUDED
 
-
+#include <stdbool.h>
 #include "SDL.h"
 #include "util/util.h"
 
@@ -34,15 +34,20 @@
 #define K_ENTER		SDLK_RETURN
 #define K_ENTER2	SDLK_KP_ENTER
 #define K_SPACE		SDLK_SPACE
-#define K_UP2		SDLK_KP8
-#define K_LEFT2		SDLK_KP4
-#define K_RIGHT2	SDLK_KP6
-#define K_DOWN2		SDLK_KP2
+#define K_UP2		SDLK_KP_8
+#define K_LEFT2		SDLK_KP_4
+#define K_RIGHT2	SDLK_KP_6
+#define K_DOWN2		SDLK_KP_2
+
+#define MAX_NUMBER_OF_PRESSED_KEYS 128
+#define SDLK_LAST MAX_NUMBER_OF_PRESSED_KEYS
 
 // flips screen and updates keyboard state
 extern void update();
 
-extern volatile Uint8 key[SDLK_LAST],waskey[SDLK_LAST];
+extern bool waskey(SDL_Keycode key);
+extern bool key(SDL_Keycode key);
+extern void clearkey(SDL_Keycode key);
 
 extern volatile short int cstart[768],cdest[768],ctemp[768];
 extern volatile short int realfadecount;

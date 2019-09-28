@@ -1,0 +1,12 @@
+*.bmp
+*.cfg
+*.dll
+*.exe
+*.jfl
+*.kop
+*.log
+*.pcx
+*.s3m
+/build
+/cmake-build*
+data

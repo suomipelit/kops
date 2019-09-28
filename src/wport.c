@@ -31,34 +31,142 @@
 #include "global.h"
 #include "wport.h"
 
-volatile Uint8 key[SDLK_LAST] = { 0, }, waskey[SDLK_LAST] = { 0, };
 volatile short int cstart[768], cdest[768], ctemp[768];
 volatile short int realfadecount;
 
 SDL_Color palette[256];
-SDL_Surface *screen;
+SDL_Surface *screen = NULL;
+SDL_Surface *windowSurface = NULL;
+SDL_Window *window = NULL;
+SDL_Renderer *renderer = NULL;
+SDL_Texture *texture = NULL;
+
+typedef struct
+{
+    SDL_Keycode keycode;
+    bool pressed;
+    bool was_pressed;
+} Key;
+
+static Key keys[MAX_NUMBER_OF_PRESSED_KEYS] = { 0 };
+
+Key* find_key(SDL_Keycode keycode)
+{
+    int i;
+    /* Look if key already exists in array */
+    for (i = 0; i < MAX_NUMBER_OF_PRESSED_KEYS; ++i)
+    {
+        if (keys[i].keycode == keycode)
+        {
+            return &keys[i];
+        }
+    }
+    /* Find free entry if key didn't previously exist */
+    for (i = 0; i < MAX_NUMBER_OF_PRESSED_KEYS; ++i)
+    {
+        if (!keys[i].keycode)
+        {
+            return &keys[i];
+        }
+    }
+    /* Out of slots. Should never happen with big enough MAX_NUMBER_OF_PRESSED_KEYS */
+    return NULL;
+}
+
+bool waskey(SDL_Keycode key)
+{
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        return searched_key->was_pressed;
+    }
+    return true;
+}
+
+bool key(SDL_Keycode key)
+{
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        return searched_key->pressed;
+    }
+    return true;
+}
+
+void clearkey(SDL_Keycode key)
+{
+    Key* searched_key = find_key(key);
+    if (searched_key)
+    {
+        searched_key->was_pressed = 0;
+        if (!searched_key->pressed)
+        {
+            searched_key->keycode = 0;
+        }
+    }
+}
 
 void update()
 {
     SDL_Event ev;
+    Key* key = NULL;
 
     while (SDL_PollEvent(&ev))
     {
 	switch (ev.type)
         {
             case SDL_KEYDOWN:
-                key[ev.key.keysym.sym] = 1;
-                waskey[ev.key.keysym.sym] = 1;
+            {
+                const SDL_Keycode pressed = ev.key.keysym.sym;
+                key = find_key(pressed);
+                if (key)
+                {
+                    key->keycode = pressed;
+                    key->pressed = 1;
+                    key->was_pressed = 1;
+                }
                 break;
+            }
             case SDL_KEYUP:
-                key[ev.key.keysym.sym] = 0;
+            {
+                const SDL_Keycode pressed = ev.key.keysym.sym;
+                key = find_key(pressed);
+                if (key && key->keycode == pressed)
+                {
+                    key->pressed = 0;
+                    if (!key->was_pressed)
+                    {
+                        key->keycode = 0;
+                    }
+                }
                 break;
+            }
             case SDL_QUIT:
                 exit(0);
                 break;
 	}
     }
-    SDL_Flip(screen);
+
+    /* Blit 8-bit surface to 32-bit surface */
+    SDL_BlitSurface(screen, NULL, windowSurface, NULL);
+
+    void *pixels;
+    int pitch;
+
+    SDL_LockTexture(texture, NULL, &pixels, &pitch);
+
+    /* Convert 8-bit data to renderable 32-bit data */
+    SDL_ConvertPixels(windowSurface->w, windowSurface->h,
+        windowSurface->format->format,
+        windowSurface->pixels, windowSurface->pitch,
+        SDL_PIXELFORMAT_RGBA8888,
+        pixels, pitch);
+
+    SDL_UnlockTexture(texture);
+
+    /* Render texture to display */
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    SDL_RenderPresent(renderer);
 }
 
 Uint8 fileexists(char *filename)
@@ -376,7 +484,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
 	update();
     }
     for (a = from; a <= tocl; ++a)
@@ -385,7 +493,7 @@ void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 	palette[a].g = cdest[a * 3 + 1] << 2;
 	palette[a].b = cdest[a * 3 + 2] << 2;
     }
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+    SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     update();
 }
 
@@ -403,7 +511,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = ctemp[a * 3 + 1] >> 5;
 	    palette[a].b = ctemp[a * 3 + 2] >> 5;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     }
     else {
 	for (a = from; a <= tocl; ++a)
@@ -412,7 +520,7 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
 	    palette[a].g = cdest[a * 3 + 1] << 2;
 	    palette[a].b = cdest[a * 3 + 2] << 2;
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
     }
 }
 
@@ -487,7 +595,7 @@ void jloadpcxpalpart(char *filename, Uint8 from, Uint8 tocl)
 	    palette[a].g = *(buf + a * 3 + 1);
 	    palette[a].b = *(buf + a * 3 + 2);
 	}
-	SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, from, tocl - from + 1);
+	SDL_SetPaletteColors(screen->format->palette, palette, from, tocl - from + 1);
 	free(buf);
 	util_fclose(f);
     }
@@ -498,8 +606,7 @@ void jclearpal()
     int a;
     for (a = 0; a < 256; ++a)
 	palette[a].r = palette[a].g = palette[a].b = 0;
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, 0, 256);
-
+    SDL_SetPaletteColors(screen->format->palette, palette, 0, 256);
 }
 
 void jclearstart()
@@ -514,8 +621,7 @@ void jpal(int color, int r, int g, int b)
     palette[color].r = r << 2;
     palette[color].g = g << 2;
     palette[color].b = b << 2;
-    SDL_SetPalette(screen, SDL_LOGPAL | SDL_PHYSPAL, palette, color, 1);
-
+    SDL_SetPaletteColors(screen->format->palette, palette, color, 1);
 }
 
 void jvcsprite(int x, int y, int wid, int hei, Uint8 * sour)

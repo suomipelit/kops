@@ -34,6 +34,7 @@
 #ifdef _POSIX_SOURCE
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #endif
 #include "wport.h"
 #include "global.h"
@@ -49,12 +50,12 @@ char musicfile[80];
 
 void initGraphics()
 {
+    char sdf[1024];
     int fullscreen = 0;
 
     /* Initialize the SDL library */
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
     {
-	char sdf[1024];
 	sprintf(sdf, "Couldn't initialize SDL: %s\n", SDL_GetError());
 	jerror(sdf, EXIT_FAILURE);
     }
@@ -62,11 +63,10 @@ void initGraphics()
     /* Clean up on exit */
     atexit(SDL_Quit);
 
-    SDL_WM_SetCaption("KOPS", NULL);
-    SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL);
+    // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
 
 #ifdef NDEBUG
-#define FULLSCREEN SDL_FULLSCREEN
+#define FULLSCREEN SDL_WINDOW_FULLSCREEN
 #else
 #define FULLSCREEN 0
 #endif
@@ -74,15 +74,75 @@ void initGraphics()
     if (!windowed)
 	fullscreen = FULLSCREEN;
 
-    /* Initialize the display in a 640x480 8-bit palettized mode */
-    screen = SDL_SetVideoMode(640, 480, 8, SDL_SWSURFACE | SDL_HWPALETTE | fullscreen);
+    /* 8-bit surface for game to write directly to */
+    screen = SDL_CreateRGBSurface(0,
+        X_RESOLUTION, Y_RESOLUTION,
+        8, 0, 0, 0, 0);
+
     if (screen == NULL)
     {
-	char sdf[1024];
+        sprintf(sdf, "Couldn't create surface\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    /* Initialize the display in a 640x480 mode */
+    window = SDL_CreateWindow("KOPS", SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        screen->w, screen->h,
+        fullscreen | SDL_WINDOW_OPENGL);
+
+    if (window == NULL)
+    {
 	sprintf(sdf, "Couldn't set 640x480x8 video mode: %s\n", SDL_GetError());
 	jerror(sdf, EXIT_FAILURE);
     }
+
     SDL_ShowCursor(SDL_DISABLE);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+    SDL_RenderSetLogicalSize(renderer,
+        screen->w, screen->h);
+
+    renderer = SDL_CreateRenderer(window, -1, 0);
+
+    if (renderer == NULL)
+    {
+        sprintf(sdf, "Couldn't create renderer\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    /* Surface matching display colors */
+    windowSurface = SDL_CreateRGBSurface(0,
+        screen->w, screen->h,
+        32, 0, 0, 0, 0);
+
+    if (windowSurface == NULL)
+    {
+        sprintf(sdf, "Couldn't create window surface\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+
+    /* And finally a texture also matching display colors */
+    texture = SDL_CreateTexture(renderer,
+        SDL_PIXELFORMAT_RGBA8888,
+        SDL_TEXTUREACCESS_STREAMING,
+        screen->w,
+        screen->h);
+
+    if (texture == NULL)
+    {
+        sprintf(sdf, "Couldn't create texture\n");
+        jerror(sdf, EXIT_FAILURE);
+    }
+}
+
+static void uninitGraphics()
+{
+    if (texture) SDL_DestroyTexture(texture);
+    if (windowSurface) SDL_FreeSurface(windowSurface);
+    if (renderer) SDL_DestroyRenderer(renderer);
+    if (window) SDL_DestroyWindow(window);
+    if (screen) SDL_FreeSurface(screen);
+    SDL_Quit();
 }
 
 void initgfxstructures()
@@ -208,7 +268,7 @@ void initgfxstructures()
     bullet[38].h = 0;		// super pyrotechnics
     bullet[39].w = 0;
     bullet[39].h = 0;		// spiller
-    //  bullet[°°].w=°; bullet[°°].h=°;   //
+    //  bullet[\260\260].w=\260; bullet[\260\260].h=\260;   //
     for (a = 0; a < BULLETTYPES; a++)
 	bullet[a].siz = bullet[a].w * bullet[a].h * bullet[a].frames;
 
@@ -292,7 +352,7 @@ void initgfxstructures()
     bulletbox[38].h = 11;	// super pyrotechnics
     bulletbox[39].w = 11;
     bulletbox[39].h = 11;	// spiller
-    //  bulletbox[°°].w=; bulletbox[°°].h=;     //
+    //  bulletbox[\260\260].w=; bulletbox[\260\260].h=;     //
     for (a = 0; a < BULLETBOXTS; a++)
 	bulletbox[a].siz = bulletbox[a].w * bulletbox[a].h;
 
@@ -391,7 +451,7 @@ void initgfxstructures()
     strcpy(&wnames[37][0], "twin laser");
     strcpy(&wnames[38][0], "super pyrotechnics");
     strcpy(&wnames[39][0], "spiller");
-    //  strcpy(&wnames[°°][0],"");
+    //  strcpy(&wnames[\260\260][0],"");
 
     /*  pickammo total probability value */
     totalprob = 0;
@@ -419,25 +479,25 @@ void initlevels()
     levels = 0;
     alllevels = LEVELS;
     for (a = 0; a < MAXLEVELS; a++)
-	strcpy(levall[a], "Ü");
+	strcpy(levall[a], "\334");
 #ifndef REG
-    strcpy(levall[0], "ßsteppe.kil");
-    strcpy(levall[1], "ßcoldone.kil");
-    strcpy(levall[2], "ßcave.kil");
-    strcpy(levall[3], "ßblobs.kil");
+    strcpy(levall[0], "\337steppe.kil");
+    strcpy(levall[1], "\337coldone.kil");
+    strcpy(levall[2], "\337cave.kil");
+    strcpy(levall[3], "\337blobs.kil");
 #ifndef ONEDISK
-    strcpy(levall[4], "ßtubes.kil");
+    strcpy(levall[4], "\337tubes.kil");
 #endif
 #else
-    strcpy(levall[0], "ßsteppe.kil");
-    strcpy(levall[1], "ßcoldone.kil");
-    strcpy(levall[2], "ßcave.kil");
-    strcpy(levall[3], "ßrude.kil");
-    strcpy(levall[4], "ßscape.kil");
-    strcpy(levall[5], "ßblobs.kil");
-    strcpy(levall[6], "ßsad.kil");
-    strcpy(levall[7], "ßtubes.kil");
-    strcpy(levall[8], "ßspace.kil");
+    strcpy(levall[0], "\337steppe.kil");
+    strcpy(levall[1], "\337coldone.kil");
+    strcpy(levall[2], "\337cave.kil");
+    strcpy(levall[3], "\337rude.kil");
+    strcpy(levall[4], "\337scape.kil");
+    strcpy(levall[5], "\337blobs.kil");
+    strcpy(levall[6], "\337sad.kil");
+    strcpy(levall[7], "\337tubes.kil");
+    strcpy(levall[8], "\337space.kil");
 #endif
     levels = 1;
     strcpy(levlist[0], levall[rand() % LEVELS]);
