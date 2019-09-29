@@ -80,7 +80,7 @@ bool waskey(SDL_Keycode key)
     {
         return searched_key->was_pressed;
     }
-    return true;
+    return false;
 }
 
 bool key(SDL_Keycode key)
@@ -90,7 +90,7 @@ bool key(SDL_Keycode key)
     {
         return searched_key->pressed;
     }
-    return true;
+    return false;
 }
 
 void clearkey(SDL_Keycode key)
