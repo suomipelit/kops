@@ -106,6 +106,21 @@ void clearkey(SDL_Keycode key)
     }
 }
 
+static int full_screen = 0;
+static void toggle_fullscreen()
+{
+    full_screen = !full_screen;
+    SDL_SetWindowFullscreen(window, full_screen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+}
+
+static int handle_special_key(const SDL_KeyboardEvent *key) {
+    if (key->keysym.scancode == SDL_SCANCODE_RETURN && key->keysym.mod & KMOD_LALT) {
+        toggle_fullscreen();
+        return 1;
+    }
+    return 0;
+}
+
 void update()
 {
     SDL_Event ev;
@@ -117,6 +132,10 @@ void update()
         {
             case SDL_KEYDOWN:
             {
+                if (handle_special_key(&ev.key)) {
+                    break;
+                }
+
                 const SDL_Keycode pressed = ev.key.keysym.sym;
                 key = find_key(pressed);
                 if (key)
