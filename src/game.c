@@ -183,8 +183,7 @@ void game()
     while ((!key(K_ESC)) && (!waskey(K_ESC)) && (victory == 0) && (dead < players))
     {
 
-	while (framecounter == 0)
-            ;
+	wait_framecount();
 
 	frm = framecounter;
 	framecounter = 0;
