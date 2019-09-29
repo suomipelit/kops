@@ -53,6 +53,7 @@ extern void wait_framecount();
 
 extern volatile short int cstart[768],cdest[768],ctemp[768];
 extern volatile short int realfadecount;
+extern bool fullscreen;
 
 extern SDL_Color palette[256];
 
