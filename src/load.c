@@ -150,8 +150,8 @@ Uint8 loadconfig()
 void loadlevel(char *filename)
 {
 #define MAXLEVELREVISION  1
-    unsigned long pkpiclen, pkbacklen, levellen, backgrlen, pktransplen, transplen;
-    unsigned int revision;
+    unsigned long levellen, backgrlen, transplen;
+    Uint32 pkpiclen, pkbacklen, pktransplen, revision;
     Uint8 orgsig[8] = { 'K', 'O', 'P', 'S', 'L', 'E', 'V', 26 };
     Uint8 sig[8];
     UTIL_FILE *fp;
@@ -333,7 +333,8 @@ void loadlevel(char *filename)
 
 void loadships(char *filename)
 {
-    unsigned long unpackedsize, packedsize, unpklen;
+    unsigned long unpklen;
+    Uint32 unpackedsize, packedsize;
     Uint8 *pk, *unpk;
     int err;
     UTIL_FILE *fp;
@@ -415,8 +416,8 @@ void loadgfx(char *filename)
     Uint8 bigfontstr[BIGFONTCHRS] =
 	{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ\345\344\3660123456789" "!\"?:.;,+-=@\334\337()/#%$\\_*<>\260\261\262\333\372\371\376 "
         };
-    unsigned long pkgfxlen, gfxlen, unplen;
-    int gfxw, gfxh;
+    unsigned long unplen;
+    Uint32 pkgfxlen, gfxlen, gfxw, gfxh;
     UTIL_FILE *fp;
     Uint8 *packed, *unp;
     Uint8 *tmp;

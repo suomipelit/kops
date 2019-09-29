@@ -48,6 +48,8 @@ char musicfile[80];
 #define INIT_WAIT_FOR_KEYPRESS
 //#define INIT_SHOWLEVELLIST
 
+static void uninitGraphics(void);
+
 void initGraphics()
 {
     char sdf[1024];
@@ -61,7 +63,7 @@ void initGraphics()
     }
 
     /* Clean up on exit */
-    atexit(SDL_Quit);
+    atexit(uninitGraphics);
 
     // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
 
@@ -135,7 +137,7 @@ void initGraphics()
     }
 }
 
-static void uninitGraphics()
+static void uninitGraphics(void)
 {
     if (texture) SDL_DestroyTexture(texture);
     if (windowSurface) SDL_FreeSurface(windowSurface);
