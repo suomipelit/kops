@@ -1,5 +1,3 @@
-#if 0 // SP-TODO
-
 /* sound.c
  * Copyright 1996,2001,2003 Jetro Lauha.
  *
@@ -21,82 +19,47 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA 
  */
 
-#include <math.h>
-#include <stdlib.h>
-#include <string.h>
+#include <stdbool.h>
+#include "SDL_mixer.h"
+
 #include "global.h"
 #include "wport.h"
 #include "init.h"
 #include "sound.h"
-#include "fmod.h"
-#include "fmod_errors.h"
+#include "sound_helpers.h"
 
-static FMUSIC_MODULE *mod;
-static FSOUND_SAMPLE *samp[SNDEFFECTS];
-static int curshortchn = 0, curlongchn = 0;
-static int muschannels;
-
-static Uint32 fmodopen(const char *name)
-{
-    return (Uint32) util_fopen((char *) name);
-}
-
-static void fmodclose(Uint32 handle)
-{
-    util_fclose((UTIL_FILE *) handle);
-}
-
-static int fmodread(void *buffer, int size, Uint32 handle)
-{
-    return util_fread(buffer, 1, size, (UTIL_FILE *) handle);
-}
-
-static int fmodseek(Uint32 handle, int pos, signed char mode)
-{
-    return util_fseek((UTIL_FILE *) handle, pos, mode);
-}
-
-static int fmodtell(Uint32 handle)
-{
-    return util_ftell((UTIL_FILE *) handle);
-}
+static bool s_initialized = false;
+static Mix_Music *s_music;
+static Sample *s_samples[SNDEFFECTS];
 
 void sound_init()
 {
-    int eff;
-
-    if (!snd)
-	return;
-    if (FSOUND_GetVersion() < FMOD_VERSION)
-	jerror("FMOD Error: Wrong DLL version! (should be %.02f)", (int) (FMOD_VERSION * 100));
-
-    // kludge: init fsound, load music, get number of channels in music and deinit fsound
-    // so we can init fsound again with correct number of channels
-    // (=muschannels+totalsfxchannels)
-    FSOUND_File_SetCallbacks(fmodopen, fmodclose, fmodread, fmodseek, fmodtell);
-    if (!FSOUND_Init(s_samprate, 32, FSOUND_INIT_GLOBALFOCUS))
-	jerror(FMOD_ErrorString(FSOUND_GetError()), FSOUND_GetError());
-    mod = FMUSIC_LoadSong(musicfile);
-    if (!mod)
-	jerror(FMOD_ErrorString(FSOUND_GetError()), FSOUND_GetError());
-    muschannels = FMUSIC_GetNumChannels(mod);
-    FSOUND_Close();
-
-    muschannels += s_shortchn + s_longchn;
-    if (muschannels < 32)
-	muschannels = 32;
-
-    FSOUND_File_SetCallbacks(fmodopen, fmodclose, fmodread, fmodseek, fmodtell);
-    if (!FSOUND_Init(s_samprate, muschannels, FSOUND_INIT_GLOBALFOCUS))
-	jerror(FMOD_ErrorString(FSOUND_GetError()), FSOUND_GetError());
-
-    for (eff = 0; eff < SNDEFFECTS; eff++)
-    {
-	samp[eff] = FSOUND_Sample_Load(FSOUND_FREE,
-				       effnames[eff],
-				       FSOUND_LOOP_OFF | FSOUND_8BITS |
-				       FSOUND_MONO | FSOUND_SIGNED | FSOUND_2D | FSOUND_LOADRAW, 0);
+    if (!snd) {
+        return;
     }
+
+    if ((Mix_Init(MIX_INIT_MOD) & MIX_INIT_MOD) != MIX_INIT_MOD) {
+        printf("Error initializing SDL_mixer: %s\n", Mix_GetError());
+        return;
+    }
+    if (Mix_OpenAudio(s_samprate, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+        Mix_Quit();
+        printf("Error opening audio: %s\n", Mix_GetError());
+        return;
+    }
+
+    s_initialized = true;
+
+    s_music = load_music_file(musicfile);
+
+    int effects;
+    for (effects = 0; effects < SNDEFFECTS; effects++) {
+        s_samples[effects] = load_sample_file(effnames[effects]);
+        if (!s_samples[effects]) {
+            printf("Sound error: %s\n", Mix_GetError());
+        }
+    }
+
     sound_stopplay();
     sound_play(m_startmenu);
     sound_pvol(64);
@@ -104,39 +67,75 @@ void sound_init()
 
 void sound_deinit()
 {
-    int a;
+    if (!s_initialized) {
+        return;
+    }
 
-    if (!snd)
-	return;
-    FMUSIC_StopAllSongs();
-    for (a = 0; a < SNDEFFECTS; ++a)
-	FSOUND_Sample_Free(samp[a]);
-    FMUSIC_FreeSong(mod);
-    FSOUND_Close();
+    sound_stopplay();
+
+    if (s_music) {
+        Mix_FreeMusic(s_music);
+    }
+
+    int effects;
+    for (effects = 0; effects < SNDEFFECTS; effects++) {
+        Sample *sample = s_samples[effects];
+        if (sample) {
+            if (sample->audio_buf) {
+                free(sample->audio_buf);
+            }
+            if (sample->mix_chunk) {
+                Mix_FreeChunk(sample->mix_chunk);
+            }
+            free(sample);
+        }
+    }
+
+    Mix_CloseAudio();
+    Mix_Quit();
+
+    s_initialized = false;
 }
 
 void sound_effvol(int volume)
 {
-    if (!snd)
-	return;
-    volume <<= 2;
-    if (volume > 255)
-	volume = 255;
-    FSOUND_SetSFXMasterVolume(volume);
+    if (!snd || !s_initialized) {
+        return;
+    }
+
+    volume <<= 1;
+    if (volume > 128) {
+        volume = 128;
+    }
+
+    int effects;
+    for (effects = 0; effects < SNDEFFECTS; effects++) {
+        Sample *sample = s_samples[effects];
+        if (sample && sample->mix_chunk) {
+            Mix_VolumeChunk(sample->mix_chunk, volume);
+        }
+    }
 }
 
 void sound_musvol(int volume)
 {
-    if (!snd)
-	return;
-    volume <<= 2;
-    FMUSIC_SetMasterVolume(mod, volume);
+    if (!snd || !s_initialized) {
+        return;
+    }
+
+    volume <<= 1;
+    if (volume > 128) {
+        volume = 128;
+    }
+    Mix_VolumeMusic(volume);
 }
 
 void sound_pvol(int volume)
 {
-    if (!snd)
-	return;
+    if (!snd || !s_initialized) {
+        return;
+    }
+
     sound_musvol(volume * s_musvol / 64);
     sound_effvol(volume * s_effvol / 64);
 }
@@ -144,82 +143,55 @@ void sound_pvol(int volume)
 /* vol=0-64, panpos=0-255 */
 void sound_eff(int sampleno, int volume, int panpos, int freq, int chgroup)
 {
-    int chn, pri;
+    if (!snd || !s_initialized) {
+        return;
+    }
 
-    if (!snd)
-	return;
-    if (chgroup)
-    {
-	chn = muschannels + s_shortchn + curlongchn++;
-	pri = 255;
+    Sample *sample = s_samples[sampleno];
+
+    if (!sample) {
+        return;
     }
-    else {
-	chn = muschannels + curshortchn++;
-	pri = 50;
+
+    resample_if_needed(sample, freq);
+
+    const int mix_chan = Mix_PlayChannel(-1, sample->mix_chunk, 0);
+
+    if (mix_chan == -1) {
+        printf("Mix_PlayChannel: %s\n", Mix_GetError());
+    } else {
+        Mix_SetPanning(mix_chan, (Uint8)(255 - panpos), (Uint8)panpos);
+
+        // 0..64 -> 0..128 -> 0..127
+        const Uint8 max_volume = 127;
+        Uint16 mix_vol = volume << 1;
+        if (mix_vol > max_volume) {
+            mix_vol = max_volume;
+        }
+        Mix_Volume(mix_chan, (Uint8)mix_vol);
     }
-    curshortchn %= s_shortchn;
-    curlongchn %= s_longchn;
-    volume <<= 2;
-    if (volume > 255)
-	volume = 255;
-    chn = FSOUND_PlaySound(FSOUND_FREE, samp[sampleno]);
-    FSOUND_SetFrequency(chn, freq);
-    FSOUND_SetVolume(chn, volume);
-    FSOUND_SetPan(chn, panpos);
-    FSOUND_SetPriority(chn, pri);
 }
-
-static int playing = 0;
 
 void sound_stopplay()
 {
-    if (!snd)
-	return;
-    if (playing)
-	FMUSIC_StopAllSongs();
-    playing = 0;
+    if (!snd || !s_initialized) {
+        return;
+    }
+
+    Mix_HaltMusic();
 }
 
 void sound_play(int order)
 {
-    if (!snd)
-	return;
+    if (!snd || !s_initialized) {
+        return;
+    }
+
     sound_stopplay();
-    FMUSIC_PlaySong(mod);
-    playing = 1;
-    FMUSIC_SetOrder(mod, order);
-}
 
-#else
-void sound_init()
-{
+    if (s_music) {
+        Mix_PlayMusic(s_music, 0);
+        Mix_SetMusicPosition(order > 0 ? order - 1 : 0);
+        // TODO: Whole track is looped, not just the order. Use Mix_HookMusicFinished?
+    }
 }
-
-void sound_deinit()
-{
-}
-
-void sound_effvol(int volume)
-{
-}
-
-void sound_musvol(int volume)
-{
-}
-
-void sound_pvol(int volume)
-{
-}
-
-void sound_eff(int sampleno, int volume, int panpos, int freq, int chgroup)
-{
-}
-
-void sound_stopplay()
-{
-}
-
-void sound_play(int order)
-{
-}
-#endif
