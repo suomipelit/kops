@@ -395,6 +395,7 @@ void levelsmenu()
                     levwin1();
                     levwin2();
                     clearkey(K_RIGHT);
+                    clearkey(K_RIGHT2);
                 }
                 if (((waskey(K_UP)) || (waskey(K_UP2))) && (lm1sel > 0))
                 {
@@ -403,6 +404,8 @@ void levelsmenu()
                     if (lm1win > lm1sel)
                         lm1win--;
                     levwin1();
+                    clearkey(K_UP);
+                    clearkey(K_UP2);
                 }
                 if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm1sel < alllevels - 1))
                 {
@@ -411,6 +414,8 @@ void levelsmenu()
                     if (lm1win < lm1sel - 10)
                         lm1win++;
                     levwin1();
+                    clearkey(K_DOWN);
+                    clearkey(K_DOWN2);
                 }
                 if (((waskey(K_SPACE)) || (waskey(K_ENTER)) || (waskey(K_ENTER2))) && (levels < MAXLEVELS))
                 {
@@ -421,6 +426,9 @@ void levelsmenu()
                     levels++;
                     levwin1();
                     levwin2();
+                    clearkey(K_SPACE);
+                    clearkey(K_ENTER);
+                    clearkey(K_ENTER2);
                 }
                 break;
             case 2:
@@ -431,6 +439,7 @@ void levelsmenu()
                     levwin1();
                     levwin2();
                     clearkey(K_LEFT);
+                    clearkey(K_LEFT2);
                 }
                 if ((waskey(K_RIGHT)) || (waskey(K_RIGHT2)))
                 {
@@ -439,6 +448,7 @@ void levelsmenu()
                     levwin2();
                     levwin3();
                     clearkey(K_RIGHT);
+                    clearkey(K_RIGHT2);
                 }
                 if (((waskey(K_UP)) || (waskey(K_UP2))) && (lm2sel > 0))
                 {
@@ -447,6 +457,8 @@ void levelsmenu()
                     if (lm2win > lm2sel)
                         lm2win--;
                     levwin2();
+                    clearkey(K_UP);
+                    clearkey(K_UP2);
                 }
                 if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm2sel < levels - 1))
                 {
@@ -455,6 +467,8 @@ void levelsmenu()
                     if (lm2win < lm2sel - 10)
                         lm2win++;
                     levwin2();
+                    clearkey(K_DOWN);
+                    clearkey(K_DOWN2);
                 }
                 break;
             case 3:
@@ -463,12 +477,16 @@ void levelsmenu()
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm3sel--;
                     levwin3();
+                    clearkey(K_UP);
+                    clearkey(K_UP2);
                 }
                 if (((waskey(K_DOWN)) || (waskey(K_DOWN2))) && (lm3sel < LEVMENUOPT - 1))
                 {
                     sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
                     lm3sel++;
                     levwin3();
+                    clearkey(K_DOWN);
+                    clearkey(K_DOWN2);
                 }
                 if ((waskey(K_LEFT)) || (waskey(K_LEFT2)))
                 {
