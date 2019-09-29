@@ -169,6 +169,14 @@ void update()
     SDL_RenderPresent(renderer);
 }
 
+void wait_framecount()
+{
+    while (framecounter == 0)
+    {
+        SDL_Delay(1);
+    }
+}
+
 Uint8 fileexists(char *filename)
 {
     UTIL_FILE *fp;

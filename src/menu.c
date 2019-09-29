@@ -377,9 +377,7 @@ void levelsmenu()
     while (menuexit == 255)
     {
 
-	while (framecounter == 0)
-        {
-	};
+	wait_framecount();
 	menufrm += framecounter;
 	framecounter = 0;
 	/*  logo */
@@ -584,9 +582,7 @@ void optionsmenu()
     while (menuexit == 255)
     {
 
-	while (framecounter == 0)
-        {
-	};
+	wait_framecount();
 	menufrm += framecounter;
 	framecounter = 0;
 
@@ -839,8 +835,7 @@ Uint8 mainmenu()
     while (menuexit == 255)
     {
 
-	while (framecounter == 0)
-            ;
+	wait_framecount();
 
 	menufrm += framecounter;
 	framecounter = 0;
