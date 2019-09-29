@@ -743,7 +743,7 @@ void game()
                             if ((ox * ox + oy * oy) <= (PICKDIST * PICKDIST))
                             {
                                 sound_eff(S_COLLECT, 64, 128, 16384, 0);
-                                weapons[p].pick(a, p);
+                                weapons[pickammo[p].type].pick(a, p);
 #if 0
                                 switch (pickammo[p].type)
                                 {
