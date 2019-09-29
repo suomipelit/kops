@@ -53,7 +53,6 @@ static void uninitGraphics(void);
 void initGraphics()
 {
     char sdf[1024];
-    int fullscreen = 0;
 
     /* Initialize the SDL library */
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) < 0)
@@ -73,7 +72,7 @@ void initGraphics()
 #define FULLSCREEN 0
 #endif
 
-    if (!windowed)
+    if (!windowed && FULLSCREEN)
 	fullscreen = FULLSCREEN;
 
     /* 8-bit surface for game to write directly to */

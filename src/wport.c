@@ -33,6 +33,7 @@
 
 volatile short int cstart[768], cdest[768], ctemp[768];
 volatile short int realfadecount;
+bool fullscreen = false;
 
 SDL_Color palette[256];
 SDL_Surface *screen = NULL;
@@ -106,6 +107,20 @@ void clearkey(SDL_Keycode key)
     }
 }
 
+static void toggle_fullscreen()
+{
+    fullscreen = !fullscreen;
+    SDL_SetWindowFullscreen(window, fullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+}
+
+static int handle_special_key(const SDL_KeyboardEvent *key) {
+    if (key->keysym.scancode == SDL_SCANCODE_RETURN && key->keysym.mod & KMOD_LALT) {
+        toggle_fullscreen();
+        return 1;
+    }
+    return 0;
+}
+
 void update()
 {
     SDL_Event ev;
@@ -117,6 +132,10 @@ void update()
         {
             case SDL_KEYDOWN:
             {
+                if (handle_special_key(&ev.key)) {
+                    break;
+                }
+
                 const SDL_Keycode pressed = ev.key.keysym.sym;
                 key = find_key(pressed);
                 if (key)
