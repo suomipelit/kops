@@ -65,8 +65,6 @@ void initGraphics()
     /* Clean up on exit */
     atexit(uninitGraphics);
 
-    // SDL_WM_SetIcon(SDL_LoadBMP("icon.bmp"), NULL); SP-TODO
-
 #ifdef NDEBUG
 #define FULLSCREEN SDL_WINDOW_FULLSCREEN
 #else
@@ -99,6 +97,12 @@ void initGraphics()
 	jerror(sdf, EXIT_FAILURE);
     }
 
+    SDL_Surface *icon = SDL_LoadBMP("icon.bmp");
+    if (icon)
+    {
+        SDL_SetWindowIcon(window, icon);
+        SDL_FreeSurface(icon);
+    }
     SDL_ShowCursor(SDL_DISABLE);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
     SDL_RenderSetLogicalSize(renderer,
