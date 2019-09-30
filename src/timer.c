@@ -73,8 +73,9 @@ static SDL_TimerID timerid;
 
 Uint32 timerhandler(Uint32 interval, void *param)
 {
-    if (gamepause == 0)
-	framecounter++;
+    if (gamepause == 0) {
+        framecounter++;
+    }
     return interval;
 }
 

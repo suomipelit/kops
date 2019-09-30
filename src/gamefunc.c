@@ -32,13 +32,16 @@ void placeplayer(Uint8 nro)
     int err = 1, a, b, x = 0, y = 0;
     while (err > 0)
     {
-	err = 0;
-	x = rand() % (levw - SHIPW);
-	y = rand() % (levh - SHIPH);
-	for (b = 0; b < SHIPH; b++)
-	    for (a = 0; a < SHIPW; a++)
-		if (*(level + (y + b) * levw + x + a))
-		    err++;
+        err = 0;
+        x = rand() % (levw - SHIPW);
+        y = rand() % (levh - SHIPH);
+        for (b = 0; b < SHIPH; b++) {
+            for (a = 0; a < SHIPW; a++) {
+                if (*(level + (y + b) * levw + x + a)) {
+                    err++;
+                }
+            }
+        }
     }
     plr[nro].x = x << FIXP;
     plr[nro].y = y << FIXP;
@@ -56,8 +59,9 @@ char hitdetect(int x, int y)
     if (CHECKHIT(x + SHIPW / 2, y + SHIPH / 2 + 2) ||
 	CHECKHIT(x + SHIPW / 2, y + SHIPH / 2 - 2) ||
 	CHECKHIT(x + SHIPW / 2 + 2, y + SHIPH / 2) ||
-	CHECKHIT(x + SHIPW / 2 - 2, y + SHIPH / 2))
-	hit = 1;
+	CHECKHIT(x + SHIPW / 2 - 2, y + SHIPH / 2)) {
+        hit = 1;
+    }
 #undef CHECKHIT
     /*
       if ((*(mask+(y+SHIPH/2+2)*levw+x+SHIPW/2)==0)||
@@ -111,18 +115,18 @@ Uint8 basedetect(int x, int y)
     detx = x + SHIPW / 2;
     dety = y + SHIPH / 2 + 5;
 
-    if (detx >= 0 && dety >= 0 && detx < levw && dety < levh)
-    {
-	c = *(level + dety * levw + detx);
-	if ((c >= 10) && (c <= 14))
-	    hit = 1;
+    if (detx >= 0 && dety >= 0 && detx < levw && dety < levh) {
+        c = *(level + dety * levw + detx);
+        if ((c >= 10) && (c <= 14)) {
+            hit = 1;
+        }
     }
     dety = y + SHIPH / 2 - 5;
-    if (detx >= 0 && dety >= 0 && detx < levw && dety < levh)
-    {
-	c = *(level + (y + SHIPH / 2 - 5) * levw + x + SHIPW / 2);
-	if ((c >= 10) && (c <= 14))
-	    hit = 2;
+    if (detx >= 0 && dety >= 0 && detx < levw && dety < levh) {
+        c = *(level + (y + SHIPH / 2 - 5) * levw + x + SHIPW / 2);
+        if ((c >= 10) && (c <= 14)) {
+            hit = 2;
+        }
     }
     return (hit);
 }
@@ -502,12 +506,15 @@ void newammo(Uint8 player, Uint8 type)
 void newammoa(int nro)
 {
     int a;
-    if (nro == nextammo)
-	nextammo = (nextammo + 1) % MAXAMMO;
-    if (ammo[nro].active == 0)
-	return;
-    if (ammo[nextammo].active)
-	return;
+    if (nro == nextammo) {
+        nextammo = (nextammo + 1) % MAXAMMO;
+    }
+    if (ammo[nro].active == 0) {
+        return;
+    }
+    if (ammo[nextammo].active) {
+        return;
+    }
     ammo[nextammo].active = 1;
     ammo[nextammo].x = ammo[nro].x;
     ammo[nextammo].y = ammo[nro].y;
@@ -535,10 +542,12 @@ void newammoa(int nro)
                 ammo[nextammo].timeleft = 1500;
                 ammo[nextammo].type = W_SLING;
                 nextammo = (nextammo + 1) % MAXAMMO;
-                if (nro == nextammo)
+                if (nro == nextammo) {
                     nextammo = (nextammo + 1) % MAXAMMO;
-                if (ammo[nextammo].active)
+                }
+                if (ammo[nextammo].active) {
                     return;
+                }
             }
             break;
         case W_LASH:
@@ -584,8 +593,9 @@ void newpickammo()
     int typ = -1, prob, kp = -1;
     int spot = rand() % pickammospots;
 
-    if (pickammo[spot].active)
-	return;
+    if (pickammo[spot].active) {
+        return;
+    }
     prob = rand() % totalprob;
     pickammo[spot].active = 1;
     while ((prob > kp) && (typ < BULLETBOXTS))
@@ -593,8 +603,9 @@ void newpickammo()
 	typ++;
 	kp += bulletbox[typ].prob;
     }
-    if ((typ < 0) || (typ >= BULLETBOXTS))
-	typ = 0;
+    if ((typ < 0) || (typ >= BULLETBOXTS)) {
+        typ = 0;
+    }
     //  pickammo[spot].active=1;
     //  typ=rand()%BULLETBOXTS;
 
@@ -792,8 +803,9 @@ void newplrcrap(Uint8 player, Uint8 type)
             a = nextcrap;
             nextcrap = (nextcrap + 1) % MAXCRAP;
             /*if ((waterdetect(player)) && (!(rand() % 5))) */
-            if ((waterdetect(plr[player].xp, plr[player].yp)) && (!(rand() % 5)))
+            if ((waterdetect(plr[player].xp, plr[player].yp)) && (!(rand() % 5))) {
                 newcrap(crap[a].xp, crap[a].yp, 3);
+            }
             break;
     }
     nextcrap = (nextcrap + 1) % MAXCRAP;
@@ -863,16 +875,19 @@ void savescreenrix(char *fname)
 
     fp = fopen(fname, "wb");
     tmp = (Uint8 *) malloc(307200);
-    if (tmp == NULL)
-	jerror("SAVESCREENRIX/screen.malloc: No memory", 307200);
+    if (tmp == NULL) {
+        jerror("SAVESCREENRIX/screen.malloc: No memory", 307200);
+    }
     tpic = (Uint8 *) malloc(WINW * WINH + 4);
-    if (tpic == NULL)
-	jerror("SAVESCREENRIX/tpic.malloc: No memory", WINW * WINH + 4);
+    if (tpic == NULL) {
+        jerror("SAVESCREENRIX/tpic.malloc: No memory", WINW * WINH + 4);
+    }
     util_loadpcx((char *) tpic, FILLERPICFILE, WINW * WINH);
     if (gamewindowcolorrand)
     {
-	for (a = 0; a < WINW * WINH; a++)
-	    *(tpic + a) -= 8;
+        for (a = 0; a < WINW * WINH; a++) {
+            *(tpic + a) -= 8;
+        }
     }
     jcblockclip(0, 0, 320, 240, 0, 0, 639, 479, 640, tmp, tpic);
     jcblockclip(320, 0, 320, 240, 0, 0, 639, 479, 640, tmp, tpic);
@@ -881,18 +896,26 @@ void savescreenrix(char *fname)
     free(tpic);
     tpic = NULL;
 
-    if (plr[0].active)
-	for (a = 0; a < WINH; a++)
-	    memcpy(tmp + (a + 240) * 640 + 320, plr[0].scr + a * WINW, WINW);
-    if (plr[1].active)
-	for (a = 0; a < WINH; a++)
-	    memcpy(tmp + a * 640, plr[1].scr + a * WINW, WINW);
-    if (plr[2].active)
-	for (a = 0; a < WINH; a++)
-	    memcpy(tmp + a * 640 + 320, plr[2].scr + a * WINW, WINW);
-    if (plr[3].active)
-	for (a = 0; a < WINH; a++)
-	    memcpy(tmp + (a + 240) * 640, plr[3].scr + a * WINW, WINW);
+    if (plr[0].active) {
+        for (a = 0; a < WINH; a++) {
+            memcpy(tmp + (a + 240) * 640 + 320, plr[0].scr + a * WINW, WINW);
+        }
+    }
+    if (plr[1].active) {
+        for (a = 0; a < WINH; a++) {
+            memcpy(tmp + a * 640, plr[1].scr + a * WINW, WINW);
+        }
+    }
+    if (plr[2].active) {
+        for (a = 0; a < WINH; a++) {
+            memcpy(tmp + a * 640 + 320, plr[2].scr + a * WINW, WINW);
+        }
+    }
+    if (plr[3].active) {
+        for (a = 0; a < WINH; a++) {
+            memcpy(tmp + (a + 240) * 640, plr[3].scr + a * WINW, WINW);
+        }
+    }
     b = 0x52;
     fwrite(&b, 1, 1, fp);
     b = 0x49;

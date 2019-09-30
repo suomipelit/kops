@@ -69,8 +69,9 @@ void initGraphics()
 #define FULLSCREEN 0
 #endif
 
-    if (!windowed && FULLSCREEN)
-	fullscreen = FULLSCREEN;
+    if (!windowed && FULLSCREEN) {
+        fullscreen = FULLSCREEN;
+    }
 
     /* 8-bit surface for game to write directly to */
     screen = SDL_CreateRGBSurface(0,
@@ -139,13 +140,22 @@ void initGraphics()
     }
 }
 
-static void uninitGraphics(void)
-{
-    if (texture) SDL_DestroyTexture(texture);
-    if (windowSurface) SDL_FreeSurface(windowSurface);
-    if (renderer) SDL_DestroyRenderer(renderer);
-    if (window) SDL_DestroyWindow(window);
-    if (screen) SDL_FreeSurface(screen);
+static void uninitGraphics(void) {
+    if (texture) {
+        SDL_DestroyTexture(texture);
+    }
+    if (windowSurface) {
+        SDL_FreeSurface(windowSurface);
+    }
+    if (renderer) {
+        SDL_DestroyRenderer(renderer);
+    }
+    if (window) {
+        SDL_DestroyWindow(window);
+    }
+    if (screen) {
+        SDL_FreeSurface(screen);
+    }
     SDL_Quit();
 }
 
@@ -183,12 +193,15 @@ void initgfxstructures()
     boomanim[5].frames = 16;
     boomanim[5].pic = (Uint8 *) malloc(boomanim[5].frames * boomanim[5].siz);
 
-    for (a = 0; a < BOOMTYPES; a++)
-	memset(boomanim[a].pic, 0, boomanim[a].frames * boomanim[a].siz);
-    for (a = 0; a < BULLETTYPES; a++)
-	bullet[a].frames = 1;
-    for (a = 0; a < BULLETBOXTS; a++)
-	bulletbox[a].prob = 0;
+    for (a = 0; a < BOOMTYPES; a++) {
+        memset(boomanim[a].pic, 0, boomanim[a].frames * boomanim[a].siz);
+    }
+    for (a = 0; a < BULLETTYPES; a++) {
+        bullet[a].frames = 1;
+    }
+    for (a = 0; a < BULLETBOXTS; a++) {
+        bulletbox[a].prob = 0;
+    }
 
     bullet[0].w = 3;
     bullet[0].h = 3;		// tuhnu
@@ -273,8 +286,9 @@ void initgfxstructures()
     bullet[39].w = 0;
     bullet[39].h = 0;		// spiller
     //  bullet[\260\260].w=\260; bullet[\260\260].h=\260;   //
-    for (a = 0; a < BULLETTYPES; a++)
-	bullet[a].siz = bullet[a].w * bullet[a].h * bullet[a].frames;
+    for (a = 0; a < BULLETTYPES; a++) {
+        bullet[a].siz = bullet[a].w * bullet[a].h * bullet[a].frames;
+    }
 
     bulletbox[0].w = 9;
     bulletbox[0].h = 9;		// tuhnu
@@ -357,8 +371,9 @@ void initgfxstructures()
     bulletbox[39].w = 11;
     bulletbox[39].h = 11;	// spiller
     //  bulletbox[\260\260].w=; bulletbox[\260\260].h=;     //
-    for (a = 0; a < BULLETBOXTS; a++)
-	bulletbox[a].siz = bulletbox[a].w * bulletbox[a].h;
+    for (a = 0; a < BULLETBOXTS; a++) {
+        bulletbox[a].siz = bulletbox[a].w * bulletbox[a].h;
+    }
 
     bulletbox[0].prob = 30;	// tuhnu
     bulletbox[1].prob = 10;	// peagun
@@ -413,8 +428,9 @@ void initgfxstructures()
     othgfx[2].w = 32;
     othgfx[2].h = 32;
     othgfx[2].frames = 64;	// menuship
-    for (a = 0; a < OTHERGFX; a++)
-	othgfx[a].siz = othgfx[a].w * othgfx[a].h * othgfx[a].frames;
+    for (a = 0; a < OTHERGFX; a++) {
+        othgfx[a].siz = othgfx[a].w * othgfx[a].h * othgfx[a].frames;
+    }
 
     strcpy(&wnames[0][0], "tuhnu");
     strcpy(&wnames[1][0], "peagun");
@@ -459,8 +475,9 @@ void initgfxstructures()
 
     /*  pickammo total probability value */
     totalprob = 0;
-    for (a = 0; a < BULLETBOXTS; a++)
-	totalprob += bulletbox[a].prob;
+    for (a = 0; a < BULLETBOXTS; a++) {
+        totalprob += bulletbox[a].prob;
+    }
 
     /*  FONT INITS are mixed with loading of the fonts! */
 }
@@ -482,8 +499,9 @@ void initlevels()
     rc = 0;
     levels = 0;
     alllevels = LEVELS;
-    for (a = 0; a < MAXLEVELS; a++)
-	strcpy(levall[a], "\334");
+    for (a = 0; a < MAXLEVELS; a++) {
+        strcpy(levall[a], "\334");
+    }
 #ifndef REG
     strcpy(levall[0], "\337steppe.kil");
     strcpy(levall[1], "\337coldone.kil");
@@ -528,8 +546,9 @@ void initlevels()
 	    char fullname[PATH_MAX];
 
 	    snprintf(fullname, sizeof(fullname), "%s/%s", LEVEL_DIRECTORY, dp->d_name);
-	    if (stat(fullname, &filestat))
-		continue;
+        if (stat(fullname, &filestat)) {
+            continue;
+        }
 	    if (S_ISREG(filestat.st_mode) && ((toupper((int) dp->d_name[strlen(dp->d_name) - 4]) == '.')
 					      && (toupper((int) dp->d_name[strlen(dp->d_name) - 3]) == 'K')
 					      && (toupper((int) dp->d_name[strlen(dp->d_name) - 2]) == 'O')
@@ -612,17 +631,20 @@ void parsemusicinitfile(char *filename)
 		sscanf(str, "%[^=]%[=]%d", tmp, tmp, &ti);
 		m_game[mgcount] = (Uint8) ti;
 		mgcount++;
-		if (mgcount >= MAXGMUS)
+		if (mgcount >= MAXGMUS) {
 		    jerror("Too many game background music orders.", MAXGMUS);
+        }
 	    }
 	}
 	u_fscanf1(fp, "%[\n]", tmp);
     }
     util_fclose(fp);
-    if (mgcount == 0)
-	jerror("No game background music orders.", 1);
-    if ((musfileok == 0) || (strlen(musicfile) == 0))
-	jerror("No music file.", 1);
+    if (mgcount == 0) {
+        jerror("No game background music orders.", 1);
+    }
+    if ((musfileok == 0) || (strlen(musicfile) == 0)) {
+        jerror("No music file.", 1);
+    }
 }
 
 void initsound()

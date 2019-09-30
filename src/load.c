@@ -135,15 +135,17 @@ Uint8 loadconfig()
     fclose(fp);
     snd = s_sdevice;
     if ((vmaj != versmaj) || (vmin != versmin) || (players == 0)
-	|| (players > 4) || (parallaxdraw > 1) || (slots < 2)
-	|| (bots == 0) || (bots > 4)
-	|| (slots > 16))
-	return (0);
+        || (players > 4) || (parallaxdraw > 1) || (slots < 2)
+        || (bots == 0) || (bots > 4)
+        || (slots > 16)) {
+        return (0);
+    }
     if ((s_sdevice > 1) || (s_samprate > 44100)
-	|| /*(s_interp>1)|| */ (s_shortchn == 0) ||
-	(s_shortchn > 16) || (s_longchn == 0) || (s_longchn > 16)
-	|| (s_musvol > 64) || (s_effvol > 64) || s_samprate < 8000)
-	return (0);
+        || /*(s_interp>1)|| */ (s_shortchn == 0) ||
+        (s_shortchn > 16) || (s_longchn == 0) || (s_longchn > 16)
+        || (s_musvol > 64) || (s_effvol > 64) || s_samprate < 8000) {
+        return (0);
+    }
     return (1);
 }
 
@@ -159,8 +161,9 @@ void loadlevel(char *filename)
     int err, a, b, w;
 
     fp = util_fopen(filename);
-    if (fp == NULL)
-	jerror("LOADLEVEL: No file", 1);
+    if (fp == NULL) {
+        jerror("LOADLEVEL: No file", 1);
+    }
     util_fread(&sig, 8, 1, fp);
     util_fread(&revision, 4, 1, fp);
     util_fread(&pkpiclen, 4, 1, fp);
@@ -171,78 +174,97 @@ void loadlevel(char *filename)
     util_fread(&backh, 4, 1, fp);
     util_fread(&pktransplen, 4, 1, fp);
 
-    if (memcmp(&sig, &orgsig, 8) != 0)
-	jerror("LOADLEVEL.signaturefailure", 26);
-    if (revision > MAXLEVELREVISION)
-	jerror("LOADLEVEL.too_new_level_revision", MAXLEVELREVISION);
+    if (memcmp(&sig, &orgsig, 8) != 0) {
+        jerror("LOADLEVEL.signaturefailure", 26);
+    }
+    if (revision > MAXLEVELREVISION) {
+        jerror("LOADLEVEL.too_new_level_revision", MAXLEVELREVISION);
+    }
 
     levellen = levw * levh;
     level = (Uint8 *) realloc(level, levellen);
-    if (level == NULL)
-	jerror("LOADLEVEL.realloc/level: No mem", 3);
+    if (level == NULL) {
+        jerror("LOADLEVEL.realloc/level: No mem", 3);
+    }
     backgrlen = backw * backh;
     backgr = (Uint8 *) realloc(backgr, backgrlen);
-    if (backgr == NULL)
-	jerror("LOADLEVEL.realloc/backgr: No mem", 4);
+    if (backgr == NULL) {
+        jerror("LOADLEVEL.realloc/backgr: No mem", 4);
+    }
 
     packed = (Uint8 *) malloc(pkpiclen);
-    if (packed == NULL)
-	jerror("LOADLEVEL.pkmalloc: No mem", 2);
+    if (packed == NULL) {
+        jerror("LOADLEVEL.pkmalloc: No mem", 2);
+    }
     util_fread(packed, pkpiclen, 1, fp);
     err = uncompress(level, &levellen, packed, pkpiclen);
-    if (err != Z_OK)
-	jerror("LOADLEVEL.uncompress1 ", err);
-    if (levellen != (unsigned) (levw * levh))
-	jerror("LOADLEVEL.size_error.l", levellen);
+    if (err != Z_OK) {
+        jerror("LOADLEVEL.uncompress1 ", err);
+    }
+    if (levellen != (unsigned) (levw * levh)) {
+        jerror("LOADLEVEL.size_error.l", levellen);
+    }
 
     packed = (Uint8 *) realloc(packed, pkbacklen);
-    if (packed == NULL)
-	jerror("LOADLEVEL.realloc/pkback: No mem", 5);
+    if (packed == NULL) {
+        jerror("LOADLEVEL.realloc/pkback: No mem", 5);
+    }
     util_fread(packed, pkbacklen, 1, fp);
     err = uncompress(backgr, &backgrlen, packed, pkbacklen);
-    if (err != Z_OK)
-	jerror("LOADLEVEL.uncompress2 ", err);
-    if (backgrlen != (unsigned) (backw * backh))
-	jerror("LOADLEVEL.size_error.b", backgrlen);
+    if (err != Z_OK) {
+        jerror("LOADLEVEL.uncompress2 ", err);
+    }
+    if (backgrlen != (unsigned) (backw * backh)) {
+        jerror("LOADLEVEL.size_error.b", backgrlen);
+    }
 
     packed = (Uint8 *) realloc(packed, pktransplen);
-    if (packed == NULL)
-	jerror("LOADLEVEL.realloc/pktransp: No mem", 6);
+    if (packed == NULL) {
+        jerror("LOADLEVEL.realloc/pktransp: No mem", 6);
+    }
     util_fread(packed, pktransplen, 1, fp);
     transplen = 65536;
     err = uncompress(transp, &transplen, packed, pktransplen);
-    if (err != Z_OK)
-	jerror("LOADLEVEL.uncompress3/t ", err);
-    if (transplen != 65536)
-	jerror("LOADLEVEL.size_error.t", transplen);
+    if (err != Z_OK) {
+        jerror("LOADLEVEL.uncompress3/t ", err);
+    }
+    if (transplen != 65536) {
+        jerror("LOADLEVEL.size_error.t", transplen);
+    }
 
     free(packed);
     packed = NULL;
 
     mask = (Uint8 *) realloc(mask, levellen);
-    if (mask == NULL)
-	jerror("LOADLEVEL.realloc/mask: No mem", 7);
-    for (a = 0; (unsigned) a < levellen; a++)
-	*(mask + a) = (Uint8) ((*(level + a)) ? 0 : 0xff);
+    if (mask == NULL) {
+        jerror("LOADLEVEL.realloc/mask: No mem", 7);
+    }
+    for (a = 0; (unsigned) a < levellen; a++) {
+        *(mask + a) = (Uint8) ((*(level + a)) ? 0 : 0xff);
+    }
     wave = (int *) realloc(wave, levw * sizeof(int));
-    if (wave == NULL)
-	jerror("LOADLEVEL.realloc/wave: No mem", 8);
+    if (wave == NULL) {
+        jerror("LOADLEVEL.realloc/wave: No mem", 8);
+    }
 
     /*  pickammo spots */
     w = 0;
-    for (a = 0; (unsigned) a < levellen; a++)
-	if (*(level + a) == 9)
-	    w++;
-    if (w == 0)
-	jerror("LOADLEVEL.pickammo: No pickammo spot pixels on level", 11);
+    for (a = 0; (unsigned) a < levellen; a++) {
+        if (*(level + a) == 9) {
+            w++;
+        }
+    }
+    if (w == 0) {
+        jerror("LOADLEVEL.pickammo: No pickammo spot pixels on level", 11);
+    }
     pickammospots = w;
     pickammo = (PICKAMMO *) realloc(pickammo, sizeof(PICKAMMO) * pickammospots);
-    if (pickammo == NULL)
-	jerror("LOADLEVEL.realloc/pickammo: No mem", w);
+    if (pickammo == NULL) {
+        jerror("LOADLEVEL.realloc/pickammo: No mem", w);
+    }
     w = 0;
-    for (b = 0; b < levh; b++)
-	for (a = 0; a < levw; a++)
-        {
+    for (b = 0; b < levh; b++) {
+	for (a = 0; a < levw; a++) {
 	    if (*(level + b * levw + a) == 9)
             {
 		pickammo[w].active = 0;
@@ -260,44 +282,52 @@ void loadlevel(char *filename)
 		w++;
 	    }
 	}
+}
 
     /*  water wave points */
     w = 0;
-    for (a = 0; (unsigned) a < levellen; a++)
-	if (*(level + a) == 7)
-	    w++;
+    for (a = 0; (unsigned) a < levellen; a++) {
+        if (*(level + a) == 7) {
+            w++;
+        }
+    }
     waterwaves = w;
-    if (w > 0)
-    {
+    if (w > 0) {
 	water = (WATER *) realloc(water, sizeof(WATER) * w);
-	if (water == NULL)
+	if (water == NULL) {
 	    jerror("LOADLEVEL.realloc/water: No mem", w);
+    }
 	w = 0;
-	for (b = 0; b < levh; b++)
-	    for (a = 0; a < levw; a++)
+	for (b = 0; b < levh; b++) {
+	    for (a = 0; a < levw; a++) {
 		if (*(level + b * levw + a) == 7)
                 {
 		    water[w].x = (short) a;
 		    water[w].y = (short) b;
 		    w++;
 		}
+        }
+    }
     }
 
     /*  base pixels */
     w = 0;
-    for (a = 0; (unsigned) a < levellen; a++)
-	if ((*(level + a) >= 10) && (*(level + a) <= 14))
-	    w++;
-    if (w == 0)
-	jerror("LOADLEVEL.base: No base pixels on level", 10);
+    for (a = 0; (unsigned) a < levellen; a++) {
+        if ((*(level + a) >= 10) && (*(level + a) <= 14)) {
+            w++;
+        }
+    }
+    if (w == 0) {
+        jerror("LOADLEVEL.base: No base pixels on level", 10);
+    }
     basepixels = w;
     base = (BASE *) realloc(base, sizeof(BASE) * basepixels);
-    if (base == NULL)
-	jerror("LOADLEVEL.realloc/base: No mem", basepixels);
+    if (base == NULL) {
+        jerror("LOADLEVEL.realloc/base: No mem", basepixels);
+    }
     w = 0;
-    for (b = levh - 1; b >= 0; b--)
-	for (a = levw - 1; a >= 0; a--)
-        {
+    for (b = levh - 1; b >= 0; b--) {
+	for (a = levw - 1; a >= 0; a--) {
 	    if ((*(level + b * levw + a) >= 10)
 		&& (*(level + b * levw + a) <= 14))
             {
@@ -307,6 +337,7 @@ void loadlevel(char *filename)
 		w++;
 	    }
 	}
+    }
 
     /*  water pattern */
     for (a = 0; (unsigned) a < levellen; a++)
@@ -319,12 +350,13 @@ void loadlevel(char *filename)
     }
 
     /*  clear colors 127-255 and 15 */
-    for (a = 0; (unsigned) a < levellen; a++)
-    {
-	if (*(level + a) > 127)
-	    *(level + a) = 0;
-	if (*(level + a) == 15)
-	    *(level + a) = 0;
+    for (a = 0; (unsigned) a < levellen; a++) {
+        if (*(level + a) > 127) {
+            *(level + a) = 0;
+        }
+        if (*(level + a) == 15) {
+            *(level + a) = 0;
+        }
     }
 
     util_fclose(fp);
@@ -341,28 +373,33 @@ void loadships(char *filename)
     int index;
 
     fp = util_fopen(filename);
-    if (fp == NULL)
-	jerror("LOADSHIPS: No file", 1);
+    if (fp == NULL) {
+        jerror("LOADSHIPS: No file", 1);
+    }
 
     util_fread(&packedsize, 4, 1, fp);
     util_fread(&unpackedsize, 4, 1, fp);
     unpklen = unpackedsize;
 
     unpk = (Uint8 *) malloc(unpklen);
-    if (unpk == NULL)
-	jerror("LOADSHIPS.unpk: No mem", 6);
+    if (unpk == NULL) {
+        jerror("LOADSHIPS.unpk: No mem", 6);
+    }
     pk = (Uint8 *) malloc(packedsize);
-    if (pk == NULL)
-	jerror("LOADSHIPS.pk: No mem", 7);
+    if (pk == NULL) {
+        jerror("LOADSHIPS.pk: No mem", 7);
+    }
 
     util_fread(pk, packedsize, 1, fp);
     util_fclose(fp);
 
     err = uncompress(unpk, &unpklen, pk, packedsize);
-    if (err != Z_OK)
-	jerror("LOADSHIPS.uncompress ", err);
-    if (unpklen != unpackedsize)
-	jerror("LOADSHIPS.size_error", unpklen);
+    if (err != Z_OK) {
+        jerror("LOADSHIPS.uncompress ", err);
+    }
+    if (unpklen != unpackedsize) {
+        jerror("LOADSHIPS.size_error", unpklen);
+    }
     free(pk);
     pk = NULL;
 
@@ -425,68 +462,90 @@ void loadgfx(char *filename)
     PIC bfont;
 
     fp = util_fopen(filename);
-    if (fp == NULL)
-	jerror("LOADGFX: No file", 1);
+    if (fp == NULL) {
+        jerror("LOADGFX: No file", 1);
+    }
     util_fread(&pkgfxlen, 4, 1, fp);
     util_fread(&gfxw, 4, 1, fp);
     util_fread(&gfxh, 4, 1, fp);
 
     unplen = gfxw * gfxh;
     unp = (Uint8 *) malloc(unplen);
-    if (unp == NULL)
-	jerror("LOADGFX.malloc.unp: No mem", 4);
+    if (unp == NULL) {
+        jerror("LOADGFX.malloc.unp: No mem", 4);
+    }
 
     packed = (Uint8 *) malloc(pkgfxlen);
-    if (packed == NULL)
-	jerror("LOADGFX.malloc.pk: No mem", 3);
+    if (packed == NULL) {
+        jerror("LOADGFX.malloc.pk: No mem", 3);
+    }
     util_fread(packed, pkgfxlen, 1, fp);
     err = uncompress(unp, &unplen, packed, pkgfxlen);
-    if (err != Z_OK)
-	jerror("LOADGFX.uncompress", err);
+    if (err != Z_OK) {
+        jerror("LOADGFX.uncompress", err);
+    }
     //if (unplen!=(unsigned)gfxw*gfxh) jerror("LOADGFX.size_error",unplen);
     free(packed);
     packed = NULL;
 
     gfxlen = 0;
-    for (a = 0; a < BULLETTYPES; a++)
-	gfxlen += bullet[a].siz;
-    for (a = 0; a < BULLETBOXTS; a++)
-	gfxlen += bulletbox[a].siz;
-    for (a = 0; a < OTHERGFX; a++)
-	gfxlen += othgfx[a].siz;
+    for (a = 0; a < BULLETTYPES; a++) {
+        gfxlen += bullet[a].siz;
+    }
+    for (a = 0; a < BULLETBOXTS; a++) {
+        gfxlen += bulletbox[a].siz;
+    }
+    for (a = 0; a < OTHERGFX; a++) {
+        gfxlen += othgfx[a].siz;
+    }
     gfx = (Uint8 *) realloc(gfx, gfxlen);
-    if (gfx == NULL)
-	jerror("LOADGFX.realloc.gfx: No mem", 2);
+    if (gfx == NULL) {
+        jerror("LOADGFX.realloc.gfx: No mem", 2);
+    }
 
     /*  booms */
-    for (b = 0; b < boomanim[0].frames; b++)
-	for (a = 0; a < boomanim[0].h; a++)	/* 1st */
+    for (b = 0; b < boomanim[0].frames; b++) {
+	for (a = 0; a < boomanim[0].h; a++) {	/* 1st */
 	    memcpy(boomanim[0].pic + b * boomanim[0].siz +
 		   a * boomanim[0].w, unp + (a + 1) * gfxw + b * (boomanim[0].w + 1) + 18, boomanim[0].w);
-    for (b = 0; b < boomanim[1].frames; b++)
-	for (a = 0; a < boomanim[1].h; a++)	/* 2nd */
+    }
+    }
+    for (b = 0; b < boomanim[1].frames; b++) {
+	for (a = 0; a < boomanim[1].h; a++) {	/* 2nd */
 	    memcpy(boomanim[1].pic + b * boomanim[1].siz +
 		   a * boomanim[1].w, unp + (a + 18) * gfxw + b * (boomanim[1].w + 1) + 18, boomanim[1].w);
-    for (b = 0; b < boomanim[2].frames; b++)
-	for (a = 0; a < boomanim[2].h; a++)	/* 3rd */
+    }
+    }
+    for (b = 0; b < boomanim[2].frames; b++) {
+	for (a = 0; a < boomanim[2].h; a++) {	/* 3rd */
 	    memcpy(boomanim[2].pic + b * boomanim[2].siz +
 		   a * boomanim[2].w, unp + (a + 43) * gfxw + b * (boomanim[2].w + 1) + 18, boomanim[2].w);
-    for (b = 0; b < 8; b++)
-	for (a = 0; a < boomanim[3].h; a++)	/* 4th/row1 */
+    }
+    }
+    for (b = 0; b < 8; b++) {
+	for (a = 0; a < boomanim[3].h; a++) {	/* 4th/row1 */
 	    memcpy(boomanim[3].pic + b * boomanim[3].siz +
 		   a * boomanim[3].w, unp + (a + 76) * gfxw + b * (boomanim[3].w + 1) + 18, boomanim[3].w);
-    for (b = 0; b < 8; b++)
-	for (a = 0; a < boomanim[3].h; a++)	/* 4th/row2 */
+    }
+    }
+    for (b = 0; b < 8; b++) {
+	for (a = 0; a < boomanim[3].h; a++) {	/* 4th/row2 */
 	    memcpy(boomanim[3].pic + (b + 8) * boomanim[3].siz +
 		   a * boomanim[3].w, unp + (a + 125) * gfxw + b * (boomanim[3].w + 1) + 18, boomanim[3].w);
-    for (b = 0; b < boomanim[4].frames; b++)
-	for (a = 0; a < boomanim[4].h; a++)	/* 5th */
+    }
+    }
+    for (b = 0; b < boomanim[4].frames; b++) {
+	for (a = 0; a < boomanim[4].h; a++) {	/* 5th */
 	    memcpy(boomanim[4].pic + b * boomanim[4].siz +
 		   a * boomanim[4].w, unp + (a + 193) * gfxw + b * (boomanim[4].w + 1) + 67, boomanim[4].w);
-    for (b = 0; b < boomanim[5].frames; b++)
-	for (a = 0; a < boomanim[5].h; a++)	/* 6th */
+    }
+    }
+    for (b = 0; b < boomanim[5].frames; b++) {
+	for (a = 0; a < boomanim[5].h; a++) {	/* 6th */
 	    memcpy(boomanim[5].pic + b * boomanim[5].siz +
 		   a * boomanim[5].w, unp + (a + 218) * gfxw + b * (boomanim[5].w + 1) + 67, boomanim[5].w);
+    }
+    }
 
     tmp = gfx;
     /*  bullets */
@@ -525,9 +584,10 @@ void loadgfx(char *filename)
     jcgetblock(1, 101, bullet[10].w, bullet[10].h, gfxw, unp, bullet[10].pic);
     bullet[11].pic = tmp;
     tmp += bullet[11].siz;	// mine, 6 frames
-    for (a = 0; a < 6; a++)
-	jcgetblock(a * 13 + 86, 174, bullet[11].w, bullet[11].h,
-		   gfxw, unp, bullet[11].pic + a * bullet[11].w * bullet[11].h);
+    for (a = 0; a < 6; a++) {
+        jcgetblock(a * 13 + 86, 174, bullet[11].w, bullet[11].h,
+                   gfxw, unp, bullet[11].pic + a * bullet[11].w * bullet[11].h);
+    }
     bullet[12].pic = tmp;
     tmp += bullet[12].siz;	// heatseeker
     jcgetblock(9, 85, bullet[12].w, bullet[12].h, gfxw, unp, bullet[12].pic);
@@ -555,9 +615,10 @@ void loadgfx(char *filename)
     tmp += bullet[20].siz;	// ring of fire
     bullet[21].pic = tmp;
     tmp += bullet[21].siz;	// crawler, 3 frames
-    for (a = 0; a < 3; a++)
-	jcgetblock(278, a * 6 + 174, bullet[21].w, bullet[21].h,
-		   gfxw, unp, bullet[21].pic + a * bullet[21].w * bullet[21].h);
+    for (a = 0; a < 3; a++) {
+        jcgetblock(278, a * 6 + 174, bullet[21].w, bullet[21].h,
+                   gfxw, unp, bullet[21].pic + a * bullet[21].w * bullet[21].h);
+    }
     bullet[22].pic = tmp;
     tmp += bullet[22].siz;	// gravity flow
     jcgetblock(294, 174, bullet[22].w, bullet[22].h, gfxw, unp, bullet[22].pic);
@@ -738,8 +799,9 @@ void loadgfx(char *filename)
     font.w = 8;
     font.h = 10;
     font.p = (Uint8 *) realloc(font.p, FONTCHARS * font.w * font.h);
-    if (font.p == NULL)
-	jerror("LOADGFX.realloc.font: No mem", 9);
+    if (font.p == NULL) {
+        jerror("LOADGFX.realloc.font: No mem", 9);
+    }
     ltr = 0;
     for (b = 0; b < 5; b++)
     {
@@ -752,10 +814,10 @@ void loadgfx(char *filename)
     for (b = 0; b < 256; b++)
     {
 	font.o[b] = font.p + 68 * font.w * font.h;	// space
-	for (a = 0; a < FONTCHARS; a++)
-        {
-	    if (fontstr[a] == toupper(b))
-		font.o[b] = font.p + a * font.w * font.h;
+    for (a = 0; a < FONTCHARS; a++) {
+        if (fontstr[a] == toupper(b)) {
+            font.o[b] = font.p + a * font.w * font.h;
+        }
 	}
     }
 
@@ -770,11 +832,13 @@ void loadgfx(char *filename)
     bigfont[1].w = 24;
     bigfont[1].h = 24;
     bigfont[0].p = (Uint8 *) realloc(bigfont[0].p, BIGFONTCHRS * bigfont[0].w * bigfont[0].h);
-    if (bigfont[0].p == NULL)
-	jerror("LOADGFX.realloc.bigfont.0: No mem", 10);
+    if (bigfont[0].p == NULL) {
+        jerror("LOADGFX.realloc.bigfont.0: No mem", 10);
+    }
     bigfont[1].p = (Uint8 *) realloc(bigfont[1].p, BIGFONTCHRS * bigfont[1].w * bigfont[1].h);
-    if (bigfont[1].p == NULL)
-	jerror("LOADGFX.realloc.bigfont.10: No mem", 10);
+    if (bigfont[1].p == NULL) {
+        jerror("LOADGFX.realloc.bigfont.10: No mem", 10);
+    }
     ltr = 0;
     for (b = 0; b < 3; b++)
     {
@@ -804,9 +868,11 @@ void loadgfx(char *filename)
     /*  other gfx (2) */
     othgfx[2].pic = tmp;
     tmp += othgfx[2].siz;
-    for (b = 0; b < 4; b++)
-	for (a = 0; a < 16; a++)
-	    jcgetblock(a * 33 + 1, b * 33 + 151, othgfx[2].w, othgfx[2].h,
-		       bfont.w, bfont.pic, othgfx[2].pic + (b * 16 + a) * othgfx[2].w * othgfx[2].h);
+    for (b = 0; b < 4; b++) {
+        for (a = 0; a < 16; a++) {
+            jcgetblock(a * 33 + 1, b * 33 + 151, othgfx[2].w, othgfx[2].h,
+                       bfont.w, bfont.pic, othgfx[2].pic + (b * 16 + a) * othgfx[2].w * othgfx[2].h);
+        }
+    }
     util_freepi(&bfont);
 }

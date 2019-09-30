@@ -39,8 +39,9 @@ void kprintf(Uint8 * dest, FONT fnt, int x, int y, int pgwid, char *format, ...)
     va_start(arglist, format);
     vsprintf((char *) msgbuf, format, arglist);
     va_end(arglist);
-    for (a = 0, b = x; (unsigned) a < strlen((char *) msgbuf); a++, b += fnt.w + 1)
-	jcsprite(b, y, fnt.w, fnt.h, pgwid, dest, fnt.o[msgbuf[a]]);
+    for (a = 0, b = x; (unsigned) a < strlen((char *) msgbuf); a++, b += fnt.w + 1) {
+        jcsprite(b, y, fnt.w, fnt.h, pgwid, dest, fnt.o[msgbuf[a]]);
+    }
 }
 
 void kprintfs(FONT fnt, int x, int y, char *format, ...)
@@ -51,8 +52,9 @@ void kprintfs(FONT fnt, int x, int y, char *format, ...)
     va_start(arglist, format);
     vsprintf((char *) msgbuf, format, arglist);
     va_end(arglist);
-    for (a = 0, b = x; (unsigned) a < strlen((char *) msgbuf); a++, b += fnt.w + 1)
-	jvcsprite(b, y, fnt.w, fnt.h, fnt.o[msgbuf[a]]);
+    for (a = 0, b = x; (unsigned) a < strlen((char *) msgbuf); a++, b += fnt.w + 1) {
+        jvcsprite(b, y, fnt.w, fnt.h, fnt.o[msgbuf[a]]);
+    }
 }
 
 void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
@@ -62,12 +64,14 @@ void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
     int xinc, yinc, tx, ty, u, v, v2, scro, souru, sourv, w, h, x, y, xx, yy, c, txwid = wid;
     Uint8 *scr;
 
-    if ((scwid == 0) || (schei == 0))
-	return;
+    if ((scwid == 0) || (schei == 0)) {
+        return;
+    }
     xx = mx - (scwid >> 1);
     yy = my - (schei >> 1);
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei)) {
+        return;
+    }
 
     xinc = (wid << 16) / scwid;
     yinc = (hei << 16) / schei;
@@ -127,8 +131,9 @@ void exspriterep(int xx, int yy, int width, int height, int x1, int y1,
 {
     int a, b, c, souro, wid, hei, x, y;
 
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - width))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - width)) {
+        return;
+    }
     souro = 0;
     x = xx;
     y = yy;
@@ -155,15 +160,16 @@ void exspriterep(int xx, int yy, int width, int height, int x1, int y1,
 	hei -= yy + hei - y2 - 1;
     }
 
-    for (b = 0; b < hei; b++)
-    {
-	c = (y + b) * pgwid;
-	for (a = 0; a < wid; a++)
-	    if ((*(sour + souro + a) > 0)
-		&& ((*(dest + c + x + a) == EXMIN - 1)
-		    || (*(dest + c + x + a) > EXMAX)))
-		*(dest + c + x + a) = color;
-	souro += width;
+    for (b = 0; b < hei; b++) {
+        c = (y + b) * pgwid;
+        for (a = 0; a < wid; a++) {
+            if ((*(sour + souro + a) > 0)
+                && ((*(dest + c + x + a) == EXMIN - 1)
+                    || (*(dest + c + x + a) > EXMAX))) {
+                *(dest + c + x + a) = color;
+            }
+        }
+        souro += width;
     }
 }
 
@@ -173,8 +179,9 @@ void trsprite(int xx, int yy, int width, int height, int x1, int y1,
 {
     int a, b, c, souro, wid, hei, x, y;
 
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - width))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - width)) {
+        return;
+    }
     souro = 0;
     x = xx;
     y = yy;
@@ -201,15 +208,14 @@ void trsprite(int xx, int yy, int width, int height, int x1, int y1,
 	hei -= yy + hei - y2 - 1;
     }
 
-    for (b = 0; b < hei; b++)
-    {
-	c = (y + b) * pgwid;
-	for (a = 0; a < wid; a++)
-	    if (*(sour + souro + a) > 0)
-            {
-		*(dest + c + x + a) = *(transp + (*(sour + souro + a) << 8) + *(dest + c + x + a));
-	    }
-	souro += width;
+    for (b = 0; b < hei; b++) {
+        c = (y + b) * pgwid;
+        for (a = 0; a < wid; a++) {
+            if (*(sour + souro + a) > 0) {
+                *(dest + c + x + a) = *(transp + (*(sour + souro + a) << 8) + *(dest + c + x + a));
+            }
+        }
+        souro += width;
     }
 }
 
@@ -254,23 +260,21 @@ void exline(int x1, int y1, int x2, int y2, int cx1, int cy1,
     }
     x = x1;
     y = y1;
-    for (i = 1; i <= n; i++)
-    {
-	o = y * pgwid + x;
-	if ((x >= cx1) && (x < cx2) && (y >= cy1) && (y < cy2) &&
-	    ((*(dest + o) == EXMIN - 1) || (*(dest + o) > EXMAX)))
-	    *(Uint8 *) (dest + o) = c;
-	if (d < 0)
-        {
-	    d += di1;
-	    x += xi1;
-	    y += yi1;
-	}
-	else {
-	    d += di2;
-	    x += xi2;
-	    y += yi2;
-	}
+    for (i = 1; i <= n; i++) {
+        o = y * pgwid + x;
+        if ((x >= cx1) && (x < cx2) && (y >= cy1) && (y < cy2) &&
+            ((*(dest + o) == EXMIN - 1) || (*(dest + o) > EXMAX))) {
+            *(Uint8 *) (dest + o) = c;
+        }
+        if (d < 0) {
+            d += di1;
+            x += xi1;
+            y += yi1;
+        } else {
+            d += di2;
+            x += xi2;
+            y += yi2;
+        }
     }
 }
 

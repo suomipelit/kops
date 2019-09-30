@@ -694,8 +694,9 @@ static void movePlasma(int p)
     ammo[p].y += ammo[p].yi;
     ammo[p].hitdist = (((sint[(cnt * 12) & (SCT - 1)] * 10) >> FIXP) + 40) / 2;
 
-    if (ammo[p].timeleft == 4500)
+    if (ammo[p].timeleft == 4500) {
         ammo[p].damage = FIXS * 2;
+    }
 }
 
 static void movePyrotech(int p)
@@ -713,12 +714,14 @@ static void movePyrotech(int p)
             if ((*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) > 0)
                 && (*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) < 8))
             {
-                if (rand() % 5 == 0)
+                if (rand() % 5 == 0) {
                     newammocrap(p, 3);
+                }
             }
             else {
-                if ((cnt & 31) == 0)
+                if ((cnt & 31) == 0) {
                     sound_eff(S_MINIBLAST, 32, 128, 16384, 0);
+                }
                 newammoa(p);
             }
         }
@@ -739,8 +742,9 @@ static void moveToxicWast(int p)
             sound_eff(S_HEATSTIK, 32, 128, 8192, 0);
             newammoa(p);
         }
-        if (((cnt & 7) == 3) && (rand() % 5 == 0))
+        if (((cnt & 7) == 3) && (rand() % 5 == 0)) {
             newammocrap(p, 3);
+        }
     }
 }
 
@@ -752,8 +756,9 @@ static void moveToxicW2(int p)
     ammo[p].yp = ammo[p].y >> FIXP;
     ammo[p].xi += rand() % (FIXS / 12) - FIXS / 24;
     ammo[p].yi += rand() % (FIXS / 12) - FIXS / 24;
-    if (*(mask + (ammo[p].yp) * levw + ammo[p].xp) == 255)
+    if (*(mask + (ammo[p].yp) * levw + ammo[p].xp) == 255) {
         ammo[p].active = 0;
+    }
 }
 
 static void moveLash(int p)
@@ -763,8 +768,9 @@ static void moveLash(int p)
     ammo[p].y += ammo[p].yi;
     if ((cnt & 3) == 0)
     {
-        if ((cnt & 7) == 0)
+        if ((cnt & 7) == 0) {
             sound_eff(S_LASHTIK, 64, 128, 16384, 0);
+        }
         newammoa(p);
     }
 }
@@ -773,8 +779,9 @@ static void moveMine(int p)
 {
     ammo[p].xi = (ammo[p].xi + 8) % SCT;
     ammo[p].y = ammo[p].yi + (sint[ammo[p].xi] << 3);
-    if (ammo[p].timeleft == 22400)
+    if (ammo[p].timeleft == 22400) {
         ammo[p].hitdist = 12;
+    }
 }
 
 static void moveHeatSeek(int p)
@@ -785,8 +792,9 @@ static void moveHeatSeek(int p)
 
     c = 0;
 
-    if ((cnt & 15) == 0)
+    if ((cnt & 15) == 0) {
         sound_eff(S_HEATSTIK, 64, 128, 16384, 0);
+    }
 
     ammo[p].x += ammo[p].xi;
     ammo[p].y += ammo[p].yi;
@@ -794,7 +802,7 @@ static void moveHeatSeek(int p)
     if (ammo[p].timeleft < 9000)
     {
         b = 9999999;
-        for (a = 0; a < MAXPLAYERS; a++)
+        for (a = 0; a < MAXPLAYERS; a++) {
             if ((plr[a].active) && (plr[a].energy > 0))
             {
                 ox = ammo[p].xp - (plr[a].xp + SHIPW / 2);
@@ -805,6 +813,7 @@ static void moveHeatSeek(int p)
                     c = a;
                 }
             }
+        }
         ox = ammo[p].xp - (plr[c].xp + SHIPW / 2);
         oy = ammo[p].yp - (plr[c].yp + SHIPH / 2);
         a = isqrt(ox * ox + oy * oy);
@@ -891,12 +900,14 @@ static void moveSuperPyro(int p)
             if ((*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) > 0)
                 && (*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) < 8))
             {
-                if (rand() % 5 == 0)
+                if (rand() % 5 == 0) {
                     newammocrap(p, 3);
+                }
             }
             else {
-                if ((cnt & 31) == 0)
+                if ((cnt & 31) == 0) {
                     sound_eff(S_GASBLAST, 32, 128, 16384, 0);
+                }
                 newammoa(p);
             }
         }
@@ -910,26 +921,31 @@ static void hitPlain(int a, int p)
 
 static void hitPlasma(int a, int p)
 {
-    if (ammo[p].timeleft > 4500)
+    if (ammo[p].timeleft > 4500) {
         plr[a].blink = 0;
+    }
 }
 
 static void hitBlast(int a, int p)
 {
-    if (ammo[p].type == W_BLASTER)
+    if (ammo[p].type == W_BLASTER) {
         sound_eff(S_BBLAST, 32, 128, 16384, 0);
-    if ((ammo[p].type == W_MINIBLAST) || (ammo[p].type == W_TOXICW2))
+    }
+    if ((ammo[p].type == W_MINIBLAST) || (ammo[p].type == W_TOXICW2)) {
         sound_eff(S_BMINIB, 26, 128, 16384, 0);
+    }
     newboom(ammo[p].xp, ammo[p].yp, 0, 1, 2);
     ammo[p].active = 0;
 }
 
 static void hitBigBlast(int a, int p)
 {
-    if (ammo[p].type == W_BIGBLASTR)
+    if (ammo[p].type == W_BIGBLASTR) {
         sound_eff(S_BBIGBL, 32, 128, 16384, 1);
-    if (ammo[p].type == W_GASBLAST)
+    }
+    if (ammo[p].type == W_GASBLAST) {
         sound_eff(S_BGASBL, 32, 128, 16384, 1);
+    }
     plr[a].xi = (plr[a].xi * 7 + ammo[p].xi) / 8;
     plr[a].yi = (plr[a].yi * 7 + ammo[p].yi) / 8;
     newboom(ammo[p].xp, ammo[p].yp, 1, 1, 2);
@@ -993,10 +1009,12 @@ static void hitFlipper(int a, int p)
 
 static void hitBomb(int a, int p)
 {
-    if (ammo[p].type == W_BOMB)
+    if (ammo[p].type == W_BOMB) {
         sound_eff(S_BBOMB, 32, 128, 16384, 1);
-    if (ammo[p].type == W_PYROTECH)
+    }
+    if (ammo[p].type == W_PYROTECH) {
         sound_eff(S_BMINIB, 32, 128, 16384, 1);
+    }
     plr[a].xi = (plr[a].xi * 3 + ammo[p].xi) / 4;
     plr[a].yi = (plr[a].yi * 3 + ammo[p].yi) / 4;
     newboom(ammo[p].xp, ammo[p].yp, 4, 1, 3);
@@ -1084,8 +1102,9 @@ static void ammoHitPlasma(int p, int ox, int oy)
     ammo[p].x = ox;
     ammo[p].y = oy;
 
-    if ((ammo[p].xp < 1) || (ammo[p].yp < 1) || (ammo[p].xp > levw - 2) || (ammo[p].yp >= levh - 2))
+    if ((ammo[p].xp < 1) || (ammo[p].yp < 1) || (ammo[p].xp > levw - 2) || (ammo[p].yp >= levh - 2)) {
         ammo[p].active = 0;
+    }
 }
 
 static void ammoHitMornStar(int p, int ox, int oy)
@@ -1113,20 +1132,24 @@ static void ammoHitMornStar(int p, int ox, int oy)
 
 static void ammoHitBlastGun(int p, int ox, int oy)
 {
-    if (ammo[p].type == W_BLASTGUN)
+    if (ammo[p].type == W_BLASTGUN) {
         sound_eff(S_BBLGUN, 48, 128, 16384, 0);
-    if (ammo[p].type == W_MINIBLAST)
+    }
+    if (ammo[p].type == W_MINIBLAST) {
         sound_eff(S_BMINIB, 48, 128, 16384, 0);
+    }
     newboom(ammo[p].xp, ammo[p].yp, 0, 0, 2);
     ammo[p].active = 0;
 }
 
 static void ammoHitBlaster(int p, int ox, int oy)
 {
-    if ((ammo[p].type == W_BLASTER) || (ammo[p].type == W_LASH))
+    if ((ammo[p].type == W_BLASTER) || (ammo[p].type == W_LASH)) {
         sound_eff(S_BBLAST, 64, 128, 16384, 0);
-    if (ammo[p].type == W_BIGBLASTR)
+    }
+    if (ammo[p].type == W_BIGBLASTR) {
         sound_eff(S_BBIGBL, 64, 128, 16384, 1);
+    }
     newboom(ammo[p].xp, ammo[p].yp, 1, 0, 2);
     ammo[p].active = 0;
 }

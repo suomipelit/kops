@@ -33,8 +33,9 @@ void logo_init()
 {
     util_loadpcxpi(LOGOPICFILE, &logopic);
     logotmp = (Uint8 *) malloc(logopic.w * logopic.h);
-    if (logotmp == NULL)
-	jerror("LOGO.init.malloc: No mem", logopic.w * logopic.h);
+    if (logotmp == NULL) {
+        jerror("LOGO.init.malloc: No mem", logopic.w * logopic.h);
+    }
 }
 
 void logo_deinit()

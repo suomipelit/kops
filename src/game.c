@@ -49,17 +49,21 @@ void preparegame()
 {
     int a, b, c;
 
-    for (a = 0; a < MAXCRAP; a++)
-	crap[a].active = 0;
+    for (a = 0; a < MAXCRAP; a++) {
+        crap[a].active = 0;
+    }
 
-    for (a = 0; a < MAXAMMO; a++)
-	ammo[a].active = 0;
+    for (a = 0; a < MAXAMMO; a++) {
+        ammo[a].active = 0;
+    }
 
-    for (a = 0; a < MAXBOOMS; a++)
-	boom[a].active = 0;
+    for (a = 0; a < MAXBOOMS; a++) {
+        boom[a].active = 0;
+    }
 
-    for (a = 0; a < pickammospots; a++)
-	pickammo[a].active = 0;
+    for (a = 0; a < pickammospots; a++) {
+        pickammo[a].active = 0;
+    }
 
     nextammo = 0;
     nextcrap = 0;
@@ -96,8 +100,9 @@ void preparegame()
 	}
     }
 
-    for (a = 0; a < SDLK_LAST; a++)
+    for (a = 0; a < SDLK_LAST; a++) {
         clearkey(a);
+    }
 
     basepixcount = 0;
     cnt = 0;
@@ -167,15 +172,12 @@ void game()
     int                pan;
     int                dead = 0, victory = 0;
 
-    for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
-    {
-	if (plr[a].active)
-        {
-	    resurrect[a] = 1;
-	}
-	else {
-	    resurrect[a] = 0;
-	}
+    for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
+        if (plr[a].active) {
+            resurrect[a] = 1;
+        } else {
+            resurrect[a] = 0;
+        }
     }
 
     preparegame();
@@ -200,7 +202,7 @@ void game()
 	    /*
 	     * main loop for all players
 	     */
-	    for (p = 0; p < ( MAXPLAYERS + MAXBOTS ); p++)
+	    for (p = 0; p < ( MAXPLAYERS + MAXBOTS ); p++) {
                 if ((plr[p].active) && (plr[p].energy > 0))
                 {
 
@@ -441,12 +443,15 @@ void game()
             plr[p].y += plr[p].yi;
             plr[p].xi = plr[p].xi * FRICTION;
             plr[p].yi = plr[p].yi * FRICTION;
-            if (plr[p].sensorjam > 0)
+            if (plr[p].sensorjam > 0) {
                 plr[p].sensorjam--;
-            if (plr[p].flip > 0)
+            }
+            if (plr[p].flip > 0) {
                 plr[p].flip--;
-            if (plr[p].signal > 0)
+            }
+            if (plr[p].signal > 0) {
                 plr[p].signal--;
+            }
 
             /*
              * border hit detect
@@ -486,8 +491,9 @@ void game()
                           (plr[p].xi >> (FIXP / 2)) +
                           (plr[p].yi >> (FIXP / 2)) *
                           (plr[p].yi >> (FIXP / 2))) << (FIXP / 2)) * BORHIT;
-                    if (plr[p].energy < 0)
+                    if (plr[p].energy < 0) {
                         plr[p].energy = 0;
+                    }
                 }
                 plr[p].ground = 1;
             }
@@ -497,8 +503,9 @@ void game()
              */
             if ((plr[p].energy < (20 << FIXP)) && (cnt % ((plr[p].energy >> (FIXP + 1)) + 1) == 0))
             {
-                if ((rand() % 10) == 0)
+                if ((rand() % 10) == 0) {
                     sound_eff(S_GRAVFLOW, 64, pan, 8192 + (rand() % 8) * 1024, 0);
+                }
                 newplrcrap(p, 4);
             }
             plr[p].xp = plr[p].x >> FIXP;
@@ -527,8 +534,9 @@ void game()
                           (plr[p].xi >> (FIXP / 2)) +
                           (plr[p].yi >> (FIXP / 2)) *
                           (plr[p].yi >> (FIXP / 2))) << (FIXP / 2)) * GNDHIT;
-                    if (plr[p].energy < 0)
+                    if (plr[p].energy < 0) {
                         plr[p].energy = 0;
+                    }
                 }
                 plr[p].ground = 1;
             }
@@ -592,21 +600,26 @@ void game()
                          && !plr[p].bot
                          && (!key(plr[p].k_left)))
                         && ((!waskey(plr[p].k_right))
-                            && (!waskey(plr[p].k_left))))
+                            && (!waskey(plr[p].k_left)))) {
                         plr[p].slotchangepause = 0;
+                    }
                 }
                 else {	/*
                          * a==2
                          */
-                    if ((cnt & 3) == 0)
+                    if ((cnt & 3) == 0) {
                         plr[p].dir = (plr[p].dir + ((SHIPFRM << FIXP) - FIXS)) % (SHIPFRM << FIXP);
-                    if ((cnt & 3) == 2)
+                    }
+                    if ((cnt & 3) == 2) {
                         plr[p].dir = (plr[p].dir + FIXS) % (SHIPFRM << FIXP);
+                    }
                 }
-                if (plr[p].energy < STARTENERGY << FIXP)
+                if (plr[p].energy < STARTENERGY << FIXP) {
                     plr[p].energy += CHARGERATE;
-                if (plr[p].energy > STARTENERGY << FIXP)
+                }
+                if (plr[p].energy > STARTENERGY << FIXP) {
                     plr[p].energy = STARTENERGY << FIXP;
+                }
             }
 
             /*
@@ -614,16 +627,21 @@ void game()
              */
             plr[p].wx = plr[p].xp + SHIPW / 2 - WINW / 2;
             plr[p].wy = plr[p].yp + SHIPH / 2 - WINH / 2;
-            if (plr[p].wx <= 0)
+            if (plr[p].wx <= 0) {
                 plr[p].wx = 0;
-            if (plr[p].wx > levw - WINW)
+            }
+            if (plr[p].wx > levw - WINW) {
                 plr[p].wx = levw - WINW;
-            if (plr[p].wy <= 0)
+            }
+            if (plr[p].wy <= 0) {
                 plr[p].wy = 0;
-            if (plr[p].wy > levh - WINH)
+            }
+            if (plr[p].wy > levh - WINH) {
                 plr[p].wy = levh - WINH;
+            }
 
         }
+}
         /*
          * end of main loop
          */
@@ -631,14 +649,15 @@ void game()
         /*
          * ammos
          */
-        for (p = 0; p < MAXAMMO; p++)
+        for (p = 0; p < MAXAMMO; p++) {
             if (ammo[p].active)
             {
                 ammo[p].oxp = ammo[p].xp;
                 ammo[p].oyp = ammo[p].yp;
 
-                if(weapons[ammo[p].type].move != NULL)
+                if(weapons[ammo[p].type].move != NULL) {
                     weapons[ammo[p].type].move(p);
+                }
 
                 ammo[p].xp = ammo[p].x >> FIXP;
                 ammo[p].yp = ammo[p].y >> FIXP;
@@ -646,7 +665,7 @@ void game()
                 /*
                  * ammo playerhitdetect
                  */
-                for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
+                for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
                     if ((plr[a].active) && (plr[a].energy > 0))
                     {
                         ox = ammo[p].xp - (plr[a].xp + SHIPW / 2);
@@ -672,6 +691,7 @@ void game()
                             }
                         }
                     }
+                }
 
                 /*
                  * ammo hitdetect
@@ -712,17 +732,19 @@ void game()
 			weapons[ammo[p].type].ammohit(p, ox, oy);
                     }
                 }
-                if (ammo[p].timeleft > 0)
+                if (ammo[p].timeleft > 0) {
                     ammo[p].timeleft--;
-                if (ammo[p].timeleft <= 0)
+                }
+                if (ammo[p].timeleft <= 0) {
                     ammo[p].active = 0;
-
+                }
             }
+        }
 
         /*
          * pickammo
          */
-        for (p = 0; p < pickammospots; p++)
+        for (p = 0; p < pickammospots; p++) {
             if (pickammo[p].active)
             {
                 pickammo[p].cnt = (pickammo[p].cnt + 8) % SCT;
@@ -732,7 +754,7 @@ void game()
                 /*
                  * pickammo collecting
                  */
-                for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
+                for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
                     if ((plr[a].active) && (plr[a].energy > 0) && (plr[a].hyperspac == 0))
                     {
                         ox = pickammo[p].xp - (plr[a].xp + SHIPW / 2);
@@ -808,11 +830,15 @@ void game()
                             }
                         }
                     }
-                if (pickammo[p].timeleft > 0)
+                }
+                if (pickammo[p].timeleft > 0) {
                     pickammo[p].timeleft--;
-                if (pickammo[p].timeleft <= 0)
+                }
+                if (pickammo[p].timeleft <= 0) {
                     pickammo[p].active = 0;
+                }
             }
+        }
         /*
          * create new pickammo
          */
@@ -825,12 +851,14 @@ void game()
          * crap
          */
         ox = rand() % levw;
-        oy = rand() % levh;	/*
-				 * random bubbles
-				 */
-        if (*(level + oy * levw + ox) == 1)
+        oy = rand() % levh;
+        /*
+         * random bubbles
+         */
+        if (*(level + oy * levw + ox) == 1) {
             newcrap(ox, oy, 3);
-        for (p = 0; p < MAXCRAP; p++)
+        }
+        for (p = 0; p < MAXCRAP; p++) {
             if (crap[p].active)
             {	/*
                  * handle crap
@@ -850,8 +878,9 @@ void game()
 		    case 4:
 			if ((crap[p].xp < 0) || (crap[p].yp < 0) ||
 			    (crap[p].xp >= levw) || (crap[p].yp >= levh) ||
-			    (*(mask + (crap[p].yp) * levw + crap[p].xp) == 0))
+			    (*(mask + (crap[p].yp) * levw + crap[p].xp) == 0)) {
 			    crap[p].active = 0;
+            }
 			break;
 		    case 3:
 			crap[p].yi -= FIXS / 64;
@@ -860,29 +889,35 @@ void game()
 			    (*(mask + (crap[p].yp) * levw + crap[p].xp) == 0)
 			    || (*(mask + (crap[p].yp) * levw + crap[p].xp)
 				== 255)
-			    )
+			    ) {
 			    crap[p].active = 0;
+            }
 			break;
                 }
-                if (crap[p].timeleft > 0)
+                if (crap[p].timeleft > 0) {
                     crap[p].timeleft--;
-                if (crap[p].timeleft == 0)
+                }
+                if (crap[p].timeleft == 0) {
                     crap[p].active = 0;
+                }
             }
+        }
 
         /*
          * booms
          */
-        for (p = 0; p < MAXBOOMS; p++)
+        for (p = 0; p < MAXBOOMS; p++) {
             if (boom[p].active)
             {
-                if (((cnt % boom[p].speed) == 0) && (boom[p].frm > 0))
+                if (((cnt % boom[p].speed) == 0) && (boom[p].frm > 0)) {
                     boom[p].frm++;
-                if (boom[p].frm >= boomanim[boom[p].type].frames)
+                }
+                if (boom[p].frm >= boomanim[boom[p].type].frames) {
                     boom[p].frm = 0;
+                }
                 if (boom[p].transp == 0)
                 {
-                    for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
+                    for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
                         if ((plr[a].active) && (plr[a].energy > 0))
                         {
                             ox = boom[p].xp - (plr[a].xp + SHIPW / 2);
@@ -915,13 +950,16 @@ void game()
 					    plr[a].energy -= FIXS / 4;
 					    break;
                                     }
-                                    if (plr[a].energy < 0)
+                                    if (plr[a].energy < 0) {
                                         plr[a].energy = 0;
+                                    }
                                 }
                             }
                         }
+                    }
                 }
             }
+        }
 
         /*
          * regenerate bases
@@ -930,14 +968,16 @@ void game()
         {
             p = basepixcount = (basepixcount + 1) % basepixels;
             b = 1;
-            for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
+            for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
                 if ((plr[a].active) && (plr[a].energy > 0))
                 {
                     ox = (plr[a].xp + SHIPW / 2 - base[p].x);
                     oy = (plr[a].yp + SHIPH / 2 - base[p].y);
-                    if ((ox * ox + oy * oy) < 256)
+                    if ((ox * ox + oy * oy) < 256) {
                         b = 0;
+                    }
                 }
+            }
             if (b)
             {
                 *(level + base[p].y * levw + base[p].x) = base[p].c;
@@ -948,7 +988,7 @@ void game()
         /*
          * explosion when dead
          */
-        for (p = 0; p < (MAXPLAYERS + MAXBOTS); p++)
+        for (p = 0; p < (MAXPLAYERS + MAXBOTS); p++) {
             if ((plr[p].active) && (oenergy[p] > 0))
             {
                 if (plr[p].energy <= 0)
@@ -967,6 +1007,7 @@ void game()
                     oenergy[p] = 0;
                 }
             }
+        }
 
         /*
          * f12 saves screen to SHOT.RIX
@@ -991,9 +1032,10 @@ void game()
         {
             gamepause = 1;
             jsavestart();
-            for (a = 0; a < 256; a++)
+            for (a = 0; a < 256; a++) {
                 cdest[a * 3] = cdest[a * 3 + 1] = cdest[a * 3 + 2] =
                     (short) ((cstart[a * 3] + cstart[a * 3 + 1] + cstart[a * 3 + 2]) / 4);
+            }
             jrealfade(0, 255, 7);
             while (key(K_F11))
             {
@@ -1007,8 +1049,9 @@ void game()
             {
                 update();
             }
-            for (a = 0; a < 768; a++)
+            for (a = 0; a < 768; a++) {
                 cdest[a] = cstart[a];
+            }
             jsavestart();
             jrealfade(0, 255, 7);
             clearkey(K_F11);
@@ -1076,11 +1119,12 @@ if (victory > 0)
 for (a = 0; a < (MAXPLAYERS + MAXPLAYERS); a++)
 {
     /* if ((resurrect[a]==1)&&(plr[a].active==0)) initplayer(a); */
-    if ((resurrect[a] == 1) && (plr[a].energy == 0))
+    if ((resurrect[a] == 1) && (plr[a].energy == 0)) {
         resetplayer2(a);
-    else {			/*
-				 * player was a survivor..
-				 */
+    } else {
+        /*
+         * player was a survivor..
+         */
         for (b = 0; b < slots * 1 / 3; b++)
         {
             c = rand() % slots;
