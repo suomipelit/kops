@@ -40,7 +40,7 @@ int windowed = 0;
 char *copyright = "Copyright 1996,1997,2001,2003 Jetro Lauha.";
 volatile unsigned long int framecounter;
 volatile Uint8 gamepause;
-unsigned int cnt;
+Uint32 cnt;
 Uint8 *level, *backgr, *mask;	/* level & background image and mask */
 Uint8 parallaxdraw;		/* parallax on/off */
 int levw, levh, backw, backh;	/* level+background width & height */
@@ -66,7 +66,7 @@ int m_startmenu, m_status, m_endgame, m_info;
 int mgcount;			/* count of game musics */
 char *minitfile;		/* music init file */
 Uint8 s_sdevice = 1, s_interp = 0, s_shortchn = 8, s_longchn = 8, s_musvol = 32, s_effvol = 63;
-unsigned int s_samprate = 22050;	/* sound infos */
+Uint32 s_samprate = 22050;	/* sound infos */
 Uint8 snd = 1;			/* sounds on/off (1/0) */
 Uint8 kludgesnd = 0;		/* force sound disable as an command line parameter */
 int wins[MAXPLAYERS+MAXBOTS];   /* win table */

@@ -29,7 +29,7 @@
 #include "spr.h"
 #include "gamefunc.h"
 
-unsigned int updatecounter = 0;
+Uint32 updatecounter = 0;
 
 void level_parallax(Uint8 * dest, int winx, int winy)
 {				/* or+and version */

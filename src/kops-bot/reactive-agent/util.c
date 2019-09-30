@@ -36,7 +36,7 @@
  * @param ... - variable arguments as in printf(3) call.
  */ 
 void
-debugMsg(unsigned int lvl, char* fmt, ...) {
+debugMsg(Uint32 lvl, char* fmt, ...) {
 
   va_list ap;
 

@@ -37,7 +37,7 @@ const int jrandseed1=0,jrandseed2=0;
 
 static long randseed = 1L;
 
-void crapsrand(unsigned int seed)
+void crapsrand(Uint32 seed)
 {
     randseed = (long) seed;
 }
@@ -49,7 +49,7 @@ int craprand(void)
 }
 
 
-unsigned int util_gettick()
+Uint32 util_gettick()
 {
 #ifdef _WIN32
     return timeGetTime();
@@ -181,12 +181,12 @@ void util_loadpcxpalptr(char *pal,char *filename)
   getbyt=*(buf+bl)
 
 
-void util_loadpcx(char *dest,char *filename,unsigned int bytes)
+void util_loadpcx(char *dest,char *filename,Uint32 bytes)
 {
-    unsigned int offs,bl,tmp;
+    Uint32 offs,bl,tmp;
     int btsl;
     Uint8 b1,b2;
-    unsigned int a;
+    Uint32 a;
     UTIL_FILE *f;
     Uint8 *buf;
     Uint8 getbyt;
@@ -202,7 +202,7 @@ void util_loadpcx(char *dest,char *filename,unsigned int bytes)
             UTIL_LOADPCX_GETBYT; b1=getbyt;
             if ((b1>>6)==3) {
                 UTIL_LOADPCX_GETBYT; b2=getbyt;
-                for (a=0;a<(unsigned int)(b1&63);a++) *(dest+a+offs)=b2;
+                for (a=0;a<(Uint32)(b1&63);a++) *(dest+a+offs)=b2;
                 offs+=(b1&63);
             } else {
                 *(dest+offs)=b1;
@@ -237,7 +237,7 @@ typedef struct {
 void util_loadpcxpi(char *filename,PIC *pic)
 {
     PCXHEADER header;
-    unsigned int offs,bl,tmp,bytes=0;
+    Uint32 offs,bl,tmp,bytes=0;
     int btsl;
     Uint8 a,b1,b2;
     UTIL_FILE *f;
@@ -367,7 +367,7 @@ void util_xorrand(char *data,int jrandseed,int datalen)
     srand(saverand);
 }
 
-unsigned int util_filesize(FILE *fp)
+Uint32 util_filesize(FILE *fp)
 {
     int savepos,sizeoffile;
     savepos=ftell(fp);
