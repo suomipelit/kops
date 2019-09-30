@@ -76,7 +76,7 @@ Uint8 gamewindowcolorrand;
 Uint8 players;
 Uint8 bots;
 Uint8 testmode = 0;
-int nextammo, nextcrap, nextboom;
+Uint32 nextammo, nextcrap, nextboom;
 Uint8 wttrans[WTTRANSLEN] = { 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1 };
 Uint8 wttable[WTTABLELEN] = { 0, 0, 0, 0, 1, 1, 2, 3, 4, 4, 5, 5, 5, 5, 4, 4, 3, 2, 1, 1 };
 PLAYER plr[MAXPLAYERS+MAXBOTS];

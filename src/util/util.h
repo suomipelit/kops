@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <SDL_stdinc.h>
 #include "utilpic.h"
 #include "utilcore.h"
 #include "utilfile.h"

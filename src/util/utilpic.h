@@ -14,8 +14,8 @@ extern "C" {
 typedef struct
 {
     int w, h;
-    unsigned char *pic;
-    unsigned char *pal;
+    Uint8 *pic;
+    Uint8 *pal;
     int bitspp, bytespp;
 } PIC;
 

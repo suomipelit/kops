@@ -372,7 +372,7 @@ extern Uint8     gamewindowcolorrand;
 extern Uint8     players;
 extern Uint8     bots;
 extern Uint8     testmode;
-extern int       nextammo, nextcrap, nextboom;
+extern Uint32    nextammo, nextcrap, nextboom;
 extern Uint8     wttrans[WTTRANSLEN];
 extern Uint8     wttable[WTTABLELEN];
 extern PLAYER    plr[MAXPLAYERS+MAXBOTS];
