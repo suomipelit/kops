@@ -199,8 +199,9 @@ void wait_framecount()
 Uint8 fileexists(char *filename)
 {
     UTIL_FILE *fp;
-    if (util_finitialized == 0)
-	util_finit();
+    if (util_finitialized == 0) {
+        util_finit();
+    }
     fp = util_fopen(filename);
     if (fp != NULL)
     {
@@ -228,8 +229,9 @@ void jcblockclip(int xx, int yy, int width, int height, int x1, int y1,
 {
     register int b, desto, souro, wid, hei, x, y;
 
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height)) {
+        return;
+    }
     souro = 0;
     x = xx;
     y = yy;
@@ -280,11 +282,13 @@ void jcblock(int x, int y, int wid, int hei, int pgwid, Uint8 * dest, Uint8 * so
 
 void jvcblock(int x, int y, int wid, int hei, Uint8 * sour)
 {
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
     jcblock(x, y, wid, hei, screen->pitch, (Uint8 *) screen->pixels, sour);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 }
 
 void jcspriterepclip(int xx, int yy, int width, int height, int x1, int y1,
@@ -292,8 +296,9 @@ void jcspriterepclip(int xx, int yy, int width, int height, int x1, int y1,
 {
     int a, b, c, souro, wid, hei, x, y;
 
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height)) {
+        return;
+    }
     souro = 0;
     x = xx;
     y = yy;
@@ -320,13 +325,14 @@ void jcspriterepclip(int xx, int yy, int width, int height, int x1, int y1,
 	hei -= y + hei - y2 - 1;
     }
 
-    for (b = 0; b < hei; b++)
-    {
-	c = (y + b) * pgwid;
-	for (a = 0; a < wid; a++)
-	    if (*(sour + souro + a) > 0)
-		*(dest + c + x + a) = color;
-	souro += width;
+    for (b = 0; b < hei; b++) {
+        c = (y + b) * pgwid;
+        for (a = 0; a < wid; a++) {
+            if (*(sour + souro + a) > 0) {
+                *(dest + c + x + a) = color;
+            }
+        }
+        souro += width;
     }
 }
 
@@ -335,8 +341,9 @@ void jcspriteclip(int xx, int yy, int width, int height, int x1, int y1,
 {
     register int a, b, c, souro, wid, hei, x, y;
 
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - width) || (yy <= y1 - height)) {
+        return;
+    }
     souro = 0;
     x = xx;
     y = yy;
@@ -364,17 +371,16 @@ void jcspriteclip(int xx, int yy, int width, int height, int x1, int y1,
     }
     c = y * pgwid + x;
 
-    for (b = 0; b < hei; b++)
-    {
-	for (a = 0; a < wid; a++)
-        {
-	    if (*(sour + souro) > 0)
-		*(dest + c) = *(sour + souro);
-	    c++;
-	    souro++;
-	}
-	c += pgwid - wid;
-	souro += width - wid;
+    for (b = 0; b < hei; b++) {
+        for (a = 0; a < wid; a++) {
+            if (*(sour + souro) > 0) {
+                *(dest + c) = *(sour + souro);
+            }
+            c++;
+            souro++;
+        }
+        c += pgwid - wid;
+        souro += width - wid;
     }
 }
 
@@ -384,12 +390,14 @@ void jcscalespritem(int mx, int my, int wid, int hei, int scwid, int schei,
     int xinc, yinc, tx, ty, u, v, v2, scro, souru, sourv, w, h, x, y, xx, yy, c, txwid = wid;
     Uint8 *scr;
 
-    if ((scwid == 0) || (schei == 0))
-	return;
+    if ((scwid == 0) || (schei == 0)) {
+        return;
+    }
     xx = mx - (scwid >> 1);
     yy = my - (schei >> 1);
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei))
-	return;
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei)) {
+        return;
+    }
 
     xinc = (wid << 16) / scwid;
     yinc = (hei << 16) / schei;
@@ -423,21 +431,20 @@ void jcscalespritem(int mx, int my, int wid, int hei, int scwid, int schei,
 
     v = sourv;
     scro = y * pgwid + x;
-    for (ty = 0; ty < h; ty++)
-    {
-	scr = (Uint8 *) (dest + scro);
-	u = souru;
-	v2 = (v >> 16) * txwid;
-	for (tx = 0; tx < w; tx++)
-        {
-	    if ((c = *(sour + (u >> 16) + v2)))
-		*((Uint8 *) (scr++)) = (Uint8) c;
-	    else
-		scr++;
-	    u += xinc;
-	}
-	scro += pgwid;
-	v += yinc;
+    for (ty = 0; ty < h; ty++) {
+        scr = (Uint8 *) (dest + scro);
+        u = souru;
+        v2 = (v >> 16) * txwid;
+        for (tx = 0; tx < w; tx++) {
+            if ((c = *(sour + (u >> 16) + v2))) {
+                *((Uint8 *) (scr++)) = (Uint8) c;
+            } else {
+                scr++;
+            }
+            u += xinc;
+        }
+        scro += pgwid;
+        v += yinc;
     }
 }
 
@@ -446,16 +453,15 @@ void jcsprite(int x, int y, int wid, int hei, int pgwid, Uint8 * dest, Uint8 * s
     register int a, b, c, souro;
     souro = 0;
     c = y * pgwid + x;
-    for (b = 0; b < hei; b++)
-    {
-	for (a = 0; a < wid; a++)
-        {
-	    if (*(sour + souro) > 0)
-		*(dest + c) = *(sour + souro);
-	    souro++;
-	    c++;
-	}
-	c += pgwid - wid;
+    for (b = 0; b < hei; b++) {
+        for (a = 0; a < wid; a++) {
+            if (*(sour + souro) > 0) {
+                *(dest + c) = *(sour + souro);
+            }
+            souro++;
+            c++;
+        }
+        c += pgwid - wid;
     }
 }
 
@@ -473,15 +479,17 @@ void jsavestart()
 void jcleardest()
 {
     unsigned short int a;
-    for (a = 0; a < 768; a++)
-	cdest[a] = 0;
+    for (a = 0; a < 768; a++) {
+        cdest[a] = 0;
+    }
 }
 
 void jinitreal()
 {
     unsigned short int a;
-    for (a = 0; a < 768; a++)
-	ctemp[a] = (short) (cstart[a] << 7);
+    for (a = 0; a < 768; a++) {
+        ctemp[a] = (short) (cstart[a] << 7);
+    }
     realfadecount = 0;
 }
 
@@ -499,12 +507,14 @@ void jsavedest()
 void jrealfade(Uint8 from, Uint8 tocl, Uint8 frames)
 {
     int a, b;
-    for (a = 0; a < 768; ++a)
-	ctemp[a] = cstart[a] << 7;
+    for (a = 0; a < 768; ++a) {
+        ctemp[a] = cstart[a] << 7;
+    }
     for (b = 0; b < frames; ++b)
     {
-	for (a = from * 3; a < tocl * 3 + 3; ++a)
+	for (a = from * 3; a < tocl * 3 + 3; ++a) {
 	    ctemp[a] += ((cdest[a] << 7) - (cstart[a] << 7)) / frames;
+    }
 	for (a = from; a <= tocl; ++a)
         {
 	    palette[a].r = ctemp[a * 3] >> 5;
@@ -530,8 +540,9 @@ void jrealfade1(Uint8 from, Uint8 tocl, Uint8 frames)
     ++realfadecount;
     if (realfadecount <= frames)
     {
-	for (a = from * 3; a < tocl * 3 + 3; ++a)
+	for (a = from * 3; a < tocl * 3 + 3; ++a) {
 	    ctemp[a] += ((cdest[a] << 7) - (cstart[a] << 7)) / frames;
+    }
 	for (a = from; a <= tocl; ++a)
         {
 	    palette[a].r = ctemp[a * 3] >> 5;
@@ -559,12 +570,15 @@ void jvrc()
 void jvcfillbox(int x, int y, int x2, int y2, Uint8 color)
 {
     int b;
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
-    for (b = y; b <= y2; ++b)
-	memset((Uint8 *) screen->pixels + b * screen->pitch + x, color, x2 - x + 1);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
+    for (b = y; b <= y2; ++b) {
+        memset((Uint8 *) screen->pixels + b * screen->pitch + x, color, x2 - x + 1);
+    }
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 }
 
 void jerror(char *description, int errorcode)
@@ -588,16 +602,18 @@ void jloadpcxpalpartdest(char *filename, Uint8 from, Uint8 tocl)
     UTIL_FILE *f;
     unsigned short int a;
     Uint8 *buf;
-    if (util_finitialized == 0)
-	util_finit();
+    if (util_finitialized == 0) {
+        util_finit();
+    }
     f = util_fopen(filename);
     if (f != NULL)
     {
 	buf = (Uint8 *) malloc(768);
 	util_fseek(f, -768, SEEK_END);
 	util_fread(buf, 768, 1, f);
-	for (a = from * 3; a < tocl * 3 + 3; a++)
-	    cdest[a] = (short) (*(buf + a) >> 2);
+    for (a = from * 3; a < tocl * 3 + 3; a++) {
+        cdest[a] = (short) (*(buf + a) >> 2);
+    }
 	free(buf);
 	util_fclose(f);
     }
@@ -608,8 +624,9 @@ void jloadpcxpalpart(char *filename, Uint8 from, Uint8 tocl)
     UTIL_FILE *f;
     unsigned short int a;
     Uint8 *buf;
-    if (util_finitialized == 0)
-	util_finit();
+    if (util_finitialized == 0) {
+        util_finit();
+    }
     f = util_fopen(filename);
     if (f != NULL)
     {
@@ -631,16 +648,18 @@ void jloadpcxpalpart(char *filename, Uint8 from, Uint8 tocl)
 void jclearpal()
 {
     int a;
-    for (a = 0; a < 256; ++a)
-	palette[a].r = palette[a].g = palette[a].b = 0;
+    for (a = 0; a < 256; ++a) {
+        palette[a].r = palette[a].g = palette[a].b = 0;
+    }
     SDL_SetPaletteColors(screen->format->palette, palette, 0, 256);
 }
 
 void jclearstart()
 {
     unsigned short int a;
-    for (a = 0; a < 768; a++)
-	cstart[a] = 0;
+    for (a = 0; a < 768; a++) {
+        cstart[a] = 0;
+    }
 }
 
 void jpal(int color, int r, int g, int b)
@@ -653,39 +672,47 @@ void jpal(int color, int r, int g, int b)
 
 void jvcsprite(int x, int y, int wid, int hei, Uint8 * sour)
 {
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
     jcsprite(x, y, wid, hei, screen->pitch, (Uint8 *) screen->pixels, sour);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 }
 
 void jvdump(int startofs, int pixels, Uint8 * sour)
 {
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
     memcpy((Uint8 *) screen->pixels + startofs, sour, pixels);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 
 }
 
 void jvcblockclip(int xx, int yy, int width, int height, int x1, int y1, int x2, int y2, Uint8 * sour)
 {
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
     jcblockclip(xx, yy, width, height, x1, y1, x2, y2, screen->pitch, (Uint8 *) screen->pixels, sour);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 }
 
 void jvline(int x1, int y1, int x2, int y2, Uint8 c)
 {
-    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0)
-	return;
+    if (SDL_MUSTLOCK(screen) && SDL_LockSurface(screen) < 0) {
+        return;
+    }
     util_line(x1, y1, x2, y2, c, screen->pitch, (char *) screen->pixels);
-    if (SDL_MUSTLOCK(screen))
-	SDL_UnlockSurface(screen);
+    if (SDL_MUSTLOCK(screen)) {
+        SDL_UnlockSurface(screen);
+    }
 }
 
 void jcscalesprite(int xx, int yy, int wid, int hei, int scwid, int schei,
@@ -694,10 +721,12 @@ void jcscalesprite(int xx, int yy, int wid, int hei, int scwid, int schei,
     int xinc, yinc, tx, ty, u, v, v2, scro, souru, sourv, w, h, x, y, c, txwid = wid;
     Uint8 *scr;
 
-    if ((scwid == 0) || (schei == 0))
-	return;
-    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei))
-	return;
+    if ((scwid == 0) || (schei == 0)) {
+        return;
+    }
+    if ((x1 > x2) || (y1 > y2) || (xx > x2) || (yy > y2) || (xx <= x1 - scwid) || (yy <= y1 - schei)) {
+        return;
+    }
 
     xinc = (wid << 16) / scwid;
     yinc = (hei << 16) / schei;
@@ -731,20 +760,19 @@ void jcscalesprite(int xx, int yy, int wid, int hei, int scwid, int schei,
 
     v = sourv;
     scro = y * pgwid + x;
-    for (ty = 0; ty < h; ty++)
-    {
-	scr = (Uint8 *) (dest + scro);
-	u = souru;
-	v2 = (v >> 16) * txwid;
-	for (tx = 0; tx < w; tx++)
-        {
-	    if ((c = *(sour + (u >> 16) + v2)))
-		*((Uint8 *) (scr++)) = (Uint8) c;
-	    else
-		scr++;
-	    u += xinc;
-	}
-	scro += pgwid;
-	v += yinc;
+    for (ty = 0; ty < h; ty++) {
+        scr = (Uint8 *) (dest + scro);
+        u = souru;
+        v2 = (v >> 16) * txwid;
+        for (tx = 0; tx < w; tx++) {
+            if ((c = *(sour + (u >> 16) + v2))) {
+                *((Uint8 *) (scr++)) = (Uint8) c;
+            } else {
+                scr++;
+            }
+            u += xinc;
+        }
+        scro += pgwid;
+        v += yinc;
     }
 }

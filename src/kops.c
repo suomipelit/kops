@@ -174,8 +174,9 @@ int main(int argc, char *argv[])
                 count--;
 	}
     }
-    if (mtmp == 0)
-	minitfile = strdup(MINITFILE);
+    if (mtmp == 0) {
+        minitfile = strdup(MINITFILE);
+    }
 
     init();
 
@@ -191,22 +192,18 @@ int main(int argc, char *argv[])
 
     while (mainmenu() != 6)
     {
-	for (a = 0; a < players; a++)
-        {
+	for (a = 0; a < players; a++) {
 	    resetplayer(a);
 	}
-	for (a = 0; a < bots; a++)
-        {
+	for (a = 0; a < bots; a++) {
 	    resetplayer(MAXPLAYERS + a);
 	}
 
-	for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
-        {
+	for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
 	    wins[a] = 0;
 	}
 
-	for (a = 0; a < levels; a++)
-        {
+	for (a = 0; a < levels; a++) {
 	    round_number = a + 1;
 	    jloadpcxpalpartdest((char *) (&levlist[a]) + 1, 0, 127);
 	    jloadpcxpalpartdest(KOPSGFXFILE, 128, 191);
@@ -220,12 +217,14 @@ int main(int argc, char *argv[])
 	    game();
 	    //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2); SP-TODO
 	    jatko = 0;
-	    if (a < levels - 1)
-		jatko = statusscreen();
-	    else
-		endgamescreen();
-	    if (jatko == 1)
-		a = levels;
+        if (a < levels - 1) {
+            jatko = statusscreen();
+        } else {
+            endgamescreen();
+        }
+        if (jatko == 1) {
+            a = levels;
+        }
 	}
     }
 

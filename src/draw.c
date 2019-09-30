@@ -59,16 +59,18 @@ void level_noparallax(Uint8 * dest, int winx, int winy)
     int b;
     Uint8 *destofs = dest;
     Uint8 *sourceofs = level + winy * levw + winx;
-    for (b = 0; b < WINH; b++)
-	memcpy(destofs + b * WINW, sourceofs + b * levw, WINW);
+    for (b = 0; b < WINH; b++) {
+        memcpy(destofs + b * WINW, sourceofs + b * levw, WINW);
+    }
 }
 
 void parallax(Uint8 * dest, int winx, int winy)
 {
-    if (parallaxdraw)
-	level_parallax(dest, winx, winy);
-    else
-	level_noparallax(dest, winx, winy);
+    if (parallaxdraw) {
+        level_parallax(dest, winx, winy);
+    } else {
+        level_noparallax(dest, winx, winy);
+    }
 }
 
 void updatescreen()
@@ -88,21 +90,26 @@ void updatescreen()
                     out = plr[1].scr;
                     if (plr[1].sensorjam > 0)
                     {
-                        for (b = 0; b < WINH; b += 4)
-                            for (a = 0; a < WINW; a += 4)
-                                for (c = 0; c < 4; c++)
+                        for (b = 0; b < WINH; b += 4) {
+                            for (a = 0; a < WINW; a += 4) {
+                                for (c = 0; c < 4; c++) {
                                     memset(out + (b + c) * WINW + a, *(out + (b * WINW + a)), 4);
+                                }
+                            }
+                        }
                     }
                     if (plr[1].flip > 0)
                     {
-                        for (b = 0; b < WINH; b++)
+                        for (b = 0; b < WINH; b++) {
                             memcpy(plr[1].tmp + b * WINW, plr[1].scr + (WINH - b - 1) * WINW, WINW);
+                        }
                         out = plr[1].tmp;
                     }
                     else if (plr[1].signal > 0)
                     {
-                        for (b = updatecounter & 3; b < WINH; b += 4)
+                        for (b = updatecounter & 3; b < WINH; b += 4) {
                             memcpy(plr[1].tmp + (b * WINW), plr[1].scr + (b * WINW), WINW);
+                        }
                         out = plr[1].tmp;
                     }
                     jvcblock(0, 0, WINW, WINH, out);
@@ -114,21 +121,26 @@ void updatescreen()
                     out = plr[2].scr;
                     if (plr[2].sensorjam > 0)
                     {
-                        for (b = 0; b < WINH; b += 4)
-                            for (a = 0; a < WINW; a += 4)
-                                for (c = 0; c < 4; c++)
+                        for (b = 0; b < WINH; b += 4) {
+                            for (a = 0; a < WINW; a += 4) {
+                                for (c = 0; c < 4; c++) {
                                     memset(out + (b + c) * WINW + a, *(out + (b * WINW + a)), 4);
+                                }
+                            }
+                        }
                     }
                     if (plr[2].flip > 0)
                     {
-                        for (b = 0; b < WINH; b++)
+                        for (b = 0; b < WINH; b++) {
                             memcpy(plr[2].tmp + b * WINW, plr[2].scr + (WINH - b - 1) * WINW, WINW);
+                        }
                         out = plr[2].tmp;
                     }
                     else if (plr[2].signal > 0)
                     {
-                        for (b = updatecounter & 3; b < WINH; b += 4)
+                        for (b = updatecounter & 3; b < WINH; b += 4) {
                             memcpy(plr[2].tmp + (b * WINW), plr[2].scr + (b * WINW), WINW);
+                        }
                         out = plr[2].tmp;
                     }
                     jvcblock(320, 0, WINW, WINH, out);
@@ -140,27 +152,33 @@ void updatescreen()
                     out = plr[0].scr;
                     if (plr[0].sensorjam > 0)
                     {
-                        for (b = 0; b < WINH; b += 4)
-                            for (a = 0; a < WINW; a += 4)
-                                for (c = 0; c < 4; c++)
+                        for (b = 0; b < WINH; b += 4) {
+                            for (a = 0; a < WINW; a += 4) {
+                                for (c = 0; c < 4; c++) {
                                     memset(out + (b + c) * WINW + a, *(out + (b * WINW + a)), 4);
+                                }
+                            }
+                        }
                     }
                     if (plr[0].flip > 0)
                     {
-                        for (b = 0; b < WINH; b++)
+                        for (b = 0; b < WINH; b++) {
                             memcpy(plr[0].tmp + b * WINW, plr[0].scr + (WINH - b - 1) * WINW, WINW);
+                        }
                         out = plr[0].tmp;
                     }
                     else if (plr[0].signal > 0)
                     {
-                        for (b = updatecounter & 3; b < WINH; b += 4)
+                        for (b = updatecounter & 3; b < WINH; b += 4) {
                             memcpy(plr[0].tmp + (b * WINW), plr[0].scr + (b * WINW), WINW);
+                        }
                         out = plr[0].tmp;
                     }
-                    if (players == 1)
+                    if (players == 1) {
                         jvcblock(160, 120, WINW, WINH, out);
-                    else
+                    } else {
                         jvcblock(320, 240, WINW, WINH, out);
+                    }
                 }
                 break;
             case 3:
@@ -169,21 +187,26 @@ void updatescreen()
                     out = plr[3].scr;
                     if (plr[3].sensorjam > 0)
                     {
-                        for (b = 0; b < WINH; b += 4)
-                            for (a = 0; a < WINW; a += 4)
-                                for (c = 0; c < 4; c++)
+                        for (b = 0; b < WINH; b += 4) {
+                            for (a = 0; a < WINW; a += 4) {
+                                for (c = 0; c < 4; c++) {
                                     memset(out + (b + c) * WINW + a, *(out + (b * WINW + a)), 4);
+                                }
+                            }
+                        }
                     }
                     if (plr[3].flip > 0)
                     {
-                        for (b = 0; b < WINH; b++)
+                        for (b = 0; b < WINH; b++) {
                             memcpy(plr[3].tmp + b * WINW, plr[3].scr + (WINH - b - 1) * WINW, WINW);
+                        }
                         out = plr[3].tmp;
                     }
                     else if (plr[3].signal > 0)
                     {
-                        for (b = updatecounter & 3; b < WINH; b += 4)
+                        for (b = updatecounter & 3; b < WINH; b += 4) {
                             memcpy(plr[3].tmp + (b * WINW), plr[3].scr + (b * WINW), WINW);
+                        }
                         out = plr[3].tmp;
                     }
                     jvcblock(0, 240, WINW, WINH, out);
@@ -225,13 +248,13 @@ void drawscreen()
         }
     }
 
-    for (p = 0; p < MAXPLAYERS; p++)
+    for (p = 0; p < MAXPLAYERS; p++) {
         if (plr[p].active)
         {
             /*  level */
             parallax(plr[p].scr, plr[p].wx, plr[p].wy);
             /*  crap */
-            for (a = 0; a < MAXCRAP; a++)
+            for (a = 0; a < MAXCRAP; a++) {
                 if (crap[a].active)
                 {
                     x = crap[a].xp - plr[p].wx;
@@ -262,22 +285,27 @@ void drawscreen()
                                     *(plr[p].scr + o - WINW) = *(transp + (*(plr[p].scr + o - WINW) << 8) + b);
                                 }
                                 else {
-                                    if (rand() & 1)
+                                    if (rand() & 1) {
                                         *(plr[p].scr + o) = (Uint8) b;
-                                    if (rand() & 1)
+                                    }
+                                    if (rand() & 1) {
                                         *(plr[p].scr + o + 1) = (Uint8) b;
-                                    if (rand() & 1)
+                                    }
+                                    if (rand() & 1) {
                                         *(plr[p].scr + o + WINW) = (Uint8) b;
-                                    if (rand() & 1)
+                                    }
+                                    if (rand() & 1) {
                                         *(plr[p].scr + o + WINW + 1) = (Uint8) b;
+                                    }
                                 }
                             }
                             break;
                         case 1:
                         case 2:
                             if ((x >= 0) && (y >= 0) && (x < WINW)
-                                && (y < WINH))
+                                && (y < WINH)) {
                                 *(plr[p].scr + y * WINW + x) = crap[a].c;
+                            }
                             break;
                         case 3:
                             if ((x > 0) && (y > 0) && (x < WINW - 1)
@@ -291,8 +319,9 @@ void drawscreen()
                             break;
                     }
                 }
+            }
             /*  ships (not own) */
-            for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
+            for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++) {
                 if ((plr[a].active) && (a != p))
                 {
                     if (plr[a].energy > 0)
@@ -335,6 +364,7 @@ void drawscreen()
                         }
                     }
                 }
+            }
             /*  own ship */
             if (plr[p].energy > 0)
             {
@@ -372,7 +402,7 @@ void drawscreen()
                 }
             }
             /*  ammos */
-            for (a = 0; a < MAXAMMO; a++)
+            for (a = 0; a < MAXAMMO; a++) {
                 if (ammo[a].active)
                 {
                     switch (ammo[a].type)
@@ -447,16 +477,16 @@ void drawscreen()
                         case W_DOT:
                             x = ammo[a].xp - plr[p].wx;
                             y = ammo[a].yp - plr[p].wy;
-                            if ((x >= 0) && (y >= 0) && (x < WINW)
-                                && (y < WINH))
+                            if ((x >= 0) && (y >= 0) && (x < WINW) && (y < WINH)) {
                                 *(plr[p].scr + y * WINW + x) = (Uint8) 255;
+                            }
                             break;
                         case W_DELBLAST:
                             x = ammo[a].xp - plr[p].wx;
                             y = ammo[a].yp - plr[p].wy;
-                            if ((x >= 0) && (y >= 0) && (x < WINW)
-                                && (y < WINH))
+                            if ((x >= 0) && (y >= 0) && (x < WINW) && (y < WINH)) {
                                 *(plr[p].scr + y * WINW + x) = 185;
+                            }
                             break;
                         case W_PULSLASER:
                             x = ammo[a].xp - plr[p].wx;
@@ -509,8 +539,9 @@ void drawscreen()
 #endif
                     }
                 }
+            }
             /*  booms */
-            for (a = 0; a < MAXBOOMS; a++)
+            for (a = 0; a < MAXBOOMS; a++) {
                 if (boom[a].active)
                 {
                     if (boom[a].frm == 0)
@@ -575,8 +606,9 @@ void drawscreen()
                         }
                     }
                 }
+            }
             /*  pickammos */
-            for (a = 0; a < pickammospots; a++)
+            for (a = 0; a < pickammospots; a++) {
                 if (pickammo[a].active)
                 {
                     x = pickammo[a].xp - plr[p].wx - bulletbox[pickammo[a].type].w / 2;
@@ -585,6 +617,7 @@ void drawscreen()
                                  bulletbox[pickammo[a].type].h, 0, 0,
                                  WINW - 1, WINH - 1, WINW, plr[p].scr, bulletbox[pickammo[a].type].pic);
                 }
+            }
             /*  energy */
             switch (p)
             {
@@ -674,7 +707,7 @@ void drawscreen()
                 c = (WINW - (slots - 1) * 16 - 32) / 2;
                 for (a = 0; a < slots; a++)
                 {
-                    if (plr[p].activeslot == a)
+                    if (plr[p].activeslot == a) {
                         jcscalespritem((c +=
                                         32) - 29 +
                                        bulletbox[plr[p].slots[a]].w,
@@ -696,12 +729,13 @@ void drawscreen()
                                            FIXS) / 2)) >> (FIXP + 1)), 0,
                                        0, WINW - 1, WINH - 1, WINW,
                                        plr[p].scr, bulletbox[plr[p].slots[a]].pic);
-                    else
+                    } else {
                         jcsprite((c +=
                                   16) - 16, 100 + *(wave + plr[p].wx + a),
                                  bulletbox[plr[p].slots[a]].w,
                                  bulletbox[plr[p].slots[a]].h, WINW,
                                  plr[p].scr, bulletbox[plr[p].slots[a]].pic);
+                    }
                 }
                 kprintf(plr[p].scr, font, 5, 60, WINW, "normal weapon:");
                 kprintf(plr[p].scr, font, 138, 60, WINW, wnames[plr[p].ammo1]);
@@ -757,6 +791,7 @@ void drawscreen()
                      WINW, plr[p].scr, bulletbox[plr[p].ammo2].pic);
 
         }
+    }
 
     for (a = 0; a < (MAXPLAYERS + MAXBOTS); a++)
     {
