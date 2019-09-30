@@ -31,10 +31,9 @@
 #include <math.h>
 #include <string.h>
 #include <ctype.h>
-#ifdef _POSIX_SOURCE
+#ifndef _WIN32
 #include <dirent.h>
 #include <sys/stat.h>
-#include <stdio.h>
 #endif
 #include "wport.h"
 #include "global.h"
@@ -469,7 +468,7 @@ void initgfxstructures()
 void initlevels()
 {
 #ifdef REG
-#ifndef _POSIX_SOURCE
+#ifdef _WIN32
     struct _finddata_t fileinfo;
     long hFile;
 #else
@@ -508,7 +507,7 @@ void initlevels()
     strcpy(levlist[0], levall[rand() % LEVELS]);
 #ifdef REG
     /*  if registered version, scan for external levels (*.KOP) */
-#ifndef _POSIX_SOURCE
+#ifdef _WIN32
     rc = hFile = _findfirst("*.KOP", &fileinfo);
     if (rc >= 0)
 	rc = 0;
