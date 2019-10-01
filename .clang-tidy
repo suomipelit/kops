@@ -1,0 +1,9 @@
+---
+Checks: '-clang-analyzer-security.insecureAPI.rand,readability-braces-around-statements,-google-readability*,-*magic-numbers,hicpp-braces-*'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+FormatStyle: file
+CheckOptions:
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'
