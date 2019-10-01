@@ -5,7 +5,7 @@
 #ifndef KB_PARSER_H
 #define KB_PARSER_H 1
 
-#include "../../global.h"
+#include "global.h"
 
 /**
  * Limits 

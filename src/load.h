@@ -5,6 +5,7 @@
 #ifndef LOAD_H_INCLUDED
 #define LOAD_H_INCLUDED
 
+#include <SDL_stdinc.h>
 
 extern void saveconfig();
 extern void newconfig();

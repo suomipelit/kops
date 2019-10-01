@@ -20,10 +20,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "../../global.h"
+#include <SDL_stdinc.h>
+#include "global.h"
 #include "kb-parser.h"
 #include "parser-io.h"
-#include "util.h"
+#include "../util.h"
 
 Config config;
 

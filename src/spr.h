@@ -5,6 +5,8 @@
 #ifndef SPR_H_INCLUDED
 #define SPR_H_INCLUDED
 
+#include <SDL_stdinc.h>
+#include "global.h"
 
 extern void kprintf(Uint8 * dest, FONT fnt, int x, int y, int pgwid, char *format, ...);
 extern void kprintfs(FONT fnt, int x, int y, char *format, ...);

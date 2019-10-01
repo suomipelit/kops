@@ -16,10 +16,10 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include "config.h"
+#include "../config.h"
 #include "kb-parser.h"
 #include "parser-io.h"
-#include "util.h"
+#include "../util.h"
 
 static int  printVariableDefinitions(KBContext *ctx, FILE *file);
 static int  printPerceptDefinitions( KBContext *ctx, FILE *file);

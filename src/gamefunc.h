@@ -5,6 +5,7 @@
 #ifndef GAMEFUNC_H_INCLUDED
 #define GAMEFUNC_H_INCLUDED
 
+#include <SDL_stdinc.h>
 
 extern void placeplayer(int nro);
 

@@ -5,6 +5,7 @@
 #ifndef LOGO_H_INCLUDED
 #define LOGO_H_INCLUDED
 
+#include <SDL_stdinc.h>
 
 extern void logo_init();
 extern void logo_deinit();

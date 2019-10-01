@@ -10,6 +10,9 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
+#include <stddef.h>
+
 #define UTIL_MAXLIBS     32
 #define UTIL_MAXLIBFILES 1024
 #define UTIL_FILENAMELEN 40

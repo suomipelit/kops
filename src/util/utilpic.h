@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 
+#include <SDL_stdinc.h>
 
 typedef struct
 {

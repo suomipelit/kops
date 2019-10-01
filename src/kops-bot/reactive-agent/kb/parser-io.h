@@ -5,6 +5,9 @@
 #ifndef KOPS_BOT_PARSER_IO_H
 #define KOPS_BOT_PARSER_IO_H 1
 
+#include <stdio.h>
+#include "kb-parser.h"
+
 #define INDENT_WIDTH 4
 
 #define BUFFER_SIZE       1024
