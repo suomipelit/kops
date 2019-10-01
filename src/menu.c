@@ -423,9 +423,9 @@ void levelsmenu()
                 {
                     sound_eff(S_MENUCHOOS, 48, 128, 16384, 1);
                     for (a = levels; a > lm2sel; a--) {
-                        strcpy(levlist[a], levlist[a - 1]);
+                        strncpy(levlist[a], levlist[a - 1], LEVEL_NAME_LENGTH);
                     }
-                    strcpy(levlist[lm2sel], levall[lm1sel]);
+                    strncpy(levlist[lm2sel], levall[lm1sel], LEVEL_NAME_LENGTH);
                     levels++;
                     levwin1();
                     levwin2();
@@ -511,7 +511,7 @@ void levelsmenu()
                             if (levels > 1)
                             {
                                 for (a = lm2sel; a < levels; a++) {
-                                    strcpy(levlist[a], levlist[a + 1]);
+                                    strncpy(levlist[a], levlist[a + 1], LEVEL_NAME_LENGTH);
                                 }
                                 levels--;
                                 if (lm2sel >= levels) {
@@ -522,12 +522,12 @@ void levelsmenu()
                             break;
                         case 1:
                             levels = 1;
-                            strcpy(levlist[0], levall[rand() % alllevels]);
+                            strncpy(levlist[0], levall[rand() % alllevels], LEVEL_NAME_LENGTH);
                             levwin2();
                             break;
                         case 2:
                             for (a = 0; a < levels; a++) {
-                                strcpy(levlist[a], levall[rand() % alllevels]);
+                                strncpy(levlist[a], levall[rand() % alllevels], LEVEL_NAME_LENGTH);
                             }
                             levwin2();
                             break;

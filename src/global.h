@@ -63,6 +63,10 @@
 #define MAXLEVELS   1024
 #define MAXGMUS     256
 #define ALLSAMPLES  262144
+// SP: string limits
+#define WEAPON_NAME_LENGTH 21
+#define LEVEL_NAME_LENGTH 14
+#define EFFECT_NAME_LENGTH 13
 /*********  debug/test/etc defines  ************************/
 /* #define ONEPLRTWEAK */
 /*********  file names  ************************************/
@@ -350,13 +354,13 @@ extern int      *wave;		/* moving waterwave */
 extern Uint8     slots;		/* max amount of active weapon slots */
 extern int       waterwaves, basepixels;	/* waterwaves & basepixels on level */
 extern int       basepixcount;	/* base regeneration counter */
-extern char      wnames[BULLETTYPES][21];	/* weapon names */
+extern char      wnames[BULLETTYPES][WEAPON_NAME_LENGTH];	/* weapon names */
 extern int       pickammospots;	/* pickammo spots */
 extern int       totalprob;		/* ammo probabilities */
 extern int       alllevels, levels;	/* amount of all&choosed levels */
-extern char      levall[MAXLEVELS][14];	/* all levels found */
-extern char      levlist[MAXLEVELS][14];	/* choosed levels */
-extern char      effnames[SNDEFFECTS][13];	/* sound effect file names */
+extern char      levall[MAXLEVELS][LEVEL_NAME_LENGTH];	/* all levels found */
+extern char      levlist[MAXLEVELS][LEVEL_NAME_LENGTH];	/* choosed levels */
+extern char      effnames[SNDEFFECTS][EFFECT_NAME_LENGTH];	/* sound effect file names */
 extern Uint8     m_game[MAXGMUS];	/* music starting orders info */
 extern int       m_startmenu, m_status, m_endgame, m_info;
 extern int       mgcount;		/* count of game musics */

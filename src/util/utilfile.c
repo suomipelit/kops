@@ -151,7 +151,7 @@ int util_fopenlib(char *filename)
     if (util_finitialized==0) util_finit();
     for (a=0;a<UTIL_MAXLIBS;a++) if (util_flib[a].files==0) lib=a;
     if (lib==UTIL_MAXLIBS) return(-1);
-    strcpy(util_flib[lib].libname,filename);
+    strncpy(util_flib[lib].libname,filename, 40);
     fp=fopen(filename,"rb");
     if (fp==NULL) return(-2);
     fread(&sig,4,1,fp);
