@@ -16,6 +16,7 @@
 #ifndef KOPS_BOT_UTIL
 #define KOPS_BOT_UTIL 1
 
+#include <SDL_stdinc.h>
 #include "config.h"
 
 #ifndef TRUE
@@ -129,7 +130,7 @@ static void _debug_kludge(int, ...) {}
  * Print out debug message.
  * Used by logDebug -macro. 
  */ 
-extern void debugMsg(unsigned int lvl, char* fmt, ...);
+extern void debugMsg(Uint32 lvl, char* fmt, ...);
 
 /**
  * Log access, error or warning.

@@ -1,5 +1,5 @@
 /* special-action.c
- * Copyright 2002 Sami Mäkinen-Okubo
+ * Copyright 2002 Sami MÃ¤kinen-Okubo
  *
  * $Id: special-action.c,v 1.1 2003/04/15 18:15:56 tonic Exp $
  * $Revision: 1.1 $

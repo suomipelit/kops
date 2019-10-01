@@ -11,8 +11,8 @@
  * Limits 
  */
 #define MAX_KBNAME_LEN                  32
-#define MAX_PERCEPTS                    (sizeof(unsigned int) * 8)
-#define MAX_TRUTH_VARIABLES             (sizeof(unsigned int) * 8)
+#define MAX_PERCEPTS                    (sizeof(Uint32) * 8)
+#define MAX_TRUTH_VARIABLES             (sizeof(Uint32) * 8)
 #define MAX_PARAMETERS                  7
 
 /**

@@ -27,7 +27,7 @@
 #include "wport.h"
 #include "global.h"
 
-void placeplayer(char nro)
+void placeplayer(Uint8 nro)
 {
     int err = 1, a, b, x = 0, y = 0;
     while (err > 0)
@@ -204,7 +204,7 @@ Uint8 basedetect(char nro)
 }
 #endif /* OLD API. */
 
-void newammo(char player, char type)
+void newammo(Uint8 player, Uint8 type)
 {
     int a;
     ammo[nextammo].active = 1;
@@ -708,7 +708,7 @@ void newpickammo()
     }
 }
 
-void newcrap(int xp, int yp, char type)
+void newcrap(int xp, int yp, Uint8 type)
 {
     crap[nextcrap].active = 1;
     crap[nextcrap].type = type;
@@ -729,7 +729,7 @@ void newcrap(int xp, int yp, char type)
     nextcrap = (nextcrap + 1) % MAXCRAP;
 }
 
-void newplrcrap(char player, char type)
+void newplrcrap(Uint8 player, Uint8 type)
 {
     int a;
     crap[nextcrap].active = 1;

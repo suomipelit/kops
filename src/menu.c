@@ -33,7 +33,7 @@
 #include "sound.h"
 
 PIC menupic, menublur;
-unsigned int menufrm;
+Uint32 menufrm;
 Uint8 *menutmp;
 
 void dostatus()

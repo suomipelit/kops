@@ -36,27 +36,27 @@ static FSOUND_SAMPLE *samp[SNDEFFECTS];
 static int curshortchn = 0, curlongchn = 0;
 static int muschannels;
 
-static unsigned int fmodopen(const char *name)
+static Uint32 fmodopen(const char *name)
 {
-    return (unsigned int) util_fopen((char *) name);
+    return (Uint32) util_fopen((char *) name);
 }
 
-static void fmodclose(unsigned int handle)
+static void fmodclose(Uint32 handle)
 {
     util_fclose((UTIL_FILE *) handle);
 }
 
-static int fmodread(void *buffer, int size, unsigned int handle)
+static int fmodread(void *buffer, int size, Uint32 handle)
 {
     return util_fread(buffer, 1, size, (UTIL_FILE *) handle);
 }
 
-static int fmodseek(unsigned int handle, int pos, signed char mode)
+static int fmodseek(Uint32 handle, int pos, signed char mode)
 {
     return util_fseek((UTIL_FILE *) handle, pos, mode);
 }
 
-static int fmodtell(unsigned int handle)
+static int fmodtell(Uint32 handle)
 {
     return util_ftell((UTIL_FILE *) handle);
 }

@@ -22,22 +22,22 @@ extern "C" {
 #define MAX(x,y) ((x)>(y)?(x):(y))
 #endif
 
-extern unsigned int util_gettick();
-extern void util_line(int x1,int y1,int x2,int y2,unsigned char c,int pgwid,char *dest);
+extern Uint32 util_gettick();
+extern void util_line(int x1,int y1,int x2,int y2,Uint8 c,int pgwid,char *dest);
 extern void util_lineclip(int x1,int y1,int x2,int y2,int cx1,int cy1,
-                          int cx2,int cy2,unsigned char c,int pgwid,char *dest);
-extern void util_loadpcx(char *dest,char *filename,unsigned int bytes);
+                          int cx2,int cy2,Uint8 c,int pgwid,char *dest);
+extern void util_loadpcx(char *dest,char *filename,Uint32 bytes);
 extern void util_loadpcxpi(char *filename,PIC *pic);
 extern void util_loadpcxpihdr(char *filename,PIC *pic);
 extern void util_freepi(PIC *pic);
 extern char * util_conv8to32(char *img,char *pal,unsigned long bytes);
 extern void util_loadpcxpalptr(char *pal,char *filename);
 extern void util_circle(int xx,int yy,int r,int cx1,int cy1,int cx2,int cy2,
-                        unsigned char c,int pgwid,char *dest);
+                        Uint8 c,int pgwid,char *dest);
 
 extern void util_xorrand(char *data,int seed,int datalen);
 
-extern unsigned int util_filesize(FILE *fp);
+extern Uint32 util_filesize(FILE *fp);
 extern char util_fileexists(char *filename);
 
 

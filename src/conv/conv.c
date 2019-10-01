@@ -66,7 +66,7 @@ char versmaj=0;
 char versmin=4;
 
 char sig[8]={'K','O','P','S','L','E','V',26};
-unsigned int revision=LEVELREV;
+Uint32 revision=LEVELREV;
 char *copyright="Copyright 1996,2001,2003 Jetro Lauha.";
 
 void calctransp(char *transp)

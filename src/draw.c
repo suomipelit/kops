@@ -29,7 +29,7 @@
 #include "spr.h"
 #include "gamefunc.h"
 
-unsigned int updatecounter = 0;
+Uint32 updatecounter = 0;
 
 void level_parallax(Uint8 * dest, int winx, int winy)
 {				/* or+and version */
@@ -220,7 +220,7 @@ void drawscreen()
             for (b = 1; b < 4; b++)
             {
                 *(level + (water[a].y + *(wave + water[a].x) - b) * levw + water[a].x) = 0;
-                *(mask + (water[a].y + *(wave + water[a].x) - b) * levw + water[a].x) = (unsigned char) 255;
+                *(mask + (water[a].y + *(wave + water[a].x) - b) * levw + water[a].x) = (Uint8) 255;
             }
         }
     }
@@ -305,7 +305,7 @@ void drawscreen()
                                                 plr[a].yp - plr[p].wy,
                                                 SHIPW, SHIPH, 0, 0,
                                                 WINW - 1, WINH - 1, WINW,
-                                                (unsigned char) 255,
+                                                (Uint8) 255,
                                                 plr[p].scr, plr[a].ship + (plr[a].dir >> FIXP) * SHIPSIZE);
                             }
                             else {

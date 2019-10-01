@@ -70,7 +70,7 @@
 #define RADAR_RANGE 6
 #define BEAM_MAX    8
 
-typedef unsigned int flag_t;
+typedef Uint32 flag_t;
 
 /**
  * World grid location state context. 

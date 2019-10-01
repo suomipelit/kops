@@ -63,5 +63,5 @@ elseif (UNIX)
 endif()
 
 if (APPLE)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE _POSIX_SOURCE=1 PATH_MAX=260)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE PATH_MAX=260)
 endif()

@@ -333,7 +333,7 @@ typedef struct BASE_CLUSTER {
 
 extern volatile unsigned long int framecounter;
 extern volatile Uint8 gamepause;
-extern unsigned int cnt;
+extern Uint32 cnt;
 extern char      *copyright;
 extern int       windowed;
 extern int       versmaj, versmin;	/* major & minor version */
@@ -362,7 +362,7 @@ extern int       m_startmenu, m_status, m_endgame, m_info;
 extern int       mgcount;		/* count of game musics */
 extern char     *minitfile;		/* music init file */
 extern Uint8     s_sdevice, s_interp, s_shortchn, s_longchn, s_musvol, s_effvol;
-extern unsigned int s_samprate;	/* sound infos */
+extern Uint32 s_samprate;	/* sound infos */
 extern Uint8     snd;		/* sounds on/off (1/0) */
 extern Uint8     kludgesnd;		/* force sound disable as an command line parameter */
 extern int       wins[MAXPLAYERS+MAXBOTS];	/* win table */
@@ -372,7 +372,7 @@ extern Uint8     gamewindowcolorrand;
 extern Uint8     players;
 extern Uint8     bots;
 extern Uint8     testmode;
-extern int       nextammo, nextcrap, nextboom;
+extern Uint32    nextammo, nextcrap, nextboom;
 extern Uint8     wttrans[WTTRANSLEN];
 extern Uint8     wttable[WTTABLELEN];
 extern PLAYER    plr[MAXPLAYERS+MAXBOTS];
