@@ -5,8 +5,8 @@
 #ifndef KOPS_BOT_CANNONFODDER_H
 #define KOPS_BOT_CANNONFODDER_H 1
 
-#include "config.h"
-#include "util.h"
+#include "bot-config.h"
+#include "bot-util.h"
 #include "../../global.h"
 
 #define FULL_SPEED_LIMIT    (FIXS*28/10)

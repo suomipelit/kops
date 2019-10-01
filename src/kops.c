@@ -31,7 +31,7 @@
 #include "draw.h"
 #include "game.h"
 #include "menu.h"
-#include "kops-bot/reactive-agent/util.h"
+#include "kops-bot/reactive-agent/bot-util.h"
 
 
 /*****  GLOBAL variables  ************************************************/

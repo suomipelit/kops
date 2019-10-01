@@ -24,7 +24,7 @@
 #include "global.h"
 #include "kb-parser.h"
 #include "parser-io.h"
-#include "../util.h"
+#include "../bot-util.h"
 
 Config config;
 

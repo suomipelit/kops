@@ -23,7 +23,7 @@
 #include "gamefunc.h"
 #include "sound.h"
 #include "spr.h"
-#include "kops-bot/reactive-agent/util.h"
+#include "kops-bot/reactive-agent/bot-util.h"
 
 /* Weapon specials. */
 static void ultraThrSpecial(int p);

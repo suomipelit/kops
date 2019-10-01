@@ -17,7 +17,7 @@
 #define KOPS_BOT_UTIL 1
 
 #include <SDL_stdinc.h>
-#include "config.h"
+#include "bot-config.h"
 
 #ifndef TRUE
 #  define TRUE 1

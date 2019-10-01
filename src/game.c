@@ -32,7 +32,7 @@
 #include "init.h"
 #include "sound.h"
 #include "kops-bot/reactive-agent/cannonfodder.h"
-#include "kops-bot/reactive-agent/util.h"
+#include "kops-bot/reactive-agent/bot-util.h"
 
 /* #define VRC */
 /* #define RASTER */
