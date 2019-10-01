@@ -32,7 +32,7 @@ PIC logopic;
 void logo_init()
 {
     util_loadpcxpi(LOGOPICFILE, &logopic);
-    logotmp = (Uint8 *) malloc(logopic.w * logopic.h);
+    logotmp = (Uint8 *)malloc(logopic.w * logopic.h);
     if (logotmp == NULL) {
         jerror("LOGO.init.malloc: No mem", logopic.w * logopic.h);
     }
@@ -45,24 +45,26 @@ void logo_deinit()
     util_freepi(&logopic);
 }
 
-void logo(Uint8 * destp, Uint8 * back, int cnt)
+void logo(Uint8 *destp, Uint8 *back, int cnt)
 {
     int a;
     Uint8 *dest = destp, *sour = logotmp;
     memcpy(logotmp, back, logopic.w * logopic.h);
     jcscalespritem(320, logopic.h / 2, logopic.w, logopic.h,
-		   logopic.w +
-		   (logopic.h * sint[(cnt * 6) % SCT]) / (FIXS * 4),
-		   logopic.h * 3 / 4 +
-		   (logopic.h * sint[(cnt * 6 + SCT / 2) % SCT]) / (FIXS *
-								    4), 0,
-		   0, 639, logopic.h - 1, 640, logotmp, logopic.pic);
-    for (a = 0; a < logopic.w * logopic.h; a += 4)
-    {
-	*(unsigned long *) (dest) = (((*(unsigned long *) (dest) << 1) +
-				      *(unsigned long *) (dest) +
-				      *(unsigned long *) (sour)) >> 2) & 0x3f3f3f3f;
-	dest += 4;
-	sour += 4;
+                   logopic.w +
+                       (logopic.h * sint[(cnt * 6) % SCT]) / (FIXS * 4),
+                   logopic.h * 3 / 4 +
+                       (logopic.h * sint[(cnt * 6 + SCT / 2) % SCT]) / (FIXS *
+                                                                        4),
+                   0,
+                   0, 639, logopic.h - 1, 640, logotmp, logopic.pic);
+    for (a = 0; a < logopic.w * logopic.h; a += 4) {
+        *(unsigned long *)(dest) = (((*(unsigned long *)(dest) << 1) +
+                                     *(unsigned long *)(dest) +
+                                     *(unsigned long *)(sour)) >>
+                                    2) &
+                                   0x3f3f3f3f;
+        dest += 4;
+        sour += 4;
     }
 }

@@ -5,10 +5,8 @@
 #ifndef VERSION_H_INCLUDED
 #define VERSION_H_INCLUDED
 
-
 /* major & minor version */
 int versmaj = 1;
 int versmin = 2;
-
 
 #endif /* !VERSION_H_INCLUDED */

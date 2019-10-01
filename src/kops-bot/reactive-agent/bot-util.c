@@ -34,18 +34,18 @@
  * @param lvl - the level when debug message will be shown.
  * @param fmt - format as in printf(3) call.
  * @param ... - variable arguments as in printf(3) call.
- */ 
-void
-debugMsg(Uint32 lvl, char* fmt, ...) {
+ */
+void debugMsg(Uint32 lvl, char *fmt, ...)
+{
 
-  va_list ap;
+    va_list ap;
 
-  if((lvl & config.debug_lvl) == lvl) {
+    if ((lvl & config.debug_lvl) == lvl) {
 
-    va_start(ap, fmt);
-    vfprintf(config.debug_log, fmt, ap);
-    va_end(ap);
-  }
+        va_start(ap, fmt);
+        vfprintf(config.debug_log, fmt, ap);
+        va_end(ap);
+    }
 }
 
 /**
@@ -55,22 +55,22 @@ debugMsg(Uint32 lvl, char* fmt, ...) {
  * @param fmt - format as in printf(3) call.
  * @param ... - variable arguments as in printf(3) call.
  */
-void
-logAccess(char* fmt, ...) {
+void logAccess(char *fmt, ...)
+{
 
-  time_t now;
-  char date_buf[30];
-  va_list ap;
+    time_t now;
+    char date_buf[30];
+    va_list ap;
 
-  time(&now);
-  strftime(date_buf, 30, "%a %Y/%m/%d %T" , localtime(&now));
-  fprintf(config.access_log, "%s: ", date_buf);
+    time(&now);
+    strftime(date_buf, 30, "%a %Y/%m/%d %T", localtime(&now));
+    fprintf(config.access_log, "%s: ", date_buf);
 
-  va_start(ap, fmt);
-  vfprintf(config.access_log, fmt, ap);
-  va_end(ap);
+    va_start(ap, fmt);
+    vfprintf(config.access_log, fmt, ap);
+    va_end(ap);
 
-  fprintf(config.access_log, "\n");
+    fprintf(config.access_log, "\n");
 }
 
 /**
@@ -80,22 +80,22 @@ logAccess(char* fmt, ...) {
  * @param fmt - format as in printf(3) call.
  * @param ... - variable arguments as in printf(3) call.
  */
-void
-logError(char* fmt, ...) {
+void logError(char *fmt, ...)
+{
 
-  time_t now;
-  char date_buf[30];
-  va_list ap;
+    time_t now;
+    char date_buf[30];
+    va_list ap;
 
-  time(&now);
-  strftime(date_buf, 30, "%a %Y/%m/%d %H:%M:%S" , localtime(&now));
-  fprintf(config.error_log, "%s: ", date_buf);
+    time(&now);
+    strftime(date_buf, 30, "%a %Y/%m/%d %H:%M:%S", localtime(&now));
+    fprintf(config.error_log, "%s: ", date_buf);
 
-  va_start(ap, fmt);
-  vfprintf(config.error_log, fmt, ap);
-  va_end(ap);
+    va_start(ap, fmt);
+    vfprintf(config.error_log, fmt, ap);
+    va_end(ap);
 
-  fprintf(config.error_log, "\n");
+    fprintf(config.error_log, "\n");
 }
 
 /**
@@ -105,21 +105,21 @@ logError(char* fmt, ...) {
  * @param fmt - format as in printf(3) call.
  * @param ... - variable arguments as in printf(3) call.
  */
-void
-logWarning(char* fmt, ...) {
+void logWarning(char *fmt, ...)
+{
 
-  time_t now;
-  char date_buf[30];
-  va_list ap;
+    time_t now;
+    char date_buf[30];
+    va_list ap;
 
-  time(&now);
-  strftime(date_buf, 30, "%a %Y/%m/%d %T" , localtime(&now));
-  fprintf(config.error_log, "%s: ", date_buf);
+    time(&now);
+    strftime(date_buf, 30, "%a %Y/%m/%d %T", localtime(&now));
+    fprintf(config.error_log, "%s: ", date_buf);
 
-  va_start(ap, fmt);
-  vfprintf(config.error_log, fmt, ap);
-  va_end(ap);
-  fprintf(config.error_log, "\n");
+    va_start(ap, fmt);
+    vfprintf(config.error_log, fmt, ap);
+    va_end(ap);
+    fprintf(config.error_log, "\n");
 }
 
 /**
@@ -130,99 +130,97 @@ logWarning(char* fmt, ...) {
  *
  * @return pointer to an allocated memory.
  */
-void*
-safeMalloc(size_t bytes) {
+void *
+safeMalloc(size_t bytes)
+{
 
-  void* space;
+    void *space;
 
-  space = malloc(bytes);
+    space = malloc(bytes);
 
-  if( !space ) {
-    logError("Ran out of memory. Exiting.");
-    exit( EXIT_FAILURE );
-  }
+    if (!space) {
+        logError("Ran out of memory. Exiting.");
+        exit(EXIT_FAILURE);
+    }
 
-  return space;
+    return space;
 }
 
 /**
  * Convert string to upper case.
  */
-void
-str2upper(char* str) {
+void str2upper(char *str)
+{
 
-    assert( str != NULL);
+    assert(str != NULL);
 
-    while( *str != '\0' ) {
-	*str = toupper( *str );
-	++str;
+    while (*str != '\0') {
+        *str = toupper(*str);
+        ++str;
     }
 }
 
-void
-logKBGrid(const KNOWLEDGE* kb) {
+void logKBGrid(const KNOWLEDGE *kb)
+{
 
-    int  x, y;
-    int  pos;
+    int x, y;
+    int pos;
     char mark;
 
     fprintf(config.access_log, "\n");
-    for(y = 0; y < kb->grid_height; ++y ) {
-	for(x = 0; x < kb->grid_width; ++x ) {
+    for (y = 0; y < kb->grid_height; ++y) {
+        for (x = 0; x < kb->grid_width; ++x) {
 
-	    pos = y * kb->grid_width + x;
-	    mark = '!';
+            pos = y * kb->grid_width + x;
+            mark = '!';
 
-	    if ( IS_SET( SQUARE_BASE, kb->grid[pos] )) {
-		mark = '*';
-	    }
-	    else if ( IS_SET( SQUARE_GROUND, kb->grid[pos] )) {
-		mark = '#';
-	    }
-	    else if ( IS_SET( SQUARE_WATER, kb->grid[pos] )) {
-		mark = '~';
-	    }
-	    else if( IS_SET(SQUARE_EMPTY, kb->grid[pos]) ) {
-		mark = ' ';
-	    }
-	    else if ( SQUARE_UNKNOWN == kb->grid[pos] ) {
-		mark = '?';
-	    }
+            if (IS_SET(SQUARE_BASE, kb->grid[pos])) {
+                mark = '*';
+            } else if (IS_SET(SQUARE_GROUND, kb->grid[pos])) {
+                mark = '#';
+            } else if (IS_SET(SQUARE_WATER, kb->grid[pos])) {
+                mark = '~';
+            } else if (IS_SET(SQUARE_EMPTY, kb->grid[pos])) {
+                mark = ' ';
+            } else if (SQUARE_UNKNOWN == kb->grid[pos]) {
+                mark = '?';
+            }
 
-	    fprintf(config.access_log, "%c", mark);
-	}
-	fprintf(config.access_log, "\n");
+            fprintf(config.access_log, "%c", mark);
+        }
+        fprintf(config.access_log, "\n");
     }
     fprintf(config.access_log, "\n");
 }
 
 static void
-logFlagNames(FILE* output, const NAME* table, int max, flag_t value) {
+logFlagNames(FILE *output, const NAME *table, int max, flag_t value)
+{
     int index;
     int not_first;
 
     not_first = 0;
-    for(index = 0; index < max; ++index) {
+    for (index = 0; index < max; ++index) {
 
-	if (IS_SET( (unsigned)table[index].key, value )) {
-	    if( not_first ) {
-		fprintf(output, "|");
-	    }
-	    fprintf(output, "%s", table[index].name);
-	    not_first = 1;
-	}
+        if (IS_SET((unsigned)table[index].key, value)) {
+            if (not_first) {
+                fprintf(output, "|");
+            }
+            fprintf(output, "%s", table[index].name);
+            not_first = 1;
+        }
     }
 }
 
-void
-logPercept(const KNOWLEDGE* kb, const PERCEPT* percept) {
+void logPercept(const KNOWLEDGE *kb, const PERCEPT *percept)
+{
     fprintf(config.access_log, "PERCEPT: ");
-    logFlagNames(config.access_log, kb->percept_names, kb->percept_count, percept->flags );
+    logFlagNames(config.access_log, kb->percept_names, kb->percept_count, percept->flags);
     fprintf(config.access_log, "\n");
 }
 
-void
-logRule(const KNOWLEDGE* kb, const RULE* rule) {
+void logRule(const KNOWLEDGE *kb, const RULE *rule)
+{
     fprintf(config.access_log, "RULE:\n");
 
     fprintf(config.access_log, "premise positive variables: ");
@@ -234,7 +232,7 @@ logRule(const KNOWLEDGE* kb, const RULE* rule) {
     fprintf(config.access_log, "\npremise positive percepts: ");
     logFlagNames(config.access_log, kb->percept_names, kb->percept_count, rule->premise_positive_percepts);
 
-    fprintf(config.access_log, "\npremise negative percepts: "); 
+    fprintf(config.access_log, "\npremise negative percepts: ");
     logFlagNames(config.access_log, kb->percept_names, kb->percept_count, rule->premise_negative_percepts);
 
     fprintf(config.access_log, "\nconclusion positive variables:  ");
@@ -243,13 +241,9 @@ logRule(const KNOWLEDGE* kb, const RULE* rule) {
     fprintf(config.access_log, "\nconclusion negative variables:  ");
     logFlagNames(config.access_log, kb->variable_names, kb->variable_count, rule->conclusion_negative_variables);
 
-    fprintf(config.access_log, "\nspecial action:                %s\n",  (rule->special == NULL?"no":"yes") );
+    fprintf(config.access_log, "\nspecial action:                %s\n", (rule->special == NULL ? "no" : "yes"));
 
     fprintf(config.access_log, "conclusion action:             %#x\n", rule->conclusion_action.flags);
 }
 
 /* EOF util.c $Id: util.c,v 1.1 2003/04/15 18:15:56 tonic Exp $ */
-
-
-
-

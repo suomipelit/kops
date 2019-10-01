@@ -2,74 +2,67 @@
  * If you edit this file, it might be overridden and
  * all changes may be lost. Edit the rule base instead.*/
 
-
-
 #include "kb-init.h"
 
-
-
 const NAME percept[24] = {
-    { PERCEPT_BASE_CLOSE,          "PERCEPT_BASE_CLOSE" },
-    { PERCEPT_BOT_CLOSE,           "PERCEPT_BOT_CLOSE" },
-    { PERCEPT_PLAYER_CLOSE,        "PERCEPT_PLAYER_CLOSE" },
-    { PERCEPT_FIRED_SPECIAL_CLOSE, "PERCEPT_FIRED_SPECIAL_CLOSE" },
-    { PERCEPT_FIRED_AMMO_CLOSE,    "PERCEPT_FIRED_AMMO_CLOSE" },
-    { PERCEPT_BETTER_MAIN_CLOSE,   "PERCEPT_BETTER_MAIN_CLOSE" },
-    { PERCEPT_WORSE_MAIN_CLOSE,    "PERCEPT_WORSE_MAIN_CLOSE" },
-    { PERCEPT_SPECIAL_CLOSE,       "PERCEPT_SPECIAL_CLOSE" },
-    { PERCEPT_HIGH_ENERGY,         "PERCEPT_HIGH_ENERGY" },
-    { PERCEPT_LOW_ENERGY,          "PERCEPT_LOW_ENERGY" },
-    { PERCEPT_IN_BASE,             "PERCEPT_IN_BASE" },
-    { PERCEPT_SLOTS_EMPTY,         "PERCEPT_SLOTS_EMPTY" },
-    { PERCEPT_SLOTS_FULL,          "PERCEPT_SLOTS_FULL" },
-    { PERCEPT_MAIN_IS_PREFERRED,   "PERCEPT_MAIN_IS_PREFERRED" },
-    { PERCEPT_GROUND_CLOSE,        "PERCEPT_GROUND_CLOSE" },
-    { PERCEPT_GROUND_HIT,          "PERCEPT_GROUND_HIT" },
-    { PERCEPT_IN_WATER,            "PERCEPT_IN_WATER" },
-    { PERCEPT_STOPPED,             "PERCEPT_STOPPED" },
-    { PERCEPT_LOW_SPEED,           "PERCEPT_LOW_SPEED" },
-    { PERCEPT_MEDIUM_SPEED,        "PERCEPT_MEDIUM_SPEED" },
-    { PERCEPT_HIGH_SPEED,          "PERCEPT_HIGH_SPEED" },
-    { PERCEPT_FULL_SPEED,          "PERCEPT_FULL_SPEED" },
-    { PERCEPT_COLLISION_YELLOW,    "PERCEPT_COLLISION_YELLOW" },
-    { PERCEPT_COLLISION_RED,       "PERCEPT_COLLISION_RED" }
-};
-
+    {PERCEPT_BASE_CLOSE, "PERCEPT_BASE_CLOSE"},
+    {PERCEPT_BOT_CLOSE, "PERCEPT_BOT_CLOSE"},
+    {PERCEPT_PLAYER_CLOSE, "PERCEPT_PLAYER_CLOSE"},
+    {PERCEPT_FIRED_SPECIAL_CLOSE, "PERCEPT_FIRED_SPECIAL_CLOSE"},
+    {PERCEPT_FIRED_AMMO_CLOSE, "PERCEPT_FIRED_AMMO_CLOSE"},
+    {PERCEPT_BETTER_MAIN_CLOSE, "PERCEPT_BETTER_MAIN_CLOSE"},
+    {PERCEPT_WORSE_MAIN_CLOSE, "PERCEPT_WORSE_MAIN_CLOSE"},
+    {PERCEPT_SPECIAL_CLOSE, "PERCEPT_SPECIAL_CLOSE"},
+    {PERCEPT_HIGH_ENERGY, "PERCEPT_HIGH_ENERGY"},
+    {PERCEPT_LOW_ENERGY, "PERCEPT_LOW_ENERGY"},
+    {PERCEPT_IN_BASE, "PERCEPT_IN_BASE"},
+    {PERCEPT_SLOTS_EMPTY, "PERCEPT_SLOTS_EMPTY"},
+    {PERCEPT_SLOTS_FULL, "PERCEPT_SLOTS_FULL"},
+    {PERCEPT_MAIN_IS_PREFERRED, "PERCEPT_MAIN_IS_PREFERRED"},
+    {PERCEPT_GROUND_CLOSE, "PERCEPT_GROUND_CLOSE"},
+    {PERCEPT_GROUND_HIT, "PERCEPT_GROUND_HIT"},
+    {PERCEPT_IN_WATER, "PERCEPT_IN_WATER"},
+    {PERCEPT_STOPPED, "PERCEPT_STOPPED"},
+    {PERCEPT_LOW_SPEED, "PERCEPT_LOW_SPEED"},
+    {PERCEPT_MEDIUM_SPEED, "PERCEPT_MEDIUM_SPEED"},
+    {PERCEPT_HIGH_SPEED, "PERCEPT_HIGH_SPEED"},
+    {PERCEPT_FULL_SPEED, "PERCEPT_FULL_SPEED"},
+    {PERCEPT_COLLISION_YELLOW, "PERCEPT_COLLISION_YELLOW"},
+    {PERCEPT_COLLISION_RED, "PERCEPT_COLLISION_RED"}};
 
 const NAME variables_WIMPY[1] = {
-    { WIMPY_ALARM, "WIMPY_ALARM" }
-};
+    {WIMPY_ALARM, "WIMPY_ALARM"}};
 
 /* Initialize KB.*/
-void 
-initKB_WIMPY(KNOWLEDGE *kb) {
+void initKB_WIMPY(KNOWLEDGE *kb)
+{
 
-    JUMPTARGET* target;
-    RULE* rule;
+    JUMPTARGET *target;
+    RULE *rule;
 
-    logDebug( DBG_BOT|DBG_GLO|DBG_FUN, "initKB_WIMPY(%#x)", kb);
+    logDebug(DBG_BOT | DBG_GLO | DBG_FUN, "initKB_WIMPY(%#x)", kb);
 
-    kb->variable_names  = variables_WIMPY;
-    kb->percept_names  = percept;
-    kb->variable_count  = 1;
-    kb->percept_count  = 24;
+    kb->variable_names = variables_WIMPY;
+    kb->percept_names = percept;
+    kb->variable_count = 1;
+    kb->percept_count = 24;
 
     /* Reserve space for world grid. */
-    kb->square_size  = SHIPW >> 1;
-    kb->grid_width   = (int) (levw / kb->square_size) + 1;
-    kb->grid_height  = (int) (levh / kb->square_size) + 1;
-    kb->grid_size    = sizeof(Uint8) * kb->grid_width * kb->grid_height;
+    kb->square_size = SHIPW >> 1;
+    kb->grid_width = (int)(levw / kb->square_size) + 1;
+    kb->grid_height = (int)(levh / kb->square_size) + 1;
+    kb->grid_size = sizeof(Uint8) * kb->grid_width * kb->grid_height;
 
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "levw = %d", levw);
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "levh = %d", levh);
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "kb->square_size = %d", kb->square_size);
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "kb->grid_width = %d", kb->grid_width);
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "kb->grid_height = %d", kb->grid_height);
-    logDebug( DBG_BOT|DBG_GLO|DBG_DET, "kb->grid_size = %d", kb->grid_size);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "levw = %d", levw);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "levh = %d", levh);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "kb->square_size = %d", kb->square_size);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "kb->grid_width = %d", kb->grid_width);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "kb->grid_height = %d", kb->grid_height);
+    logDebug(DBG_BOT | DBG_GLO | DBG_DET, "kb->grid_size = %d", kb->grid_size);
 
-    kb->grid = (Uint8*) malloc(kb->grid_size);
+    kb->grid = (Uint8 *)malloc(kb->grid_size);
 
-    memset(kb->grid, (char) SQUARE_UNKNOWN,  kb->grid_size);
+    memset(kb->grid, (char)SQUARE_UNKNOWN, kb->grid_size);
 
     /* Set parameters. */
     kb->player_scan_range = 10000;
@@ -215,7 +208,6 @@ initKB_WIMPY(KNOWLEDGE *kb) {
 const int kbChoiceCount = 1;
 
 KBINFO kbChoice[1] = {
-    { "WIMPY", initKB_WIMPY, variables_WIMPY }
+    {"WIMPY", initKB_WIMPY, variables_WIMPY}
 
 };
-

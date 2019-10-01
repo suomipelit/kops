@@ -49,15 +49,14 @@ char radar_beam[BEAM_MAX][RADAR_RANGE * 2] = {
      * multiplying y-mod by -1.
      */
 
-    { 0, 0,    1, 0,    2, 0,    3, 0,    4, 0,    5, 0 },
-    { 0, 0,    1, 0,    2, 0,    3, 1,    4, 1,    5, 1 },
-    { 0, 0,    1, 0,    2, 1,    3, 1,    4, 2,    5, 2 },
-    { 0, 0,    1, 1,    2, 2,    3, 2,    3, 3,    4, 3 },
-    { 0, 0,    1, 1,    1, 2,    2, 2,    2, 3,    3, 4 },
-    { 0, 0,    1, 1,    1, 2,    1, 3,    2, 4,    2, 5 },
-    { 0, 0,    0, 1,    0, 2,    1, 3,    1, 4,    1, 5 },
-    { 0, 0,    0, 1,    0, 2,    0, 3,    0, 4,    0, 5 }
-};
+    {0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5, 0},
+    {0, 0, 1, 0, 2, 0, 3, 1, 4, 1, 5, 1},
+    {0, 0, 1, 0, 2, 1, 3, 1, 4, 2, 5, 2},
+    {0, 0, 1, 1, 2, 2, 3, 2, 3, 3, 4, 3},
+    {0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 4},
+    {0, 0, 1, 1, 1, 2, 1, 3, 2, 4, 2, 5},
+    {0, 0, 0, 1, 0, 2, 1, 3, 1, 4, 1, 5},
+    {0, 0, 0, 1, 0, 2, 0, 3, 0, 4, 0, 5}};
 
 /**
  * A robust world state check.
@@ -67,76 +66,77 @@ char radar_beam[BEAM_MAX][RADAR_RANGE * 2] = {
  * state of the square will be set to SQUARE_UNKNOWN.
  */
 static void
-calculateSquareState(KNOWLEDGE* kb, SQUARE* square) {
+calculateSquareState(KNOWLEDGE *kb, SQUARE *square)
+{
 
     int x, y;
 
-    logDebug( DBG_RAD|DBG_STA|DBG_FUN, "calculateSquareState(%#x, %#x)", kb, square );
+    logDebug(DBG_RAD | DBG_STA | DBG_FUN, "calculateSquareState(%#x, %#x)", kb, square);
 
-    assert( square != NULL );
+    assert(square != NULL);
 
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "square->x = %d", square->x );
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "square->y = %d", square->y );
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "square->x = %d", square->x);
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "square->y = %d", square->y);
 
     /* Check the square x is in grid. */
-    if( square->x < 0 || square->x >= kb->grid_width ) {
-	square->state = SQUARE_UNKNOWN;
-	logDebug( DBG_RAD|DBG_STA|DBG_RET, "calculateSquareState() square x outside grid, return" );
-	return;
+    if (square->x < 0 || square->x >= kb->grid_width) {
+        square->state = SQUARE_UNKNOWN;
+        logDebug(DBG_RAD | DBG_STA | DBG_RET, "calculateSquareState() square x outside grid, return");
+        return;
     }
-    
+
     /* Check the square y is in grid. */
-    if( square->y < 0 || square->y >= kb->grid_height ) {
-	square->state = SQUARE_UNKNOWN;
-	logDebug( DBG_RAD|DBG_STA|DBG_RET, "calculateSquareState() square y outside grid, return" );
-	return;
+    if (square->y < 0 || square->y >= kb->grid_height) {
+        square->state = SQUARE_UNKNOWN;
+        logDebug(DBG_RAD | DBG_STA | DBG_RET, "calculateSquareState() square y outside grid, return");
+        return;
     }
 
     /* Calculate the real middle position of grid square. */
     x = square->x * kb->square_size + (kb->square_size >> 1);
-    y = square->y * kb->square_size + (kb->square_size >> 1 );
+    y = square->y * kb->square_size + (kb->square_size >> 1);
 
-    if( x >= levw ) {
-	x = levw - 1;
+    if (x >= levw) {
+        x = levw - 1;
     }
 
-    if( y >= levh ) {
-	y = levh - 1;
+    if (y >= levh) {
+        y = levh - 1;
     }
 
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "middle pixel x = %d", x );
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "middle pixel y = %d", y );
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "middle pixel x = %d", x);
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "middle pixel y = %d", y);
 
     square->state = SQUARE_EMPTY;
 
     /* Check if square is close to base. */
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "call basedetect()" );
-    if( basedetect(x, y) ) {
-	logDebug( DBG_RAD|DBG_STA|DBG_DET, "square is close to base." );
-	SET_FLAGS( SQUARE_BASE, square->state );
-	CLR_FLAGS( SQUARE_EMPTY, square->state );
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "call basedetect()");
+    if (basedetect(x, y)) {
+        logDebug(DBG_RAD | DBG_STA | DBG_DET, "square is close to base.");
+        SET_FLAGS(SQUARE_BASE, square->state);
+        CLR_FLAGS(SQUARE_EMPTY, square->state);
     }
 
     /* Check if square would cause hit. */
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "call hitdetect()" );
-    if( hitdetect(x, y) ) {
-	logDebug( DBG_RAD|DBG_STA|DBG_DET, "square is close to ground." );
-	SET_FLAGS( SQUARE_GROUND, square->state );
-	CLR_FLAGS( SQUARE_EMPTY, square->state );
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "call hitdetect()");
+    if (hitdetect(x, y)) {
+        logDebug(DBG_RAD | DBG_STA | DBG_DET, "square is close to ground.");
+        SET_FLAGS(SQUARE_GROUND, square->state);
+        CLR_FLAGS(SQUARE_EMPTY, square->state);
     }
     /* Check if square is water. */
     else {
 
-	logDebug( DBG_RAD|DBG_STA|DBG_DET, "call waterdetect()" );
-	if( waterdetect(x, y) ) {
-	    logDebug( DBG_RAD|DBG_STA|DBG_DET, "square is close to water." );
-	    SET_FLAGS( SQUARE_WATER, square->state );
-	}
+        logDebug(DBG_RAD | DBG_STA | DBG_DET, "call waterdetect()");
+        if (waterdetect(x, y)) {
+            logDebug(DBG_RAD | DBG_STA | DBG_DET, "square is close to water.");
+            SET_FLAGS(SQUARE_WATER, square->state);
+        }
     }
 
-    logDebug( DBG_RAD|DBG_STA|DBG_DET, "square->state = %d", square->state );
+    logDebug(DBG_RAD | DBG_STA | DBG_DET, "square->state = %d", square->state);
 
-    logDebug( DBG_RAD|DBG_STA|DBG_RET, "calculateSquareState() return" );
+    logDebug(DBG_RAD | DBG_STA | DBG_RET, "calculateSquareState() return");
 }
 
 #if 0
@@ -166,47 +166,47 @@ chooseSpecialWeapon(KNOWLEDGE *kb, ACTION *action) {
  * according to the action. 
  * Parameter action is agent's decided action.
  * Parameter plr is remote bot to be controlled.*/
-static void 
-handleAction(ACTION* action, PLAYER* remote) {
+static void
+handleAction(ACTION *action, PLAYER *remote)
+{
 
-    logDebug( DBG_MAI|DBG_STA|DBG_FUN, "handleAction(%#x, %#x)", action, remote );
+    logDebug(DBG_MAI | DBG_STA | DBG_FUN, "handleAction(%#x, %#x)", action, remote);
 
     remote->action = ACTION_NOT_DEFINED;
 
-    if( action->flags == ACTION_NOT_DEFINED ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_RET, "handleAction() action not defined, return" );
-	return;
+    if (action->flags == ACTION_NOT_DEFINED) {
+        logDebug(DBG_MAI | DBG_STA | DBG_RET, "handleAction() action not defined, return");
+        return;
     }
 
     if (IS_ACTION_SET(action->flags, ACTION_THRUST)) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "action THRUST" );
-	remote->action |= ACTION_THRUST;
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "action THRUST");
+        remote->action |= ACTION_THRUST;
     }
-    
+
     if (IS_ACTION_SET(action->flags, ACTION_TURN_LEFT)) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "action TURN LEFT" );
-	remote->action |= ACTION_TURN_LEFT;
-    } 
-    else if (IS_ACTION_SET(action->flags, ACTION_TURN_RIGHT)) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "action TURN RIGHT" );
-	remote->action |= ACTION_TURN_RIGHT;
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "action TURN LEFT");
+        remote->action |= ACTION_TURN_LEFT;
+    } else if (IS_ACTION_SET(action->flags, ACTION_TURN_RIGHT)) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "action TURN RIGHT");
+        remote->action |= ACTION_TURN_RIGHT;
     }
-    
+
     if (IS_ACTION_SET(action->flags, ACTION_FIRE_MAIN)) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "action FIRE MAIN" );
-	remote->action |= ACTION_FIRE_MAIN;
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "action FIRE MAIN");
+        remote->action |= ACTION_FIRE_MAIN;
     }
-    
+
     if (IS_ACTION_SET(action->flags, ACTION_FIRE_SPECIAL)) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "action FIRE SPECIAL" );
-	remote->action |= ACTION_FIRE_SPECIAL;
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "action FIRE SPECIAL");
+        remote->action |= ACTION_FIRE_SPECIAL;
     }
-    
+
     /*if (IS_ACTION_SET(action->flags, ACTION_SWITCH_SPECIAL)) {
 	
     }*/
 
-    logDebug( DBG_MAI|DBG_STA|DBG_RET, "handleAction() return" );
+    logDebug(DBG_MAI | DBG_STA | DBG_RET, "handleAction() return");
 }
 
 /***********************************************
@@ -214,8 +214,9 @@ handleAction(ACTION* action, PLAYER* remote) {
  ***********************************************/
 
 /* Create percept for agent from current world state. */
-static PERCEPT*
-makePercept(AGENT *agent_ptr) {
+static PERCEPT *
+makePercept(AGENT *agent_ptr)
+{
 
     int index;
     int distance2;
@@ -226,266 +227,256 @@ makePercept(AGENT *agent_ptr) {
     int x_mod;
     int y_mod;
 
-    logDebug( DBG_MAI|DBG_STA|DBG_FUN, "makePercept(%#x)", agent_ptr);
+    logDebug(DBG_MAI | DBG_STA | DBG_FUN, "makePercept(%#x)", agent_ptr);
 
-    assert( agent_ptr != NULL );
-    assert( agent_ptr->remote != NULL );
+    assert(agent_ptr != NULL);
+    assert(agent_ptr->remote != NULL);
 
     /* clear old percept */
-    agent_ptr->percept.flags        = 0;
-    agent_ptr->percept.player       = NULL;
-    agent_ptr->percept.bot          = NULL;
+    agent_ptr->percept.flags = 0;
+    agent_ptr->percept.player = NULL;
+    agent_ptr->percept.bot = NULL;
     /*agent_ptr->percept.base        = NULL;*/
-    agent_ptr->percept.special      = NULL;
-    agent_ptr->percept.ammo         = NULL;
-    agent_ptr->percept.better_main  = NULL;
-    agent_ptr->percept.worse_main   = NULL;
+    agent_ptr->percept.special = NULL;
+    agent_ptr->percept.ammo = NULL;
+    agent_ptr->percept.better_main = NULL;
+    agent_ptr->percept.worse_main = NULL;
     agent_ptr->percept.pick_special = NULL;
 
     /* calculate agent_ptr controlled bot's location in grid. */
-    agent_ptr->percept.location.x = (int) (agent_ptr->remote->xp / agent_ptr->base.square_size);
-    agent_ptr->percept.location.y = (int) (agent_ptr->remote->yp / agent_ptr->base.square_size);
-    
-    logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: location.x = %d", agent_ptr->percept.location.x);
-    logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: location.y = %d", agent_ptr->percept.location.y);
+    agent_ptr->percept.location.x = (int)(agent_ptr->remote->xp / agent_ptr->base.square_size);
+    agent_ptr->percept.location.y = (int)(agent_ptr->remote->yp / agent_ptr->base.square_size);
+
+    logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: location.x = %d", agent_ptr->percept.location.x);
+    logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: location.y = %d", agent_ptr->percept.location.y);
 
     /* check players around */
-    shortest       = agent_ptr->base.player_scan_range;
+    shortest = agent_ptr->base.player_scan_range;
     shortest_index = -1;
-    
+
     for (index = 0; index < MAXPLAYERS; ++index) {
-	if ((plr[index].active) && (plr[index].energy > 0)) {
-	    
-	    dx = plr[index].xp - agent_ptr->remote->xp;
-	    dy = plr[index].yp - agent_ptr->remote->yp;
-	    
-	    distance2 = dx * dx + dy * dy;
-	    
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "dx = %d, dy = %d, distance2 = %d, shortest = %d", 
-		     dx, dy, distance2, shortest);
+        if ((plr[index].active) && (plr[index].energy > 0)) {
 
-	    if (distance2 < shortest) {
-		shortest       = distance2;
-		shortest_index = index;
-	    }
-	}
+            dx = plr[index].xp - agent_ptr->remote->xp;
+            dy = plr[index].yp - agent_ptr->remote->yp;
+
+            distance2 = dx * dx + dy * dy;
+
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "dx = %d, dy = %d, distance2 = %d, shortest = %d",
+                     dx, dy, distance2, shortest);
+
+            if (distance2 < shortest) {
+                shortest = distance2;
+                shortest_index = index;
+            }
+        }
     }
-    
+
     if (shortest_index > -1) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: player close");
-	SET_FLAGS(PERCEPT_PLAYER_CLOSE, agent_ptr->percept.flags);
-	agent_ptr->percept.player = &plr[shortest_index];
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: player close");
+        SET_FLAGS(PERCEPT_PLAYER_CLOSE, agent_ptr->percept.flags);
+        agent_ptr->percept.player = &plr[shortest_index];
     }
-    
+
     /* check bots around */
-    shortest       = agent_ptr->base.bot_scan_range;
+    shortest = agent_ptr->base.bot_scan_range;
     shortest_index = -1;
-    
-    for (index = 0; index < MAXBOTS; ++index) {
-	if ( agent[index].remote != NULL && 
-	    agent[index].remote != agent_ptr->remote &&
-	    (agent[index].remote->active) && (agent[index].remote->energy > 0)) {
-	    
-	    dx = agent[index].remote->xp - agent_ptr->remote->xp;
-	    dy = agent[index].remote->yp - agent_ptr->remote->yp;
-	    
-	    distance2 = dx * dx + dy * dy;
-	    
-	    if (distance2 < shortest) {
-		shortest       = distance2;
-		shortest_index = index;
-	    }
-	}
-    }
-    
-    if (shortest_index > -1) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: bot close");
-	SET_FLAGS(PERCEPT_BOT_CLOSE, agent_ptr->percept.flags);
-	agent_ptr->percept.bot = &agent[shortest_index];
-    }
-    
-    
-    /* check (fired) ammo around */
-    shortest       = agent_ptr->base.ammo_scan_range;
-    special        = agent_ptr->base.special_scan_range;
-    shortest_index = -1;
-    special_index  = -1;
-    for (index = 0; index < MAXAMMO; ++index) {
-	dx = ammo[index].xp - agent_ptr->remote->xp;
-	dy = ammo[index].yp - agent_ptr->remote->yp;
 
-	distance2 = dx * dx + dy * dy;
-	
-	if (distance2 < shortest) {
-	    if(ammo[index].type < W_GASBLAST) {
-		shortest       = distance2;
-		shortest_index = index;
-	    }
-	    else {
-		special        = distance2;
-		special_index  = index;
-	    }
-	}
-	
+    for (index = 0; index < MAXBOTS; ++index) {
+        if (agent[index].remote != NULL &&
+            agent[index].remote != agent_ptr->remote &&
+            (agent[index].remote->active) && (agent[index].remote->energy > 0)) {
+
+            dx = agent[index].remote->xp - agent_ptr->remote->xp;
+            dy = agent[index].remote->yp - agent_ptr->remote->yp;
+
+            distance2 = dx * dx + dy * dy;
+
+            if (distance2 < shortest) {
+                shortest = distance2;
+                shortest_index = index;
+            }
+        }
     }
-    
+
     if (shortest_index > -1) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: fired main ammo close");
-	SET_FLAGS(PERCEPT_FIRED_AMMO_CLOSE, agent_ptr->percept.flags);
-	agent_ptr->percept.ammo = &ammo[shortest_index];
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: bot close");
+        SET_FLAGS(PERCEPT_BOT_CLOSE, agent_ptr->percept.flags);
+        agent_ptr->percept.bot = &agent[shortest_index];
+    }
+
+    /* check (fired) ammo around */
+    shortest = agent_ptr->base.ammo_scan_range;
+    special = agent_ptr->base.special_scan_range;
+    shortest_index = -1;
+    special_index = -1;
+    for (index = 0; index < MAXAMMO; ++index) {
+        dx = ammo[index].xp - agent_ptr->remote->xp;
+        dy = ammo[index].yp - agent_ptr->remote->yp;
+
+        distance2 = dx * dx + dy * dy;
+
+        if (distance2 < shortest) {
+            if (ammo[index].type < W_GASBLAST) {
+                shortest = distance2;
+                shortest_index = index;
+            } else {
+                special = distance2;
+                special_index = index;
+            }
+        }
+    }
+
+    if (shortest_index > -1) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: fired main ammo close");
+        SET_FLAGS(PERCEPT_FIRED_AMMO_CLOSE, agent_ptr->percept.flags);
+        agent_ptr->percept.ammo = &ammo[shortest_index];
     }
 
     if (special_index > -1) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: fired special ammo close");
-	SET_FLAGS(PERCEPT_FIRED_SPECIAL_CLOSE, agent_ptr->percept.flags);
-	agent_ptr->percept.special = &ammo[special_index];
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: fired special ammo close");
+        SET_FLAGS(PERCEPT_FIRED_SPECIAL_CLOSE, agent_ptr->percept.flags);
+        agent_ptr->percept.special = &ammo[special_index];
     }
-    
-    shortest       = agent_ptr->base.ammo_scan_range;
+
+    shortest = agent_ptr->base.ammo_scan_range;
     shortest_index = -1;
-    
+
     /* check pick ammo around */
     /*for (index = 0; index < pickammospots; ++index) {
 	
     }*/
-    
 
     /* check if bot is in base */
-    if( basedetect(agent_ptr->remote->xp, agent_ptr->remote->yp) ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: in base");
-	SET_FLAGS(PERCEPT_IN_BASE, agent_ptr->percept.flags);
+    if (basedetect(agent_ptr->remote->xp, agent_ptr->remote->yp)) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: in base");
+        SET_FLAGS(PERCEPT_IN_BASE, agent_ptr->percept.flags);
     }
 
-    switch( agent_ptr->percept.radar_phase ) {
-      case 1:
-	x_mod =  1;
-	y_mod =  1;
-	break;
-      case 2:
-	x_mod = -1;
-	y_mod =  1;
-	break;
-      case 3:
-	x_mod = -1;
-	y_mod = -1;
-	break;
-      case 4:
-	x_mod =  1;
-	y_mod = -1;
-	break;
-      default:
-	logError("Unknown radar_phase.");
-	break;
+    switch (agent_ptr->percept.radar_phase) {
+    case 1:
+        x_mod = 1;
+        y_mod = 1;
+        break;
+    case 2:
+        x_mod = -1;
+        y_mod = 1;
+        break;
+    case 3:
+        x_mod = -1;
+        y_mod = -1;
+        break;
+    case 4:
+        x_mod = 1;
+        y_mod = -1;
+        break;
+    default:
+        logError("Unknown radar_phase.");
+        break;
     }
 
     /* construct world percept beam. */
     beam_mod = 0;
-    for(index = 0; index < RADAR_RANGE; ++index ) {
+    for (index = 0; index < RADAR_RANGE; ++index) {
 
-	/* Update beam x location. */
-	agent_ptr->percept.beam[index].x  = agent_ptr->percept.location.x;
-	agent_ptr->percept.beam[index].x += radar_beam[agent_ptr->percept.beam_phase][beam_mod] * x_mod;
-	++beam_mod;
+        /* Update beam x location. */
+        agent_ptr->percept.beam[index].x = agent_ptr->percept.location.x;
+        agent_ptr->percept.beam[index].x += radar_beam[agent_ptr->percept.beam_phase][beam_mod] * x_mod;
+        ++beam_mod;
 
-	/* Update beam y location. */
-	agent_ptr->percept.beam[index].y  = agent_ptr->percept.location.y;
-	agent_ptr->percept.beam[index].y += radar_beam[agent_ptr->percept.beam_phase][beam_mod] * y_mod;
-	++beam_mod;
+        /* Update beam y location. */
+        agent_ptr->percept.beam[index].y = agent_ptr->percept.location.y;
+        agent_ptr->percept.beam[index].y += radar_beam[agent_ptr->percept.beam_phase][beam_mod] * y_mod;
+        ++beam_mod;
 
-	/** Ping! **/
-	calculateSquareState(&agent_ptr->base, &agent_ptr->percept.beam[index]);
+        /** Ping! **/
+        calculateSquareState(&agent_ptr->base, &agent_ptr->percept.beam[index]);
 
-	/* check bases around */
-	if( IS_CLR(PERCEPT_BASE_CLOSE, agent_ptr->percept.flags) && 
-	   IS_SET( SQUARE_BASE, agent_ptr->percept.beam[index].state ) ) {
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: base close");
-	    SET_FLAGS(PERCEPT_BASE_CLOSE, agent_ptr->percept.flags);
-	    agent_ptr->percept.base = &agent_ptr->percept.beam[index];
-	}
+        /* check bases around */
+        if (IS_CLR(PERCEPT_BASE_CLOSE, agent_ptr->percept.flags) &&
+            IS_SET(SQUARE_BASE, agent_ptr->percept.beam[index].state)) {
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: base close");
+            SET_FLAGS(PERCEPT_BASE_CLOSE, agent_ptr->percept.flags);
+            agent_ptr->percept.base = &agent_ptr->percept.beam[index];
+        }
 
-	if( index < 3 ) {
-	    if ( IS_SET( SQUARE_GROUND, agent_ptr->percept.beam[index].state ) ) {
-		logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: ground close");
-		SET_FLAGS(PERCEPT_GROUND_CLOSE, agent_ptr->percept.flags);
-	    }
-	}
+        if (index < 3) {
+            if (IS_SET(SQUARE_GROUND, agent_ptr->percept.beam[index].state)) {
+                logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: ground close");
+                SET_FLAGS(PERCEPT_GROUND_CLOSE, agent_ptr->percept.flags);
+            }
+        }
     }
 
-    if ( IS_SET( SQUARE_GROUND, agent_ptr->percept.beam[0].state ) ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: ground hit");
-	SET_FLAGS(PERCEPT_GROUND_HIT, agent_ptr->percept.flags);
+    if (IS_SET(SQUARE_GROUND, agent_ptr->percept.beam[0].state)) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: ground hit");
+        SET_FLAGS(PERCEPT_GROUND_HIT, agent_ptr->percept.flags);
     }
 
-    if ( IS_SET( SQUARE_WATER, agent_ptr->percept.beam[0].state ) ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: in water");
-	SET_FLAGS(PERCEPT_IN_WATER, agent_ptr->percept.flags);
+    if (IS_SET(SQUARE_WATER, agent_ptr->percept.beam[0].state)) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: in water");
+        SET_FLAGS(PERCEPT_IN_WATER, agent_ptr->percept.flags);
     }
 
     /* Move radar beam. */
-    switch( agent_ptr->percept.radar_phase ) {
-      case 1:
-	if( ++agent_ptr->percept.beam_phase >= BEAM_MAX ) {
-	    agent_ptr->percept.radar_phase = 2;
-	    agent_ptr->percept.beam_phase  = BEAM_MAX - 2;
-	}
-	break;
-      case 2:
-	if( --agent_ptr->percept.beam_phase < 0 ) {
-	    agent_ptr->percept.radar_phase = 3;
-	    agent_ptr->percept.beam_phase  = 1;
-	}
-	break;
-      case 3:
-	if( ++agent_ptr->percept.beam_phase >= BEAM_MAX ) {
-	    agent_ptr->percept.radar_phase = 4;
-	    agent_ptr->percept.beam_phase  = BEAM_MAX - 2;
-	}
-	break;
-      case 4:
-	if( --agent_ptr->percept.beam_phase < 0 ) {
-	    agent_ptr->percept.radar_phase = 1;
-	    agent_ptr->percept.beam_phase  = 1;
-	}
-	break;
-      default:
-	logError("Unknown radar_phase.");
-	break;
+    switch (agent_ptr->percept.radar_phase) {
+    case 1:
+        if (++agent_ptr->percept.beam_phase >= BEAM_MAX) {
+            agent_ptr->percept.radar_phase = 2;
+            agent_ptr->percept.beam_phase = BEAM_MAX - 2;
+        }
+        break;
+    case 2:
+        if (--agent_ptr->percept.beam_phase < 0) {
+            agent_ptr->percept.radar_phase = 3;
+            agent_ptr->percept.beam_phase = 1;
+        }
+        break;
+    case 3:
+        if (++agent_ptr->percept.beam_phase >= BEAM_MAX) {
+            agent_ptr->percept.radar_phase = 4;
+            agent_ptr->percept.beam_phase = BEAM_MAX - 2;
+        }
+        break;
+    case 4:
+        if (--agent_ptr->percept.beam_phase < 0) {
+            agent_ptr->percept.radar_phase = 1;
+            agent_ptr->percept.beam_phase = 1;
+        }
+        break;
+    default:
+        logError("Unknown radar_phase.");
+        break;
     }
 
-    
     /* slots empty ? */
     /* slots full ? */
-    
+
     /* check bot energy */
-    if(agent_ptr->remote->energy < (agent_ptr->base.low_energy_limit/100) * STARTENERGY) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: low energy");
-	SET_FLAGS(PERCEPT_LOW_ENERGY, agent_ptr->percept.flags);
-    }
-    else if(agent_ptr->remote->energy > (agent_ptr->base.high_energy_limit/100) * STARTENERGY) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: high energy");
-	SET_FLAGS(PERCEPT_HIGH_ENERGY, agent_ptr->percept.flags);
+    if (agent_ptr->remote->energy < (agent_ptr->base.low_energy_limit / 100) * STARTENERGY) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: low energy");
+        SET_FLAGS(PERCEPT_LOW_ENERGY, agent_ptr->percept.flags);
+    } else if (agent_ptr->remote->energy > (agent_ptr->base.high_energy_limit / 100) * STARTENERGY) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: high energy");
+        SET_FLAGS(PERCEPT_HIGH_ENERGY, agent_ptr->percept.flags);
     }
 
     /* Check speed. */
-    if(agent_ptr->remote->xi > FULL_SPEED_LIMIT || agent_ptr->remote->yi  > FULL_SPEED_LIMIT ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: full speed");
-    	SET_FLAGS(PERCEPT_FULL_SPEED, agent_ptr->percept.flags);
-    }
-    else if(agent_ptr->remote->xi > HIGH_SPEED_LIMIT || agent_ptr->remote->yi  > HIGH_SPEED_LIMIT ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: high speed");
-    	SET_FLAGS(PERCEPT_HIGH_SPEED, agent_ptr->percept.flags);
-    }
-    else if(agent_ptr->remote->xi > MEDIUM_SPEED_LIMIT || agent_ptr->remote->yi  > MEDIUM_SPEED_LIMIT ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: medium speed");
-    	SET_FLAGS(PERCEPT_MEDIUM_SPEED, agent_ptr->percept.flags);
-    }
-    else if(agent_ptr->remote->xi > LOW_SPEED_LIMIT || agent_ptr->remote->yi  > LOW_SPEED_LIMIT ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: low speed");
-    	SET_FLAGS(PERCEPT_LOW_SPEED, agent_ptr->percept.flags);
-    }
-    else {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: stopped");
-	SET_FLAGS(PERCEPT_STOPPED, agent_ptr->percept.flags);
+    if (agent_ptr->remote->xi > FULL_SPEED_LIMIT || agent_ptr->remote->yi > FULL_SPEED_LIMIT) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: full speed");
+        SET_FLAGS(PERCEPT_FULL_SPEED, agent_ptr->percept.flags);
+    } else if (agent_ptr->remote->xi > HIGH_SPEED_LIMIT || agent_ptr->remote->yi > HIGH_SPEED_LIMIT) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: high speed");
+        SET_FLAGS(PERCEPT_HIGH_SPEED, agent_ptr->percept.flags);
+    } else if (agent_ptr->remote->xi > MEDIUM_SPEED_LIMIT || agent_ptr->remote->yi > MEDIUM_SPEED_LIMIT) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: medium speed");
+        SET_FLAGS(PERCEPT_MEDIUM_SPEED, agent_ptr->percept.flags);
+    } else if (agent_ptr->remote->xi > LOW_SPEED_LIMIT || agent_ptr->remote->yi > LOW_SPEED_LIMIT) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: low speed");
+        SET_FLAGS(PERCEPT_LOW_SPEED, agent_ptr->percept.flags);
+    } else {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: stopped");
+        SET_FLAGS(PERCEPT_STOPPED, agent_ptr->percept.flags);
     }
 
     /* Collision alarming. */
@@ -493,140 +484,142 @@ makePercept(AGENT *agent_ptr) {
     dx = agent_ptr->remote->xi * COLLISION_ALARM_RED;
     dy = agent_ptr->remote->yi * COLLISION_ALARM_RED;
 
-    if( hitdetect(dx, dy) ) {
-	logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: collision alarm red");
-	SET_FLAGS(PERCEPT_COLLISION_RED, agent_ptr->percept.flags);
-    }
-    else {
-	dx = agent_ptr->remote->xi * COLLISION_ALARM_YELLOW;
-	dy = agent_ptr->remote->yi * COLLISION_ALARM_YELLOW;
-	
-	if( hitdetect(dx, dy) ) {
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "PERCEPT: collision alarm yellow");
-	    SET_FLAGS(PERCEPT_COLLISION_YELLOW, agent_ptr->percept.flags);
-	}
+    if (hitdetect(dx, dy)) {
+        logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: collision alarm red");
+        SET_FLAGS(PERCEPT_COLLISION_RED, agent_ptr->percept.flags);
+    } else {
+        dx = agent_ptr->remote->xi * COLLISION_ALARM_YELLOW;
+        dy = agent_ptr->remote->yi * COLLISION_ALARM_YELLOW;
+
+        if (hitdetect(dx, dy)) {
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "PERCEPT: collision alarm yellow");
+            SET_FLAGS(PERCEPT_COLLISION_YELLOW, agent_ptr->percept.flags);
+        }
     }
 
-    logDebug( DBG_MAI|DBG_STA|DBG_RET, "makePercept() return %#x", &agent_ptr->percept);
+    logDebug(DBG_MAI | DBG_STA | DBG_RET, "makePercept() return %#x", &agent_ptr->percept);
 
     return &agent_ptr->percept;
 }
 
 /* Tell agent's percept to Knowledge Base. */
-static void 
-tellPercept(KNOWLEDGE *kb, PERCEPT *percept) {
+static void
+tellPercept(KNOWLEDGE *kb, PERCEPT *percept)
+{
 
     int index;
     int x, y;
 
-    logDebug( DBG_MAI|DBG_STA|DBG_FUN, "tellPercept(%#x, %#x)", kb, percept );
+    logDebug(DBG_MAI | DBG_STA | DBG_FUN, "tellPercept(%#x, %#x)", kb, percept);
 
-    assert( kb      != NULL );
-    assert( percept != NULL );
+    assert(kb != NULL);
+    assert(percept != NULL);
 
     kb->percept = percept;
 
     /* Store beamed world state to grid. */
-    for(index = 0; index < RADAR_RANGE; ++index ) {
-	if( percept->beam[index].state != SQUARE_UNKNOWN ) {
+    for (index = 0; index < RADAR_RANGE; ++index) {
+        if (percept->beam[index].state != SQUARE_UNKNOWN) {
 
-	    x = percept->beam[index].x;
-	    y = percept->beam[index].y;
+            x = percept->beam[index].x;
+            y = percept->beam[index].y;
 
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "x = %d", x );
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "y = %d", y );
-	    logDebug( DBG_MAI|DBG_STA|DBG_DET, "state = %d", percept->beam[index].state );
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "x = %d", x);
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "y = %d", y);
+            logDebug(DBG_MAI | DBG_STA | DBG_DET, "state = %d", percept->beam[index].state);
 
-	    kb->grid[y * kb->grid_width + x] = (Uint8) percept->beam[index].state;
-	}
+            kb->grid[y * kb->grid_width + x] = (Uint8)percept->beam[index].state;
+        }
     }
 
 #if DEBUG
-    if( percept->radar_phase == 1 && percept->beam_phase == 1 && (config.debug_lvl & DBG_RAD) == DBG_RAD) {
-	logKBGrid(kb);
+    if (percept->radar_phase == 1 && percept->beam_phase == 1 && (config.debug_lvl & DBG_RAD) == DBG_RAD) {
+        logKBGrid(kb);
     }
 #endif
 
-    logDebug( DBG_MAI|DBG_STA|DBG_RET, "tellPercept() return" );
+    logDebug(DBG_MAI | DBG_STA | DBG_RET, "tellPercept() return");
 }
 
 /* Tell agents action to Knowledge Base. */
-static void 
-tellAction(KNOWLEDGE *kb, ACTION *action) {
-    logDebug( DBG_MAI|DBG_STA|DBG_FUN, "tellAction(%#x, %#x)", kb, action );    
-    logDebug( DBG_MAI|DBG_STA|DBG_RET, "tellAction() return" );    
+static void
+tellAction(KNOWLEDGE *kb, ACTION *action)
+{
+    logDebug(DBG_MAI | DBG_STA | DBG_FUN, "tellAction(%#x, %#x)", kb, action);
+    logDebug(DBG_MAI | DBG_STA | DBG_RET, "tellAction() return");
 }
 
 /* Query agents next action. */
-static ACTION* 
-ask(KNOWLEDGE *kb) {
+static ACTION *
+ask(KNOWLEDGE *kb)
+{
 
-    RULE* rule;
+    RULE *rule;
 
-    logDebug( DBG_KB, "ask(%#x)", kb );    
+    logDebug(DBG_KB, "ask(%#x)", kb);
 
-    assert( kb != NULL );
+    assert(kb != NULL);
 
     kb->last_action.flags = ACTION_NOT_DEFINED;
 
-    if( kb->percept == NULL) {
-	logDebug( DBG_KB, "ask() percept NULL, return" );    
-	return &kb->last_action;
+    if (kb->percept == NULL) {
+        logDebug(DBG_KB, "ask() percept NULL, return");
+        return &kb->last_action;
     }
 
-    logDebug( DBG_KB, "kb->variables     = %#x", kb->variables );    
-    logDebug( DBG_KB, "kb->percept.flags = %#x", kb->percept->flags );    
-    
+    logDebug(DBG_KB, "kb->variables     = %#x", kb->variables);
+    logDebug(DBG_KB, "kb->percept.flags = %#x", kb->percept->flags);
+
 #if DEBUG
-    if( (config.debug_lvl & DBG_KB) == DBG_KB ) {
-	logPercept( kb, kb->percept );
+    if ((config.debug_lvl & DBG_KB) == DBG_KB) {
+        logPercept(kb, kb->percept);
     }
 #endif
 
-    for(rule = kb->start; rule != NULL; ) {
+    for (rule = kb->start; rule != NULL;) {
 
 #if DEBUG
-	if( (config.debug_lvl & DBG_KB) == DBG_KB ) {
-	    logRule( kb, rule );
-	}
+        if ((config.debug_lvl & DBG_KB) == DBG_KB) {
+            logRule(kb, rule);
+        }
 #endif
 
         /* If positive premises are all true and negative premises all false */
-        if( IS_SET(rule->premise_positive_variables, kb->variables ) &&
+        if (IS_SET(rule->premise_positive_variables, kb->variables) &&
             IS_CLR(rule->premise_negative_variables, kb->variables) &&
-            IS_SET(rule->premise_positive_percepts,  kb->percept->flags) &&
-            IS_CLR(rule->premise_negative_percepts,  kb->percept->flags) ) {
+            IS_SET(rule->premise_positive_percepts, kb->percept->flags) &&
+            IS_CLR(rule->premise_negative_percepts, kb->percept->flags)) {
 
-	    logDebug( DBG_KB, "found matching rule" );
+            logDebug(DBG_KB, "found matching rule");
 
             /* => set and clear listed variables */
             SET_FLAGS(rule->conclusion_positive_variables, kb->variables);
             CLR_FLAGS(rule->conclusion_negative_variables, kb->variables);
-            
+
             /* call registered special handler, if such exists. */
-            if(rule->special != NULL) {
+            if (rule->special != NULL) {
                 rule->special(kb);
             }
 
             /* Set action */
             kb->last_action.flags |= rule->conclusion_action.flags;
 
-	    if( rule->cmd == CMD_BREAK ) {
-		logDebug( DBG_KB, "cmd break" );    
-		break;
-	    }
+            if (rule->cmd == CMD_BREAK) {
+                logDebug(DBG_KB, "cmd break");
+                break;
+            }
 
-	    if ( rule->cmd == CMD_JUMP ) {
-		logDebug( DBG_KB, "cmd jump" );    
-		rule = rule->jump_to->rule;
-		continue;
-	    }
+            if (rule->cmd == CMD_JUMP) {
+                logDebug(DBG_KB, "cmd jump");
+                rule = rule->jump_to->rule;
+                continue;
+            }
         }
 
-	rule = rule->next;
+        rule = rule->next;
     }
 
-    logDebug( DBG_KB, "ask() return %#x", &kb->last_action );    
+    logDebug(DBG_KB, "ask() return %#x", &kb->last_action);
 
     return &kb->last_action;
 }
@@ -639,44 +632,46 @@ ask(KNOWLEDGE *kb) {
  * Make new empty rule. 
  * Reserves space for rule with malloc(3).
  */
-RULE*
-makeKBRule() {
+RULE *
+makeKBRule()
+{
 
-    RULE* rule;
+    RULE *rule;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "makeKBRule()" );    
-    
-    rule = (RULE *) safeMalloc(sizeof(RULE));
-    
-    rule->premise_positive_variables    = 0xFFFF;
-    rule->premise_negative_variables    = 0xFFFF;
-    rule->premise_positive_percepts     = 0xFFFF;
-    rule->premise_negative_percepts     = 0xFFFF;
-    
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "makeKBRule()");
+
+    rule = (RULE *)safeMalloc(sizeof(RULE));
+
+    rule->premise_positive_variables = 0xFFFF;
+    rule->premise_negative_variables = 0xFFFF;
+    rule->premise_positive_percepts = 0xFFFF;
+    rule->premise_negative_percepts = 0xFFFF;
+
     rule->conclusion_positive_variables = 0x0;
     rule->conclusion_negative_variables = 0x0;
-    rule->conclusion_action.flags       = ACTION_NOT_DEFINED;
-    
-    rule->premise_specials     = NULL;
-    rule->conclusion_specials  = NULL;
-    rule->next                 = NULL;
-    rule->jump_next            = NULL;
+    rule->conclusion_action.flags = ACTION_NOT_DEFINED;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "makeKBRule() return %#x", rule );    
+    rule->premise_specials = NULL;
+    rule->conclusion_specials = NULL;
+    rule->next = NULL;
+    rule->jump_next = NULL;
+
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "makeKBRule() return %#x", rule);
 
     return rule;
 }
 
-JUMPTARGET*
-makeJumpTarget( int id) {
+JUMPTARGET *
+makeJumpTarget(int id)
+{
 
-    JUMPTARGET* target;
+    JUMPTARGET *target;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "makeJumpTarget( %d)", id );        
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "makeJumpTarget( %d)", id);
 
-    target       = (JUMPTARGET*) safeMalloc( sizeof(JUMPTARGET) );
+    target = (JUMPTARGET *)safeMalloc(sizeof(JUMPTARGET));
 
-    target->id   = id;
+    target->id = id;
     target->rule = NULL;
     target->last = NULL;
     target->next = NULL;
@@ -684,74 +679,74 @@ makeJumpTarget( int id) {
     return target;
 }
 
-SPECIAL*
-makeSpecial( int (*handler) (KNOWLEDGE* kb) ) {
-    SPECIAL* special;
+SPECIAL *
+makeSpecial(int (*handler)(KNOWLEDGE *kb))
+{
+    SPECIAL *special;
 
-    special = (SPECIAL*) safeMalloc( sizeof(SPECIAL) );
+    special = (SPECIAL *)safeMalloc(sizeof(SPECIAL));
 
     special->handler = handler;
-    special->next    = NULL;
+    special->next = NULL;
 
     return special;
 }
 
-void
-addJumpTarget(KNOWLEDGE* kb, JUMPTARGET* target) {
-    
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "addJumpTarget(%#x, %#x)", kb, target );    
+void addJumpTarget(KNOWLEDGE *kb, JUMPTARGET *target)
+{
 
-    assert( kb     != NULL );
-    assert( target != NULL );
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "addJumpTarget(%#x, %#x)", kb, target);
+
+    assert(kb != NULL);
+    assert(target != NULL);
 
     /* Add new jump target to the beginning of the list. */
-    target->next     = kb->jump_targets;
+    target->next = kb->jump_targets;
     kb->jump_targets = target;
 }
 
-JUMPTARGET*
-findJumpTarget(KNOWLEDGE* kb, int id) {
+JUMPTARGET *
+findJumpTarget(KNOWLEDGE *kb, int id)
+{
 
-    JUMPTARGET* target;
+    JUMPTARGET *target;
 
-    assert( kb   != NULL );
+    assert(kb != NULL);
 
-    for( target = kb->jump_targets; target != NULL; target = target->next ) {
-	if( target->id == id ) {
-	    return target;
-	}
+    for (target = kb->jump_targets; target != NULL; target = target->next) {
+        if (target->id == id) {
+            return target;
+        }
     }
 
     return NULL;
 }
 
-void
-addSpecialPremise(RULE* rule, SPECIAL* special ) {
+void addSpecialPremise(RULE *rule, SPECIAL *special)
+{
 
-    assert( rule != NULL );
-    assert( special != NULL);
+    assert(rule != NULL);
+    assert(special != NULL);
 
-    if( rule->premise_specials == NULL ) {
-	rule->premise_specials = special;
-    }
-    else {
-	rule->premise_specials_last->next = special;
+    if (rule->premise_specials == NULL) {
+        rule->premise_specials = special;
+    } else {
+        rule->premise_specials_last->next = special;
     }
 
     rule->premise_specials_last = special;
 }
 
-void
-addSpecialConclusion(RULE* rule, SPECIAL* special ) {
+void addSpecialConclusion(RULE *rule, SPECIAL *special)
+{
 
-    assert( rule != NULL );
-    assert( special != NULL);
+    assert(rule != NULL);
+    assert(special != NULL);
 
-    if( rule->conclusion_specials == NULL ) {
-	rule->conclusion_specials = special;
-    }
-    else {
-	rule->conclusion_specials_last->next = special;
+    if (rule->conclusion_specials == NULL) {
+        rule->conclusion_specials = special;
+    } else {
+        rule->conclusion_specials_last->next = special;
     }
 
     rule->conclusion_specials_last = special;
@@ -760,52 +755,51 @@ addSpecialConclusion(RULE* rule, SPECIAL* special ) {
 /**
  * Attach new rule to KB.
  */
-void
-addKBRule(JUMPTARGET* target, RULE* rule) {
+void addKBRule(JUMPTARGET *target, RULE *rule)
+{
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "addKBRule(%#x, %#x)", target, rule );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "addKBRule(%#x, %#x)", target, rule);
 
-    assert( target != NULL );
-    assert( rule   != NULL);
+    assert(target != NULL);
+    assert(rule != NULL);
 
-    if(target->rule == NULL) {
-	target->rule = rule;
-    }
-    else {
-	target->last->next = rule;
+    if (target->rule == NULL) {
+        target->rule = rule;
+    } else {
+        target->last->next = rule;
     }
 
     target->last = rule;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "addKBRule() return" );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "addKBRule() return");
 }
 
-void
-setStartRule(KNOWLEDGE* kb, RULE* start) {
+void setStartRule(KNOWLEDGE *kb, RULE *start)
+{
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "setStartRule(%#x, %#x)", kb, start );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "setStartRule(%#x, %#x)", kb, start);
 
-    assert( kb    != NULL );
-    assert( start != NULL );
+    assert(kb != NULL);
+    assert(start != NULL);
 
     kb->start = start;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "setStartRule() return" );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "setStartRule() return");
 }
 
-void
-setJumpTo(KNOWLEDGE* kb, RULE* rule, int id ) {
+void setJumpTo(KNOWLEDGE *kb, RULE *rule, int id)
+{
 
-    JUMPTARGET* target;
+    JUMPTARGET *target;
 
-    assert( kb   != NULL );
-    assert( rule != NULL );
+    assert(kb != NULL);
+    assert(rule != NULL);
 
     target = findJumpTarget(kb, id);
 
-    if( target == NULL ) {
-	logError("Unknown jump target id %d, kb-parser problem?", id);
-	exit( EXIT_FAILURE );
+    if (target == NULL) {
+        logError("Unknown jump target id %d, kb-parser problem?", id);
+        exit(EXIT_FAILURE);
     }
 
     rule->jump_to = target;
@@ -815,116 +809,116 @@ setJumpTo(KNOWLEDGE* kb, RULE* rule, int id ) {
  * Remove all rules from KB.
  * Frees the memory rules occupie.
  */
-void
-removeKBRules(KNOWLEDGE* kb) {
+void removeKBRules(KNOWLEDGE *kb)
+{
 
-    JUMPTARGET*   target;
-    JUMPTARGET*   target_tmp;
-    RULE*         iterator;
-    RULE*         rule_tmp;
+    JUMPTARGET *target;
+    JUMPTARGET *target_tmp;
+    RULE *iterator;
+    RULE *rule_tmp;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "removeKBRules(%#x)", kb );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "removeKBRules(%#x)", kb);
 
     target = kb->jump_targets;
-    while( target != NULL ) {
+    while (target != NULL) {
 
-	iterator = target->rule;
-	while( iterator != NULL ) {
-	    rule_tmp = iterator;
-	    iterator = iterator->next;
-	    free( rule_tmp );
-	}
+        iterator = target->rule;
+        while (iterator != NULL) {
+            rule_tmp = iterator;
+            iterator = iterator->next;
+            free(rule_tmp);
+        }
 
-	target_tmp = target;
-	target = target->next;
-	free( target_tmp );
+        target_tmp = target;
+        target = target->next;
+        free(target_tmp);
     }
-    
-    kb->start         = NULL;
-    kb->jump_targets  = NULL;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "removeKBRules() return" );    
+    kb->start = NULL;
+    kb->jump_targets = NULL;
+
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "removeKBRules() return");
 }
 
 /**
  * Detach all agents from players.
  * Resets the KBs.
  */
-void
-detachAgents() {
+void detachAgents()
+{
 
     int i;
-    
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "detachAgents()" );    
 
-    for(i = 0; i < MAXBOTS; ++i) {
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "detachAgents()");
 
-	if( agent[i].base.grid != NULL ) {
-	    free( agent[i].base.grid );
-	    agent[i].base.grid = NULL;
-	}
+    for (i = 0; i < MAXBOTS; ++i) {
 
-	removeKBRules( &agent[i].base );
+        if (agent[i].base.grid != NULL) {
+            free(agent[i].base.grid);
+            agent[i].base.grid = NULL;
+        }
 
-	agent[i].remote = NULL;
+        removeKBRules(&agent[i].base);
+
+        agent[i].remote = NULL;
     }
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "detachAgents() return" );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "detachAgents() return");
 }
 
 /**
  * Attach agent to a player.
  */
-void
-attachAgent(PLAYER* plr_ptr) {
+void attachAgent(PLAYER *plr_ptr)
+{
     int i;
     int rnd;
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "attachAgents(%#x)", plr_ptr );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "attachAgents(%#x)", plr_ptr);
 
-    for(i = 0; i < MAXBOTS; ++i) {
-	if( agent[i].remote == NULL) {
+    for (i = 0; i < MAXBOTS; ++i) {
+        if (agent[i].remote == NULL) {
 
-	    /* Attach player to agent. */
-	    agent[i].remote = plr_ptr;
-	    
-	    /* Select random KB for agent. */
-	    rnd = rand() % kbChoiceCount;
-	    kbChoice[rnd].init(&agent[i].base);
+            /* Attach player to agent. */
+            agent[i].remote = plr_ptr;
 
-	    /* Init radar. */
-	    agent[i].percept.radar_phase  = 1;
-	    agent[i].percept.beam_phase   = 0;
+            /* Select random KB for agent. */
+            rnd = rand() % kbChoiceCount;
+            kbChoice[rnd].init(&agent[i].base);
 
-	    return;
-	}
+            /* Init radar. */
+            agent[i].percept.radar_phase = 1;
+            agent[i].percept.beam_phase = 0;
+
+            return;
+        }
     }
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "attachAgents() return" );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "attachAgents() return");
 }
 
 /**
  * Bot handler main entry point.
  * Called every game 'tick' to resolve every bots' actions.
  */
-void 
-botHandler() {
+void botHandler()
+{
 
     PERCEPT *percept;
-    ACTION  *action;
+    ACTION *action;
     int i;
-    
-    logDebug( DBG_MAI|DBG_GLO|DBG_FUN, "botHandler()" );    
 
-    for(i = 0; i < MAXBOTS; ++i) {
-	if( agent[i].remote != NULL && agent[i].remote->active && agent[i].remote->energy > 0) {
-	    percept = makePercept(&agent[i]);
-	    tellPercept(&agent[i].base, percept);
-	    action  = ask(&agent[i].base);
-	    handleAction(action, agent[i].remote);
-	    tellAction(&agent[i].base, action);
-	}
+    logDebug(DBG_MAI | DBG_GLO | DBG_FUN, "botHandler()");
+
+    for (i = 0; i < MAXBOTS; ++i) {
+        if (agent[i].remote != NULL && agent[i].remote->active && agent[i].remote->energy > 0) {
+            percept = makePercept(&agent[i]);
+            tellPercept(&agent[i].base, percept);
+            action = ask(&agent[i].base);
+            handleAction(action, agent[i].remote);
+            tellAction(&agent[i].base, action);
+        }
     }
 
-    logDebug( DBG_MAI|DBG_GLO|DBG_RET, "botHandler() return" );    
+    logDebug(DBG_MAI | DBG_GLO | DBG_RET, "botHandler() return");
 }

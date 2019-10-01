@@ -21,28 +21,22 @@
 
 #include "cannonfodder.h"
 
-void
-makeAvoidingManeuver(AGENT *agent) {
-
+void makeAvoidingManeuver(AGENT *agent)
+{
 }
 
-void
-flyToBase(AGENT *agent) {
-
+void flyToBase(AGENT *agent)
+{
 }
 
-void
-fight(AGENT *agent) {
-
+void fight(AGENT *agent)
+{
 }
 
-void
-inBase(AGENT *agent) {
-
+void inBase(AGENT *agent)
+{
 }
 
-void
-explore(AGENT *agent) {
-
+void explore(AGENT *agent)
+{
 }
-

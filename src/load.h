@@ -14,5 +14,4 @@ extern void loadlevel(char *filename);
 extern void loadships(char *filename);
 extern void loadgfx(char *filename);
 
-
 #endif /* !LOAD_H_INCLUDED */

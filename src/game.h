@@ -5,8 +5,6 @@
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
 
-
 extern void game();
-
 
 #endif /* !GAME_H_INCLUDED */

@@ -13,5 +13,4 @@ extern Uint8 statusscreen();
 extern void endgamescreen();
 extern void info();
 
-
 #endif /* !MENU_H_INCLUDED */

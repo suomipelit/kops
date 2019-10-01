@@ -20,7 +20,6 @@ typedef struct
     int bitspp, bytespp;
 } PIC;
 
-
 #ifdef __cplusplus
 };
 #endif
