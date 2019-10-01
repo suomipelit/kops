@@ -32,14 +32,13 @@
 #include <string.h>
 #include "util.h"
 
-
-const int jrandseed1=0,jrandseed2=0;
+const int jrandseed1 = 0, jrandseed2 = 0;
 
 static long randseed = 1L;
 
 void crapsrand(Uint32 seed)
 {
-    randseed = (long) seed;
+    randseed = (long)seed;
 }
 
 int craprand(void)
@@ -47,7 +46,6 @@ int craprand(void)
     randseed = randseed * 0x343fd + 0x269ec3;
     return (randseed >> 16) & 0x7fff;
 }
-
 
 Uint32 util_gettick()
 {
@@ -61,159 +59,182 @@ Uint32 util_gettick()
 #endif
 }
 
-void util_line(int x1,int y1,int x2,int y2,Uint8 c,int pgwid,char *dest)
+void util_line(int x1, int y1, int x2, int y2, Uint8 c, int pgwid, char *dest)
 {
-    int i,dx,dy,n,d,di1,di2,xi1,xi2,yi1,yi2;
-    int x,y;
-    dx=(((x2-x1)<0) ? -(x2-x1) : (x2-x1));
-    dy=(((y2-y1)<0) ? -(y2-y1) : (y2-y1));
+    int i, dx, dy, n, d, di1, di2, xi1, xi2, yi1, yi2;
+    int x, y;
+    dx = (((x2 - x1) < 0) ? -(x2 - x1) : (x2 - x1));
+    dy = (((y2 - y1) < 0) ? -(y2 - y1) : (y2 - y1));
 
-    if (dx>=dy) {
-        n=dx+1;
-        d=(dy<<1)-dx;
-        di1=(dy<<1);
-        di2=((dy-dx)<<1);
-        xi1=1; xi2=1; yi1=0; yi2=1;
+    if (dx >= dy) {
+        n = dx + 1;
+        d = (dy << 1) - dx;
+        di1 = (dy << 1);
+        di2 = ((dy - dx) << 1);
+        xi1 = 1;
+        xi2 = 1;
+        yi1 = 0;
+        yi2 = 1;
     } else {
-        n=dy+1;
-        d=(dx<<1)-dy;
-        di1=(dx<<1);
-        di2=((dx-dy)<<1);
-        xi1=0; xi2=1; yi1=1; yi2=1;
+        n = dy + 1;
+        d = (dx << 1) - dy;
+        di1 = (dx << 1);
+        di2 = ((dx - dy) << 1);
+        xi1 = 0;
+        xi2 = 1;
+        yi1 = 1;
+        yi2 = 1;
     }
-    if (x1>x2) {
-        xi1=-xi1;
-        xi2=-xi2;
+    if (x1 > x2) {
+        xi1 = -xi1;
+        xi2 = -xi2;
     }
-    if (y1>y2) {
-        yi1=-yi1;
-        yi2=-yi2;
+    if (y1 > y2) {
+        yi1 = -yi1;
+        yi2 = -yi2;
     }
-    x=x1;
-    y=y1;
-    for (i=1;i<=n;i++) {
-        *(char *)(dest+y*pgwid+x)=c;
-        if (d<0) {
-            d+=di1;
-            x+=xi1;
-            y+=yi1;
+    x = x1;
+    y = y1;
+    for (i = 1; i <= n; i++) {
+        *(char *)(dest + y * pgwid + x) = c;
+        if (d < 0) {
+            d += di1;
+            x += xi1;
+            y += yi1;
         } else {
-            d+=di2;
-            x+=xi2;
-            y+=yi2;
+            d += di2;
+            x += xi2;
+            y += yi2;
         }
     }
 }
 
-
-void util_lineclip(int x1,int y1,int x2,int y2,int cx1,int cy1,
-                   int cx2,int cy2,Uint8 c,int pgwid,char *dest)
+void util_lineclip(int x1, int y1, int x2, int y2, int cx1, int cy1,
+                   int cx2, int cy2, Uint8 c, int pgwid, char *dest)
 {
-    int i,dx,dy,n,d,di1,di2,xi1,xi2,yi1,yi2;
-    int x,y;
-    dx=(((x2-x1)<0) ? -(x2-x1) : (x2-x1));
-    dy=(((y2-y1)<0) ? -(y2-y1) : (y2-y1));
+    int i, dx, dy, n, d, di1, di2, xi1, xi2, yi1, yi2;
+    int x, y;
+    dx = (((x2 - x1) < 0) ? -(x2 - x1) : (x2 - x1));
+    dy = (((y2 - y1) < 0) ? -(y2 - y1) : (y2 - y1));
 
-    if (dx>=dy) {
-        n=dx+1;
-        d=(dy<<1)-dx;
-        di1=(dy<<1);
-        di2=((dy-dx)<<1);
-        xi1=1; xi2=1; yi1=0; yi2=1;
+    if (dx >= dy) {
+        n = dx + 1;
+        d = (dy << 1) - dx;
+        di1 = (dy << 1);
+        di2 = ((dy - dx) << 1);
+        xi1 = 1;
+        xi2 = 1;
+        yi1 = 0;
+        yi2 = 1;
     } else {
-        n=dy+1;
-        d=(dx<<1)-dy;
-        di1=(dx<<1);
-        di2=((dx-dy)<<1);
-        xi1=0; xi2=1; yi1=1; yi2=1;
+        n = dy + 1;
+        d = (dx << 1) - dy;
+        di1 = (dx << 1);
+        di2 = ((dx - dy) << 1);
+        xi1 = 0;
+        xi2 = 1;
+        yi1 = 1;
+        yi2 = 1;
     }
-    if (x1>x2) {
-        xi1=-xi1;
-        xi2=-xi2;
+    if (x1 > x2) {
+        xi1 = -xi1;
+        xi2 = -xi2;
     }
-    if (y1>y2) {
-        yi1=-yi1;
-        yi2=-yi2;
+    if (y1 > y2) {
+        yi1 = -yi1;
+        yi2 = -yi2;
     }
-    x=x1;
-    y=y1;
-    for (i=1;i<=n;i++) {
-        if ((x>=cx1) && (x<cx2) && (y>=cy1) && (y<cy2))
-            *(char *)(dest+y*pgwid+x)=c;
-        if (d<0) {
-            d+=di1;
-            x+=xi1;
-            y+=yi1;
+    x = x1;
+    y = y1;
+    for (i = 1; i <= n; i++) {
+        if ((x >= cx1) && (x < cx2) && (y >= cy1) && (y < cy2)) {
+            *(char *)(dest + y * pgwid + x) = c;
+        }
+        if (d < 0) {
+            d += di1;
+            x += xi1;
+            y += yi1;
         } else {
-            d+=di2;
-            x+=xi2;
-            y+=yi2;
+            d += di2;
+            x += xi2;
+            y += yi2;
         }
     }
 }
 
-
-void util_loadpcxpalptr(char *pal,char *filename)
+void util_loadpcxpalptr(char *pal, char *filename)
 {
     UTIL_FILE *f;
     unsigned short int a;
     char *buf;
-    if (util_finitialized==0) util_finit();
-    f=util_fopen(filename);
-    if (f!=NULL) {
-        buf=(char *)malloc(768);
-        util_fseek(f,-768,SEEK_END);
-        util_fread(buf,768,1,f);
-        for (a=0;a<768;a++) pal[a]=(char)(*(buf+a)>>2);
+    if (util_finitialized == 0) {
+        util_finit();
+    }
+    f = util_fopen(filename);
+    if (f != NULL) {
+        buf = (char *)malloc(768);
+        util_fseek(f, -768, SEEK_END);
+        util_fread(buf, 768, 1, f);
+        for (a = 0; a < 768; a++) {
+            pal[a] = (char)(*(buf + a) >> 2);
+        }
         free(buf);
         util_fclose(f);
     }
 }
 
+#define UTIL_LOADPCX_GETBYT         \
+    bl++;                           \
+    if (bl > 9999) {                \
+        bl = 0;                     \
+        tmp = 10000;                \
+        if (btsl < 10000)           \
+            tmp = btsl;             \
+        util_fread(buf, tmp, 1, f); \
+        if (btsl > 9999)            \
+            btsl -= 10000;          \
+    }                               \
+    getbyt = *(buf + bl)
 
-#define UTIL_LOADPCX_GETBYT bl++;\
-  if (bl>9999) {\
-    bl=0; tmp=10000;\
-    if (btsl<10000) tmp=btsl;\
-    util_fread(buf,tmp,1,f);\
-    if (btsl>9999) btsl-=10000;\
-  }\
-  getbyt=*(buf+bl)
-
-
-void util_loadpcx(char *dest,char *filename,Uint32 bytes)
+void util_loadpcx(char *dest, char *filename, Uint32 bytes)
 {
-    Uint32 offs,bl,tmp;
+    Uint32 offs, bl, tmp;
     int btsl;
-    Uint8 b1,b2;
+    Uint8 b1, b2;
     Uint32 a;
     UTIL_FILE *f;
     Uint8 *buf;
     Uint8 getbyt;
 
-    if (util_finitialized==0) util_finit();
+    if (util_finitialized == 0) {
+        util_finit();
+    }
     if (util_fileexists(filename)) {
-        buf=(Uint8 *)malloc(10000);
-        f=util_fopen(filename);
-        offs=0;
-        util_fseek(f,128,SEEK_SET);
-        btsl=util_fsize(f)-128; bl=9999;
+        buf = (Uint8 *)malloc(10000);
+        f = util_fopen(filename);
+        offs = 0;
+        util_fseek(f, 128, SEEK_SET);
+        btsl = util_fsize(f) - 128;
+        bl = 9999;
         do {
-            UTIL_LOADPCX_GETBYT; b1=getbyt;
-            if ((b1>>6)==3) {
-                UTIL_LOADPCX_GETBYT; b2=getbyt;
-                for (a=0;a<(Uint32)(b1&63);a++) *(dest+a+offs)=b2;
-                offs+=(b1&63);
+            UTIL_LOADPCX_GETBYT;
+            b1 = getbyt;
+            if ((b1 >> 6) == 3) {
+                UTIL_LOADPCX_GETBYT;
+                b2 = getbyt;
+                for (a = 0; a < (Uint32)(b1 & 63); a++) {
+                    *(dest + a + offs) = b2;
+                }
+                offs += (b1 & 63);
             } else {
-                *(dest+offs)=b1;
+                *(dest + offs) = b1;
                 offs++;
             }
-        } while (offs<bytes);
+        } while (offs < bytes);
         util_fclose(f);
         free(buf);
     }
 }
-
 
 /* this ugly old pcx reader load the header straight with fread
  * (which is not the right way)
@@ -221,171 +242,183 @@ void util_loadpcx(char *dest,char *filename,Uint32 bytes)
 #pragma pack(1)
 
 typedef struct {
-    char manufacturer,version,encoding,bitsperpixel;
-    short int xmin,ymin,xmax,ymax;     /* these are used */
-    short int hdpi,vdpi;
+    char manufacturer, version, encoding, bitsperpixel;
+    short int xmin, ymin, xmax, ymax; /* these are used */
+    short int hdpi, vdpi;
     char colormap[48];
-    char reserved,nplanes;
-    short int bytesperline,paletteinfo;
-    short int hscreensize,vscreensize;
+    char reserved, nplanes;
+    short int bytesperline, paletteinfo;
+    short int hscreensize, vscreensize;
     char filler[54];
 } PCXHEADER;
 
 #pragma pack()
 
-
-void util_loadpcxpi(char *filename,PIC *pic)
+void util_loadpcxpi(char *filename, PIC *pic)
 {
     PCXHEADER header;
-    Uint32 offs,bl,tmp,bytes=0;
+    Uint32 offs, bl, tmp, bytes = 0;
     int btsl;
-    Uint8 a,b1,b2;
+    Uint8 a, b1, b2;
     UTIL_FILE *f;
-    Uint8 *buf,*dest;
+    Uint8 *buf, *dest;
     Uint8 getbyt;
 
-    if (util_finitialized==0) util_finit();
+    if (util_finitialized == 0) {
+        util_finit();
+    }
     if (util_fileexists(filename)) {
-        buf=(Uint8 *)malloc(10000);
-        f=util_fopen(filename);
-        offs=0;
-        util_fread(&header,sizeof(PCXHEADER),1,f);
-        pic->bitspp=8;
-        pic->bytespp=1;
-        pic->w=header.xmax-header.xmin+1;
-        pic->h=header.ymax-header.ymin+1;
-        bytes=(pic->w)*(pic->h);
-        pic->pic=(Uint8 *)malloc(bytes);
-        dest=(Uint8 *)pic->pic;
-        btsl=util_fsize(f)-128; bl=9999;
-        while (offs<bytes) {
-            UTIL_LOADPCX_GETBYT; b1=getbyt;
-            if ((b1>>6)==3) {
-                UTIL_LOADPCX_GETBYT; b2=getbyt;
-                for (a=0;a<(b1&63);a++) *(dest+a+offs)=b2;
-                offs+=(b1&63);
+        buf = (Uint8 *)malloc(10000);
+        f = util_fopen(filename);
+        offs = 0;
+        util_fread(&header, sizeof(PCXHEADER), 1, f);
+        pic->bitspp = 8;
+        pic->bytespp = 1;
+        pic->w = header.xmax - header.xmin + 1;
+        pic->h = header.ymax - header.ymin + 1;
+        bytes = (pic->w) * (pic->h);
+        pic->pic = (Uint8 *)malloc(bytes);
+        dest = (Uint8 *)pic->pic;
+        btsl = util_fsize(f) - 128;
+        bl = 9999;
+        while (offs < bytes) {
+            UTIL_LOADPCX_GETBYT;
+            b1 = getbyt;
+            if ((b1 >> 6) == 3) {
+                UTIL_LOADPCX_GETBYT;
+                b2 = getbyt;
+                for (a = 0; a < (b1 & 63); a++) {
+                    *(dest + a + offs) = b2;
+                }
+                offs += (b1 & 63);
             } else {
-                *(dest+offs)=b1;
+                *(dest + offs) = b1;
                 offs++;
             }
         }
-        pic->pal=(Uint8 *)malloc(768);
-        util_fseek(f,-768,SEEK_END);
-        util_fread(pic->pal,768,1,f);
-        for (offs=0;offs<768;offs++) *(pic->pal+offs)>>=2;
+        pic->pal = (Uint8 *)malloc(768);
+        util_fseek(f, -768, SEEK_END);
+        util_fread(pic->pal, 768, 1, f);
+        for (offs = 0; offs < 768; offs++) {
+            *(pic->pal + offs) >>= 2;
+        }
         util_fclose(f);
         free(buf);
     }
 }
 
-
-void util_loadpcxpihdr(char *filename,PIC *pic)
+void util_loadpcxpihdr(char *filename, PIC *pic)
 {
     PCXHEADER header;
     UTIL_FILE *f;
 
-    if (util_finitialized==0) util_finit();
-    f=util_fopen(filename);
-    util_fread(&header,sizeof(PCXHEADER),1,f);
-    pic->w=header.xmax-header.xmin+1;
-    pic->h=header.ymax-header.ymin+1;
+    if (util_finitialized == 0) {
+        util_finit();
+    }
+    f = util_fopen(filename);
+    util_fread(&header, sizeof(PCXHEADER), 1, f);
+    pic->w = header.xmax - header.xmin + 1;
+    pic->h = header.ymax - header.ymin + 1;
     util_fclose(f);
 }
 
-
 void util_freepi(PIC *pic)
 {
-    free(pic->pic); pic->pic=NULL;
-    free(pic->pal); pic->pal=NULL;
+    free(pic->pic);
+    pic->pic = NULL;
+    free(pic->pal);
+    pic->pal = NULL;
 }
 
-
-char * util_conv8to32(char *img,char *pal,unsigned long bytes)
+char *util_conv8to32(char *img, char *pal, unsigned long bytes)
 {
     Uint8 *tmp;
     Uint8 b;
     int a;
-    tmp=(Uint8 *)realloc(img,bytes*4);
-    if (tmp==NULL) {
-        return(NULL);
+    tmp = (Uint8 *)realloc(img, bytes * 4);
+    if (tmp == NULL) {
+        return (NULL);
     } else {
-        for (a=bytes-1;a>=0;a--) {
-            b=*(tmp+a);
-            *(tmp+a*4)=(char)(pal[b*3+2]<<2);     /* blue */
-            *(tmp+a*4+1)=(char)(pal[b*3+1]<<2);   /* green */
-            *(tmp+a*4+2)=(char)(pal[b*3]<<2);     /* red */
-            *(tmp+a*4+3)=0;               /* alpha */
+        for (a = bytes - 1; a >= 0; a--) {
+            b = *(tmp + a);
+            *(tmp + a * 4) = (char)(pal[b * 3 + 2] << 2);     /* blue */
+            *(tmp + a * 4 + 1) = (char)(pal[b * 3 + 1] << 2); /* green */
+            *(tmp + a * 4 + 2) = (char)(pal[b * 3] << 2);     /* red */
+            *(tmp + a * 4 + 3) = 0;                           /* alpha */
         }
         return (char *)tmp;
     }
 }
 
+#define UTIL_CIRCLEPIX(a, b)                                      \
+    {                                                             \
+        if ((a) >= cx1 && (a) <= cx2 && (b) >= cy1 && (b) <= cy2) \
+            *(dest + (b)*pgwid + (a)) = c;                        \
+    }
 
-#define UTIL_CIRCLEPIX(a,b) { if ((a)>=cx1 && (a)<=cx2 && (b)>=cy1 && (b)<=cy2) *(dest+(b)*pgwid+(a))=c; }
-
-void util_circle(int xx,int yy,int r,int cx1,int cy1,int cx2,int cy2,
-                 Uint8 c,int pgwid,char *dest)
+void util_circle(int xx, int yy, int r, int cx1, int cy1, int cx2, int cy2,
+                 Uint8 c, int pgwid, char *dest)
 {
-    int y,d,x,x2,y2;
-    y=r;
-    d=-r;
-    UTIL_CIRCLEPIX(xx,r+yy);
-    UTIL_CIRCLEPIX(r+xx,yy);
-    UTIL_CIRCLEPIX(xx-r,yy);
-    UTIL_CIRCLEPIX(xx,yy-r);
-    x=x2=1;         /* x2=2*x-1 */
-    y2=-(y<<1)+2;
-    while (x<y) {   /* originally x<=y */
-        d+=x2;
-        if (d>=0) {
-            d+=y2;
+    int y, d, x, x2, y2;
+    y = r;
+    d = -r;
+    UTIL_CIRCLEPIX(xx, r + yy);
+    UTIL_CIRCLEPIX(r + xx, yy);
+    UTIL_CIRCLEPIX(xx - r, yy);
+    UTIL_CIRCLEPIX(xx, yy - r);
+    x = x2 = 1; /* x2=2*x-1 */
+    y2 = -(y << 1) + 2;
+    while (x < y) { /* originally x<=y */
+        d += x2;
+        if (d >= 0) {
+            d += y2;
             y--;
-            y2+=2;
+            y2 += 2;
         }
-        UTIL_CIRCLEPIX(x+xx,y+yy);
-        UTIL_CIRCLEPIX(x+xx,-y+yy);
-        UTIL_CIRCLEPIX(-x+xx,y+yy);
-        UTIL_CIRCLEPIX(-x+xx,-y+yy);
-        UTIL_CIRCLEPIX(y+xx,x+yy);
-        UTIL_CIRCLEPIX(y+xx,-x+yy);
-        UTIL_CIRCLEPIX(-y+xx,x+yy);
-        UTIL_CIRCLEPIX(-y+xx,-x+yy);
+        UTIL_CIRCLEPIX(x + xx, y + yy);
+        UTIL_CIRCLEPIX(x + xx, -y + yy);
+        UTIL_CIRCLEPIX(-x + xx, y + yy);
+        UTIL_CIRCLEPIX(-x + xx, -y + yy);
+        UTIL_CIRCLEPIX(y + xx, x + yy);
+        UTIL_CIRCLEPIX(y + xx, -x + yy);
+        UTIL_CIRCLEPIX(-y + xx, x + yy);
+        UTIL_CIRCLEPIX(-y + xx, -x + yy);
         x++;
-        x2+=2;
+        x2 += 2;
     }
 }
 
-
-void util_xorrand(char *data,int jrandseed,int datalen)
+void util_xorrand(char *data, int jrandseed, int datalen)
 {
-    int a,saverand;
-    saverand=rand();
+    int a, saverand;
+    saverand = rand();
     crapsrand(jrandseed);
-    for (a=0;a<datalen;a++) {
-        *(data+a)^=craprand()&255;
+    for (a = 0; a < datalen; a++) {
+        *(data + a) ^= craprand() & 255;
     }
     srand(saverand);
 }
 
 Uint32 util_filesize(FILE *fp)
 {
-    int savepos,sizeoffile;
-    savepos=ftell(fp);
-    fseek(fp,0,SEEK_END);
-    sizeoffile=ftell(fp);
-    fseek(fp,savepos,SEEK_SET);
-    return(sizeoffile);
+    int savepos, sizeoffile;
+    savepos = ftell(fp);
+    fseek(fp, 0, SEEK_END);
+    sizeoffile = ftell(fp);
+    fseek(fp, savepos, SEEK_SET);
+    return (sizeoffile);
 }
-
 
 char util_fileexists(char *filename)
 {
     UTIL_FILE *fp;
-    if (util_finitialized==0) util_finit();
-    fp=util_fopen(filename);
-    if (fp!=NULL) {
-        util_fclose(fp);
-        return(1);
+    if (util_finitialized == 0) {
+        util_finit();
     }
-    return(0);
+    fp = util_fopen(filename);
+    if (fp != NULL) {
+        util_fclose(fp);
+        return (1);
+    }
+    return (0);
 }

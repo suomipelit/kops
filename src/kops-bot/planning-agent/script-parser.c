@@ -2,12 +2,10 @@
  * $Revision: 1.1 $
  */
 
-
 struct keyword {
     char *name;
     void (*print)();
 };
 
 char *grammar = {
-    ""
-};
+    ""};

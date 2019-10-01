@@ -28,23 +28,21 @@
 #ifdef __WATCOMC__
 /* old watcom dos code */
 
-void (__interrupt __far * biostimerhandler) ();
+void(__interrupt __far *biostimerhandler)();
 volatile long int clockticks, counter;
 
 void __interrupt __far timerhandler()
 {
     if (gamepause == 0)
-	framecounter++;
+        framecounter++;
 
     clockticks += counter;
 
-    if (clockticks >= 0x10000)
-    {
-	clockticks -= 0x10000;
-	biostimerhandler();
-    }
-    else
-	outp(0x20, 0x20);
+    if (clockticks >= 0x10000) {
+        clockticks -= 0x10000;
+        biostimerhandler();
+    } else
+        outp(0x20, 0x20);
 }
 
 void settimer(short frequency)

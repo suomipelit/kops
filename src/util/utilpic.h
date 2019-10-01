@@ -10,6 +10,7 @@
 extern "C" {
 #endif
 
+#include <SDL_stdinc.h>
 
 typedef struct
 {
@@ -18,7 +19,6 @@ typedef struct
     Uint8 *pal;
     int bitspp, bytespp;
 } PIC;
-
 
 #ifdef __cplusplus
 };
