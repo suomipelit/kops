@@ -1,9 +1,0 @@
-Release
-Debug
-*.plg
-*.APS
-*.cfg
-*.log
-*.ncb
-*.opt
-stdout.txt
