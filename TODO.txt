@@ -1,16 +1,14 @@
 TODO items for KOPS
 -------------------
 
-For release 1.2:
+For the next release:
 
 - update and revise doc/manual.txt
 - update and revise installer/*
-- test, fix and update build/makefiles for all supported
-  platforms as needed
+- test, fix and update cmake for all supported platforms
 
 Long term:
 
-- replace FMOD with an open source sound library
 - AI
 - multiplayer via network
 
