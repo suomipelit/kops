@@ -176,8 +176,7 @@ void info()
     kprintfs(bigfont[0], 25, 130, "music by erkki turunen");
     kprintfs(bigfont[0], 15, 160, "A.I by Sami Makinen-Okubo");
     kprintfs(font, 20, 195, "uses SDL (www.libsdl.org)");
-    kprintfs(font, 20, 210, "and FMOD (www.fmod.org)");
-    kprintfs(font, 20, 225, "and ZLIB (by Jean-loup Gailly and Mark Adler)");
+    kprintfs(font, 20, 210, "and ZLIB (by Jean-loup Gailly and Mark Adler)");
     kprintfs(font, 30, 245, "Additional thanks to Jari Komppa, Pepe Taskinen");
     kprintfs(font, 30, 260, "and Antti Tapaninen");
 
