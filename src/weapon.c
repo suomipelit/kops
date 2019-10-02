@@ -1223,8 +1223,9 @@ static void pickSpecial(int p, int ammo)
 
 static void pickNextAmmo(int p, int ammo)
 {
-
+#if EXPERIMENTAL_BOT_SUPPORT
     logAccess("pickNextAmmo(%d, %d)\n", p, ammo);
+#endif
 
     pickammo[ammo].active = 0;
     plr[p].activeslot = (Uint8)((plr[p].activeslot + 1) % slots);
