@@ -7,8 +7,6 @@
 #include "SDL_mixer.h"
 #include "util/utilfile.h"
 
-static const char *temp_file = "tmpfile.s3m";
-
 Mix_Music *load_music_file(char *filename)
 {
     Mix_Music *music = NULL;
@@ -22,24 +20,13 @@ Mix_Music *load_music_file(char *filename)
 
             if (buffer) {
                 if (util_fread(buffer, handle->fsize, 1, handle)) {
-                    FILE *fp = fopen(temp_file, "wb");
-
-                    if (fp) {
-                        if (fwrite(buffer, data_size, 1, fp)) {
-                            fclose(fp);
-                            music = Mix_LoadMUS(temp_file);
-
-                            remove(temp_file);
-                        } else {
-                            fclose(fp);
-                        }
-                    }
+                    SDL_RWops *rwops = SDL_RWFromMem(buffer, data_size);
+                    music = Mix_LoadMUSType_RW(rwops, MUS_MOD, SDL_TRUE);
+                    // The rwops is freed above by LoadMUS
                 }
-
                 free(buffer);
             }
         }
-
         util_fclose(handle);
     }
 
