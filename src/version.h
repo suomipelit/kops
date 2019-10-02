@@ -9,4 +9,7 @@
 int versmaj = 1;
 int versmin = 2;
 
+/* Suomipelit port version postfix */
+const char *sp_version_postfix = "-sp1";
+
 #endif /* !VERSION_H_INCLUDED */
