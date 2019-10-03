@@ -174,7 +174,9 @@ void info()
     kprintfs(bigfont[0], 15, 90, "by");
     kprintfs(bigfont[1], 325, 90, "Jetro Lauha");
     kprintfs(bigfont[0], 25, 130, "music by erkki turunen");
+#if EXPERIMENTAL_BOT_SUPPORT
     kprintfs(bigfont[0], 15, 160, "A.I by Sami Makinen-Okubo");
+#endif
     kprintfs(font, 20, 195, "uses SDL (www.libsdl.org)");
     kprintfs(font, 20, 210, "and ZLIB (by Jean-loup Gailly and Mark Adler)");
     kprintfs(font, 30, 245, "Additional thanks to Jari Komppa, Pepe Taskinen");
@@ -704,7 +706,9 @@ Uint8 mainmenu()
     enum menu_options {
         MENU_start,
         MENU_players,
+#if EXPERIMENTAL_BOT_SUPPORT
         MENU_bots,
+#endif
         MENU_levels,
         MENU_ignore,
         MENU_options,
@@ -716,7 +720,9 @@ Uint8 mainmenu()
     char *menustr[MENU_total] = {
         "start game",
         "players < >",
+#if EXPERIMENTAL_BOT_SUPPORT
         "bots < >",
+#endif
         "choose levels",
         "\372\372",
         "options",
@@ -768,8 +774,9 @@ Uint8 mainmenu()
     }
 
     kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+#if EXPERIMENTAL_BOT_SUPPORT
     kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
-
+#endif
     menutmp = (Uint8 *)malloc(640 * 300 + 32 * 32);
     menufrm = 0;
 
@@ -802,11 +809,13 @@ Uint8 mainmenu()
         if (sel == MENU_players) {
             kprintf(menutmp, bigfont[1], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225,
                     4, 640, "%d", players);
-        } else if (sel == MENU_bots) {
+        }
+#if EXPERIMENTAL_BOT_SUPPORT
+        else if (sel == MENU_bots) {
             kprintf(menutmp, bigfont[1], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150,
                     4, 640, "%d", bots);
         }
-
+#endif
         jcsprite((640 - strlen(menustr[sel]) * 25) / 2 - 48, 0,
                  32, 32, 640, menutmp, othgfx[2].pic + ((menufrm / 2 + 32) & 63) * 32 * 32);
         jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 48, 8,
@@ -837,11 +846,13 @@ Uint8 mainmenu()
             if (sel == MENU_players) {
                 kprintf(menutmp, bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 4, 640, "%d",
                         players);
-            } else if (sel == MENU_bots) {
+            }
+#if EXPERIMENTAL_BOT_SUPPORT
+            else if (sel == MENU_bots) {
                 kprintf(menutmp, bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 4, 640, "%d",
                         bots);
             }
-
+#endif
             jvdump((216 + sel * 32) * 640, 640 * 32, menutmp);
 
             if (((waskey(K_UP)) || (waskey(K_UP2))) && (sel > 0)) {
@@ -883,7 +894,9 @@ Uint8 mainmenu()
                     initplayer(players);
                     players++;
                 }
-            } else if (sel == MENU_bots) {
+            }
+#if EXPERIMENTAL_BOT_SUPPORT
+            else if (sel == MENU_bots) {
                 if (((waskey(K_LEFT)) || (waskey(K_LEFT2))) && (bots > 0)) {
                     deinitplayer(MAXPLAYERS + bots - 1);
                     --bots;
@@ -893,6 +906,7 @@ Uint8 mainmenu()
                     ++bots;
                 }
             }
+#endif
             clearkey(K_LEFT);
             clearkey(K_RIGHT);
             clearkey(K_LEFT2);
@@ -914,7 +928,9 @@ Uint8 mainmenu()
                     kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
                 }
                 kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+#if EXPERIMENTAL_BOT_SUPPORT
                 kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+#endif
                 break;
             case MENU_options:
                 optionsmenu();
@@ -923,7 +939,9 @@ Uint8 mainmenu()
                     kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
                 }
                 kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+#if EXPERIMENTAL_BOT_SUPPORT
                 kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+#endif
                 break;
             case MENU_info:
                 info();
@@ -932,7 +950,9 @@ Uint8 mainmenu()
                     kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
                 }
                 kprintfs(bigfont[0], (640 - strlen(menustr[1]) * 25) / 2 + 225, 252, "%d", players);
+#if EXPERIMENTAL_BOT_SUPPORT
                 kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+#endif
                 break;
             }
             clearkey(K_ENTER);

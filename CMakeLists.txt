@@ -41,7 +41,13 @@ endif()
 file(GLOB SOURCES
 	src/*.h src/*.c
 	src/util/*.h src/util/*.c
-	src/kops-bot/reactive-agent/*.h src/kops-bot/reactive-agent/*.c)
+	src/kops-bot/reactive-agent/*.h)
+
+if (EXPERIMENTAL_BOT_SUPPORT)
+	file(GLOB BOT_SOURCES
+		src/kops-bot/reactive-agent/*.c)
+	list(APPEND SOURCES ${BOT_SOURCES})
+endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -65,4 +71,9 @@ endif()
 
 if (APPLE)
 	target_compile_definitions(${PROJECT_NAME} PRIVATE PATH_MAX=260)
+endif()
+
+if (EXPERIMENTAL_BOT_SUPPORT)
+	message(STATUS "Enabled incomplete experimental bot support")
+	target_compile_definitions(${PROJECT_NAME} PRIVATE EXPERIMENTAL_BOT_SUPPORT=1)
 endif()

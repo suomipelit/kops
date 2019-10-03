@@ -31,8 +31,11 @@
 #include "spr.h"
 #include "init.h"
 #include "sound.h"
+// Some defines are needed even with bot support disabled
 #include "kops-bot/reactive-agent/cannonfodder.h"
+#if EXPERIMENTAL_BOT_SUPPORT
 #include "kops-bot/reactive-agent/bot-util.h"
+#endif
 
 /* #define VRC */
 /* #define RASTER */
@@ -82,13 +85,17 @@ void preparegame()
         }
     }
 
+#if EXPERIMENTAL_BOT_SUPPORT
     /* Detach all current agents. */
     detachAgents();
+#endif
 
     /* Attach as many agents as required. */
     for (a = MAXPLAYERS; a < (MAXPLAYERS + bots); ++a) {
         if (plr[a].active) {
+#if EXPERIMENTAL_BOT_SUPPORT
             attachAgent(&plr[a]);
+#endif
             plr[a].bot = 1;
             plr[a].action = ACTION_NOT_DEFINED;
             plr[a].fire_rate = 0;
@@ -182,7 +189,9 @@ void game()
 
             pan = 128;
 
+#if EXPERIMENTAL_BOT_SUPPORT
             botHandler();
+#endif
 
             /*
 	     * main loop for all players
