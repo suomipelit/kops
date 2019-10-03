@@ -338,6 +338,7 @@ extern Uint32 cnt;
 extern char *copyright;
 extern int windowed;
 extern int versmaj, versmin;                          /* major & minor version */
+extern const char *sp_version_postfix;                /* Suomipelit port version postfix */
 extern Uint8 *level, *backgr, *mask;                  /* level & background image and mask */
 extern Uint8 parallaxdraw;                            /* parallax on/off */
 extern int levw, levh, backw, backh;                  /* level+background width & height */

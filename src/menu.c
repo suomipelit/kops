@@ -752,7 +752,7 @@ Uint8 mainmenu()
     kprintf(menupic.pic, font, 430, 469, 640, "free registered version");
 
     /*  small version number */
-    kprintf(menupic.pic, font, 5, 469, 640, "version %d.%d", versmaj, versmin);
+    kprintf(menupic.pic, font, 5, 469, 640, "version %d.%d%s", versmaj, versmin, sp_version_postfix);
     for (a = 455 * 640; a < 480 * 640; a++) {
         if (*(menupic.pic + a) > 127) {
             *(menupic.pic + a) = (*(menupic.pic + a) - 136) / 3 + 133;
