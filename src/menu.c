@@ -40,9 +40,7 @@ void dostatus()
 {
     int a, max = 0;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     jvcfillbox(0, 0, 639, 479, 0);
     util_loadpcxpi(MENUBACKPICFILE, &menupic);
@@ -154,16 +152,12 @@ void endgamescreen()
 
 void info()
 {
-    int a;
-
     sound_stopplay();
     sound_play(m_info);
     sound_pvol(64);
     sound_eff(S_MENUCHOOS, 24, 128, 16384, 1);
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     jvdump(0, 640 * 480, menupic.pic);
 
@@ -193,9 +187,8 @@ void info()
            (waskey(K_ESC) == 0) && (waskey(K_ENTER2) == 0)) {
         update();
     };
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+
+    clearkeys();
 
     sound_stopplay();
     sound_play(m_startmenu);
@@ -244,9 +237,7 @@ void levwin1()
 {
     int a, f;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     for (a = 205; a < 480; a++) {
         memcpy(menutmp + (a - 205) * 225, menupic.pic + a * 640 + 10, 225);
@@ -266,9 +257,7 @@ void levwin2()
 {
     int a, f;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     for (a = 205; a < 480; a++) {
         memcpy(menutmp + (a - 205) * 225, menupic.pic + a * 640 + 245, 225);
@@ -296,9 +285,7 @@ void levwin3()
     char *menustr[LEVMENUOPT] = {"delete", "clear", "random", "exit"};
     int a;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     for (a = 0; a < LEVMENUOPT; a++) {
         kprintfs(bigfont[0], 480, 220 + a * 30, menustr[a]);
@@ -321,9 +308,7 @@ void levelsmenu()
     lm3sel = 3;
     lmsel = 3;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     jvdump(180 * 640, 300 * 640, menupic.pic + 180 * 640);
     update();
@@ -532,9 +517,7 @@ void optionsmenu()
 
     kprintfs(bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 370, gravtxt[gravvalue]);
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     while (menuexit == 255) {
 
@@ -780,9 +763,7 @@ Uint8 mainmenu()
     menutmp = (Uint8 *)malloc(640 * 300 + 32 * 32);
     menufrm = 0;
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     while (menuexit == 255) {
 

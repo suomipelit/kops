@@ -44,7 +44,6 @@
 #define K_DOWN2 SDLK_KP_2
 
 #define MAX_NUMBER_OF_PRESSED_KEYS 128
-#define SDLK_LAST MAX_NUMBER_OF_PRESSED_KEYS
 
 // flips screen and updates keyboard state
 extern void update();
@@ -52,6 +51,7 @@ extern void update();
 extern bool waskey(SDL_Keycode key);
 extern bool key(SDL_Keycode key);
 extern void clearkey(SDL_Keycode key);
+extern void clearkeys();
 
 extern void wait_framecount();
 
