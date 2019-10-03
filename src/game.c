@@ -102,9 +102,7 @@ void preparegame()
         }
     }
 
-    for (a = 0; a < SDLK_LAST; a++) {
-        clearkey(a);
-    }
+    clearkeys();
 
     basepixcount = 0;
     cnt = 0;

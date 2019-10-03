@@ -99,6 +99,11 @@ void clearkey(SDL_Keycode key)
     }
 }
 
+void clearkeys()
+{
+    memset(&keys, 0, sizeof(keys));
+}
+
 static void toggle_fullscreen()
 {
     fullscreen = !fullscreen;
