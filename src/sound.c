@@ -190,8 +190,9 @@ void sound_play(int order)
     sound_stopplay();
 
     if (s_music) {
-        Mix_PlayMusic(s_music, 0);
+        Mix_PlayMusic(s_music, -1);
         Mix_SetMusicPosition(order > 0 ? order - 1 : 0);
-        // TODO: Whole track is looped, not just the order. Use Mix_HookMusicFinished?
+        // For the order looping to work correctly, self-built
+        // SDL_Mixer runtime is needed, see README.md
     }
 }
