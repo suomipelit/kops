@@ -53,6 +53,8 @@ extern bool key(SDL_Keycode key);
 extern void clearkey(SDL_Keycode key);
 extern void clearkeys();
 
+extern void keyrepeat(bool enabled);
+
 extern void wait_framecount();
 
 extern volatile short int cstart[768], cdest[768], ctemp[768];

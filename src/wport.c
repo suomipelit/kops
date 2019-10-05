@@ -34,6 +34,7 @@
 volatile short int cstart[768], cdest[768], ctemp[768];
 volatile short int realfadecount;
 bool fullscreen = false;
+bool repeat = true;
 
 SDL_Color palette[256];
 SDL_Surface *screen = NULL;
@@ -99,6 +100,11 @@ void clearkey(SDL_Keycode key)
     }
 }
 
+void keyrepeat(bool enabled)
+{
+    repeat = enabled;
+}
+
 void clearkeys()
 {
     memset(&keys, 0, sizeof(keys));
@@ -130,6 +136,9 @@ void update()
             if (handle_special_key(&ev.key)) {
                 break;
             }
+
+            if (!repeat && ev.key.repeat)
+                break;
 
             const SDL_Keycode pressed = ev.key.keysym.sym;
             key = find_key(pressed);
