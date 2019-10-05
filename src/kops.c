@@ -179,7 +179,7 @@ int main(int argc, char *argv[])
         initgravity();
     }
 
-    //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2); SP-TODO
+    keyrepeat(true);
 
     while (mainmenu() != 6) {
         for (a = 0; a < players; a++) {
@@ -203,9 +203,9 @@ int main(int argc, char *argv[])
             jinitreal();
             gamewindowbackgrounds();
             loadlevel((char *)(&levlist[a]) + 1);
-            //SDL_EnableKeyRepeat(0, 0); SP-TODO
+            keyrepeat(false);
             game();
-            //SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY / 2, SDL_DEFAULT_REPEAT_INTERVAL * 2); SP-TODO
+            keyrepeat(true);
             jatko = 0;
             if (a < levels - 1) {
                 jatko = statusscreen();
