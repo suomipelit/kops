@@ -155,7 +155,7 @@ void preparegame()
 
 void game()
 {
-    int a, b, c = 0, p, oxi, oyi, ox, oy, oxp, oyp, oenergy[MAXPLAYERS + MAXBOTS];
+    int a, b, c = 0, p, oxi, oyi, ox, oy, oenergy[MAXPLAYERS + MAXBOTS];
     /* int tx,ty; */
     char borderhit;
     unsigned long int frm = 0;
@@ -236,8 +236,6 @@ void game()
                     oyi = plr[p].yi;
                     ox = plr[p].x;
                     oy = plr[p].y;
-                    oxp = plr[p].xp;
-                    oyp = plr[p].yp;
 
                     /*
              * movement key checks

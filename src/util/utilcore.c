@@ -162,27 +162,6 @@ void util_lineclip(int x1, int y1, int x2, int y2, int cx1, int cy1,
     }
 }
 
-void util_loadpcxpalptr(char *pal, char *filename)
-{
-    UTIL_FILE *f;
-    unsigned short int a;
-    char *buf;
-    if (util_finitialized == 0) {
-        util_finit();
-    }
-    f = util_fopen(filename);
-    if (f != NULL) {
-        buf = (char *)malloc(768);
-        util_fseek(f, -768, SEEK_END);
-        util_fread(buf, 768, 1, f);
-        for (a = 0; a < 768; a++) {
-            pal[a] = (char)(*(buf + a) >> 2);
-        }
-        free(buf);
-        util_fclose(f);
-    }
-}
-
 #define UTIL_LOADPCX_GETBYT         \
     bl++;                           \
     if (bl > 9999) {                \
@@ -307,85 +286,12 @@ void util_loadpcxpi(char *filename, PIC *pic)
     }
 }
 
-void util_loadpcxpihdr(char *filename, PIC *pic)
-{
-    PCXHEADER header;
-    UTIL_FILE *f;
-
-    if (util_finitialized == 0) {
-        util_finit();
-    }
-    f = util_fopen(filename);
-    util_fread(&header, sizeof(PCXHEADER), 1, f);
-    pic->w = header.xmax - header.xmin + 1;
-    pic->h = header.ymax - header.ymin + 1;
-    util_fclose(f);
-}
-
 void util_freepi(PIC *pic)
 {
     free(pic->pic);
     pic->pic = NULL;
     free(pic->pal);
     pic->pal = NULL;
-}
-
-char *util_conv8to32(char *img, const char *pal, unsigned long bytes)
-{
-    Uint8 *tmp;
-    Uint8 b;
-    int a;
-    tmp = (Uint8 *)realloc(img, bytes * 4);
-    if (tmp == NULL) {
-        return (NULL);
-    } else {
-        for (a = bytes - 1; a >= 0; a--) {
-            b = *(tmp + a);
-            *(tmp + a * 4) = (char)(pal[b * 3 + 2] << 2);     /* blue */
-            *(tmp + a * 4 + 1) = (char)(pal[b * 3 + 1] << 2); /* green */
-            *(tmp + a * 4 + 2) = (char)(pal[b * 3] << 2);     /* red */
-            *(tmp + a * 4 + 3) = 0;                           /* alpha */
-        }
-        return (char *)tmp;
-    }
-}
-
-#define UTIL_CIRCLEPIX(a, b)                                      \
-    {                                                             \
-        if ((a) >= cx1 && (a) <= cx2 && (b) >= cy1 && (b) <= cy2) \
-            *(dest + (b)*pgwid + (a)) = c;                        \
-    }
-
-void util_circle(int xx, int yy, int r, int cx1, int cy1, int cx2, int cy2,
-                 Uint8 c, int pgwid, char *dest)
-{
-    int y, d, x, x2, y2;
-    y = r;
-    d = -r;
-    UTIL_CIRCLEPIX(xx, r + yy);
-    UTIL_CIRCLEPIX(r + xx, yy);
-    UTIL_CIRCLEPIX(xx - r, yy);
-    UTIL_CIRCLEPIX(xx, yy - r);
-    x = x2 = 1; /* x2=2*x-1 */
-    y2 = -(y << 1) + 2;
-    while (x < y) { /* originally x<=y */
-        d += x2;
-        if (d >= 0) {
-            d += y2;
-            y--;
-            y2 += 2;
-        }
-        UTIL_CIRCLEPIX(x + xx, y + yy);
-        UTIL_CIRCLEPIX(x + xx, -y + yy);
-        UTIL_CIRCLEPIX(-x + xx, y + yy);
-        UTIL_CIRCLEPIX(-x + xx, -y + yy);
-        UTIL_CIRCLEPIX(y + xx, x + yy);
-        UTIL_CIRCLEPIX(y + xx, -x + yy);
-        UTIL_CIRCLEPIX(-y + xx, x + yy);
-        UTIL_CIRCLEPIX(-y + xx, -x + yy);
-        x++;
-        x2 += 2;
-    }
 }
 
 void util_xorrand(char *data, int jrandseed, int datalen)

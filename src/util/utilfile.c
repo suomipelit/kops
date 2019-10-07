@@ -245,13 +245,7 @@ int util_fcloselib(char *filename)
     if (lib == UTIL_MAXLIBS) {
         return (-1);
     }
-    util_flib[lib].files = 0;
-    util_flib[lib].crypt = 0;
-    free(util_flib[lib].fname);
-    free(util_flib[lib].fsize);
-    free(util_flib[lib].fstart);
-    free(util_flib[lib].info);
-    memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
+    util_fcloselibno(lib);
     return (0);
 }
 
@@ -264,22 +258,6 @@ void util_fcloselibno(int lib)
     free(util_flib[lib].fstart);
     free(util_flib[lib].info);
     memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
-}
-
-void util_fclosealllibs()
-{
-    int lib;
-    for (lib = 0; lib < UTIL_MAXLIBS; lib++) {
-        if (util_flib[lib].files > 0) {
-            util_flib[lib].files = 0;
-            util_flib[lib].crypt = 0;
-            free(util_flib[lib].fname);
-            free(util_flib[lib].fsize);
-            free(util_flib[lib].fstart);
-            free(util_flib[lib].info);
-            memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
-        }
-    }
 }
 
 int util_fclose(UTIL_FILE *fp)
@@ -304,16 +282,6 @@ int util_ferror(UTIL_FILE *fp)
         return (-1);
     } else {
         return (0);
-    }
-}
-
-int util_fgetc(UTIL_FILE *fp)
-{
-    if (fp->pos < fp->fstart + fp->fsize) {
-        fp->pos++;
-        return (fgetc(fp->fp));
-    } else {
-        return (EOF);
     }
 }
 
@@ -343,17 +311,8 @@ int util_fseek(UTIL_FILE *fp, long int offset, int where)
     }
 }
 
-long int util_ftell(UTIL_FILE *fp)
-{
-    return ((fp->pos) - (fp->fstart));
-}
-
 long int util_fsize(UTIL_FILE *fp)
 {
     return (fp->fsize);
 }
 
-long int util_fstart(UTIL_FILE *fp)
-{
-    return (fp->fstart);
-}

@@ -488,9 +488,7 @@ void initlevels()
     struct stat filestat;
 #endif
 #endif
-    int rc;
     int a;
-    rc = 0;
     levels = 0;
     alllevels = LEVELS;
     for (a = 0; a < MAXLEVELS; a++) {
