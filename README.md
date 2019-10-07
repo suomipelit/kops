@@ -1,6 +1,8 @@
 KOPS
 ====
 
+![KOPS Gameplay](https://github.com/suomipelit/suomipelit.github.io/blob/master/pngs/kops.png)
+
 :point_right: **The original README.txt can be found as
 [src/README.txt](./src/README.txt).**
 
