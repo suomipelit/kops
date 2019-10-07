@@ -826,7 +826,7 @@ void init()
     initgravity();
     initweapons();
 
-    settimer(TIMERRATE);
+    settimer(timer_rate);
 }
 
 void deinit()

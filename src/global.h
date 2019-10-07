@@ -40,7 +40,7 @@
 #define PICKDIST 11
 #define PICKRATE 600
 #define SHIPHITDIST 11
-#define TIMERRATE 66 /* timer update rate per second */
+#define TIMERRATE 75 /* timer update rate per second */
 #define MAXPLAYERS 4
 #define MAXBOTS 4      /* Max. bots. Added by SMO. */
 #define BOOMTYPES 6    /* explosion types */

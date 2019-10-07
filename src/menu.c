@@ -684,6 +684,20 @@ void optionsmenu()
     }
 }
 
+void add_bottom_texts()
+{
+    int a;
+    kprintf(menupic.pic, font, 430, 469, 640, "free registered version");
+
+    /*  small version number */
+    kprintf(menupic.pic, font, 5, 469, 640, "version %d.%d%s", versmaj, versmin, sp_version_postfix);
+    for (a = 455 * 640; a < 480 * 640; a++) {
+        if (*(menupic.pic + a) > 127) {
+            *(menupic.pic + a) = (*(menupic.pic + a) - 136) / 3 + 133;
+        }
+    }
+}
+
 Uint8 mainmenu()
 {
     enum menu_options {
@@ -715,6 +729,7 @@ Uint8 mainmenu()
     int a, b, sel = 0;
     int menuexit = 255;
     int fade = 9;
+    int last_timer_rate = timer_rate;
 
     sound_stopplay();
     sound_play(m_startmenu);
@@ -738,15 +753,8 @@ Uint8 mainmenu()
     jclearstart();
     jclearpal();
     jinitreal();
-    kprintf(menupic.pic, font, 430, 469, 640, "free registered version");
 
-    /*  small version number */
-    kprintf(menupic.pic, font, 5, 469, 640, "version %d.%d%s", versmaj, versmin, sp_version_postfix);
-    for (a = 455 * 640; a < 480 * 640; a++) {
-        if (*(menupic.pic + a) > 127) {
-            *(menupic.pic + a) = (*(menupic.pic + a) - 136) / 3 + 133;
-        }
-    }
+    add_bottom_texts();
 
     jvdump(0, 640 * 480, menupic.pic);
 
@@ -814,7 +822,26 @@ Uint8 mainmenu()
                  menutmp, menutmp + 640 * 32);
         jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 - 64, 8, 32, 32, 16, 16, 0, 0, 639, 31, 640,
                       menutmp, menutmp + 640 * 32);
+
         jvdump((216 + sel * 32) * 640, 640 * 32, menutmp);
+
+        if (timer_rate != last_timer_rate) {
+            const Uint32 number_of_lines_to_draw = 11;
+            const Uint32 offset = X_RESOLUTION * (Y_RESOLUTION - number_of_lines_to_draw);
+
+            util_freepi(&menupic);
+            util_loadpcxpi(MENUBACKPICFILE, &menupic);
+
+            add_bottom_texts();
+
+            if (timer_rate != TIMERRATE) {
+                kprintf(menupic.pic, font, 260, Y_RESOLUTION - number_of_lines_to_draw, X_RESOLUTION, "target %u fps", timer_rate);
+            }
+
+            jvdump(offset, X_RESOLUTION * number_of_lines_to_draw, menupic.pic + offset);
+
+            last_timer_rate = timer_rate;
+        }
 
         /*  keyboard check */
         if ((waskey(K_UP)) || (waskey(K_DOWN)) || (waskey(K_ESC)) || (waskey(K_UP2)) || (waskey(K_DOWN2))) {
