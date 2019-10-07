@@ -538,10 +538,10 @@ void game()
                         } else { /*
                          * a==2
                          */
-                            if ((cnt & 3) == 0) {
+                            if ((cnt & 3u) == 0) {
                                 plr[p].dir = (plr[p].dir + ((SHIPFRM << FIXP) - FIXS)) % (SHIPFRM << FIXP);
                             }
-                            if ((cnt & 3) == 2) {
+                            if ((cnt & 3u) == 2) {
                                 plr[p].dir = (plr[p].dir + FIXS) % (SHIPFRM << FIXP);
                             }
                         }

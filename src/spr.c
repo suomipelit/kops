@@ -58,7 +58,7 @@ void kprintfs(FONT fnt, int x, int y, char *format, ...)
 }
 
 void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
-                 int x1, int y1, int x2, int y2, int pgwid, Uint8 *dest, Uint8 *sour)
+                 int x1, int y1, int x2, int y2, int pgwid, Uint8 *dest, const Uint8 *sour)
 /* centered, scaled, clipped and transparent sprite routine */
 {
     int xinc, yinc, tx, ty, u, v, v2, scro, souru, sourv, w, h, x, y, xx, yy, c, txwid = wid;
@@ -119,7 +119,7 @@ void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
 }
 
 void exspriterep(int xx, int yy, int width, int height, int x1, int y1,
-                 int x2, int y2, int pgwid, Uint8 color, Uint8 *dest, Uint8 *sour)
+                 int x2, int y2, int pgwid, Uint8 color, Uint8 *dest, const Uint8 *sour)
 /* clipped and color replaced sprite routine, doesn't overwrite colors 1-11 */
 {
     int a, b, c, souro, wid, hei, x, y;

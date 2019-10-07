@@ -330,7 +330,7 @@ void util_freepi(PIC *pic)
     pic->pal = NULL;
 }
 
-char *util_conv8to32(char *img, char *pal, unsigned long bytes)
+char *util_conv8to32(char *img, const char *pal, unsigned long bytes)
 {
     Uint8 *tmp;
     Uint8 b;
