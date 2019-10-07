@@ -25,48 +25,6 @@
 #include "global.h"
 #include "wport.h"
 
-#ifdef __WATCOMC__
-/* old watcom dos code */
-
-void(__interrupt __far *biostimerhandler)();
-volatile long int clockticks, counter;
-
-void __interrupt __far timerhandler()
-{
-    if (gamepause == 0)
-        framecounter++;
-
-    clockticks += counter;
-
-    if (clockticks >= 0x10000) {
-        clockticks -= 0x10000;
-        biostimerhandler();
-    } else
-        outp(0x20, 0x20);
-}
-
-void settimer(short frequency)
-{
-    framecounter = 0;
-    clockticks = 0;
-    counter = 0x1234dd / frequency;
-    biostimerhandler = _dos_getvect(8);
-    _dos_setvect(8, timerhandler);
-    outp(0x43, 0x34);
-    outp(0x40, counter % 256);
-    outp(0x40, counter / 256);
-}
-
-void freetimer()
-{
-    outp(0x43, 0x34);
-    outp(0x40, 0);
-    outp(0x40, 0);
-    _dos_setvect(8, biostimerhandler);
-}
-
-#else
-
 static SDL_TimerID timerid;
 
 Uint32 timerhandler(Uint32 interval, void *param)
@@ -87,5 +45,3 @@ void freetimer()
 {
     SDL_RemoveTimer(timerid);
 }
-
-#endif
