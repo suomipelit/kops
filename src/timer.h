@@ -5,7 +5,8 @@
 #ifndef TIMER_H_INCLUDED
 #define TIMER_H_INCLUDED
 
-extern void settimer(short frequency);
+extern int timer_rate;
+extern void settimer(int frequency);
 extern void freetimer();
 
 #endif /* !TIMER_H_INCLUDED */

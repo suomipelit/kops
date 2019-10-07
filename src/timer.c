@@ -24,24 +24,30 @@
 #include <string.h>
 #include "global.h"
 #include "wport.h"
+#include "timer.h"
 
+int timer_rate = TIMERRATE;
 static SDL_TimerID timerid;
 
-Uint32 timerhandler(Uint32 interval, void *param)
-{
+Uint32 timerhandler(Uint32 interval, void *param) {
     if (gamepause == 0) {
         framecounter++;
     }
     return interval;
 }
 
-void settimer(short frequency)
-{
+void settimer(int frequency) {
+    if (timerid) {
+        freetimer();
+    }
+    // Above 400hz things start to be silly...
+    frequency = (frequency < 15 ? 15 : (frequency > 400 ? 400 : frequency));
+    timer_rate = frequency;
     framecounter = 0;
     timerid = SDL_AddTimer(1000 / frequency, timerhandler, NULL);
+    printf("Timer set to %d hz.\n", timer_rate);
 }
 
-void freetimer()
-{
+void freetimer() {
     SDL_RemoveTimer(timerid);
 }

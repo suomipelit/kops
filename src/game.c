@@ -33,6 +33,10 @@
 #include "sound.h"
 // Some defines are needed even with bot support disabled
 #include "kops-bot/reactive-agent/cannonfodder.h"
+#include "timer.h"
+
+static int sp_speed_adjust_pressed = 0;
+
 #if EXPERIMENTAL_BOT_SUPPORT
 #include "kops-bot/reactive-agent/bot-util.h"
 #endif
@@ -917,7 +921,7 @@ void game()
             }
 #endif
 
-            /*
+         /*
          * game pause
          */
             if ((key(K_F11)) || (waskey(K_F11))) {
@@ -944,6 +948,14 @@ void game()
                 jrealfade(0, 255, 7);
                 clearkey(K_F11);
                 gamepause = 0;
+            }
+
+            int speed_adjust_delta = (key(SDLK_F9) ? -5 : key(SDLK_F10) ? +5 : 0);
+            if(!speed_adjust_delta) {
+                sp_speed_adjust_pressed = 0;
+            } else if(!sp_speed_adjust_pressed) {
+                sp_speed_adjust_pressed = 1;
+                settimer(timer_rate + speed_adjust_delta);
             }
 
             frm--;
