@@ -410,23 +410,26 @@ void game()
                     }
 
                     /*
-             * border hit detect
-             */
+                     * border hit detect
+                     */
                     borderhit = 0;
-                    if (plr[p].x < -12 << FIXP) {
-                        plr[p].x = -12 << FIXP;
+                    const int min_coord = -(12 << FIXP);
+                    const int max_x_coord = (levw - SHIPW + 12) << FIXP;
+                    const int max_y_coord = (levh - SHIPH + 12) << FIXP;
+                    if (plr[p].x < min_coord) {
+                        plr[p].x = min_coord;
                         borderhit = 1;
                     }
-                    if (plr[p].x > (levw - SHIPW + 12) << FIXP) {
-                        plr[p].x = (levw - SHIPW + 12) << FIXP;
+                    else if (plr[p].x > max_x_coord) {
+                        plr[p].x = max_x_coord;
                         borderhit = 1;
                     }
-                    if (plr[p].y < -12 << FIXP) {
-                        plr[p].y = -12 << FIXP;
+                    else if (plr[p].y < min_coord) {
+                        plr[p].y = min_coord;
                         borderhit = 1;
                     }
-                    if (plr[p].y > (levh - SHIPH + 12) << FIXP) {
-                        plr[p].y = (levh - SHIPH + 12) << FIXP;
+                    else if (plr[p].y > max_y_coord) {
+                        plr[p].y = max_y_coord;
                         borderhit = 1;
                     }
                     if (borderhit) {
