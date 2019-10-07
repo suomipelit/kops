@@ -56,7 +56,7 @@ void util_finit()
     }
 }
 
-UTIL_FILE *util_fopen(char *filename)
+static UTIL_FILE *_util_fopen(const char *filename, const char *open_mode)
 {
     UTIL_FILE *ufp;
     char mode = 0;
@@ -77,11 +77,11 @@ UTIL_FILE *util_fopen(char *filename)
     if (mode == 1) { /* ufl */
         ufp->fsize = util_flib[lib].fsize[fno];
         ufp->fstart = util_flib[lib].fstart[fno];
-        ufp->fp = fopen(util_flib[lib].libname, "rb"); /* binary file */
+        ufp->fp = fopen(util_flib[lib].libname, open_mode); /* binary file */
         fseek(ufp->fp, ufp->fstart, SEEK_SET);
         ufp->pos = ufp->fstart;
     } else {                             /* normal file */
-        ufp->fp = fopen(filename, "rb"); /* binary file */
+        ufp->fp = fopen(filename, open_mode); /* binary file */
         if (ufp->fp != NULL) {
             ufp->fsize = util_filesize(ufp->fp);
             ufp->fstart = 0;
@@ -94,42 +94,14 @@ UTIL_FILE *util_fopen(char *filename)
     return (ufp);
 }
 
+UTIL_FILE *util_fopen(char *filename)
+{
+    return _util_fopen(filename, "rb");
+}
+
 UTIL_FILE *util_fopent(char *filename)
 {
-    UTIL_FILE *ufp;
-    char mode = 0;
-    int a, b, lib = 0, fno = 0;
-
-    ufp = (UTIL_FILE *)malloc(sizeof(UTIL_FILE));
-    for (b = 0; b < UTIL_MAXLIBS; b++) {
-        if (util_flib[b].files > 0) {
-            for (a = 0; a < util_flib[b].files; a++) {
-                if (stricmp(filename, util_flib[b].fname[a]) == 0) {
-                    lib = b;
-                    fno = a;
-                    mode = 1;
-                }
-            }
-        }
-    }
-    if (mode == 1) { /* ufl */
-        ufp->fsize = util_flib[lib].fsize[fno];
-        ufp->fstart = util_flib[lib].fstart[fno];
-        ufp->fp = fopen(util_flib[lib].libname, "rt"); /* text file */
-        fseek(ufp->fp, ufp->fstart, SEEK_SET);
-        ufp->pos = ufp->fstart;
-    } else {                             /* normal file */
-        ufp->fp = fopen(filename, "rt"); /* text file */
-        if (ufp->fp != NULL) {
-            ufp->fsize = util_filesize(ufp->fp);
-            ufp->fstart = 0;
-            ufp->pos = 0;
-        } else {
-            free(ufp);
-            return (NULL);
-        }
-    }
-    return (ufp);
+    return _util_fopen(filename, "rt");
 }
 
 size_t util_fread(void *buf, size_t elsize, size_t nelem, UTIL_FILE *fp)
