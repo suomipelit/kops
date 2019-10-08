@@ -422,7 +422,7 @@ void game()
                         plr[p].x = max_x_coord;
                         borderhit = 1;
                     }
-                    else if (plr[p].y < min_coord) {
+                    if (plr[p].y < min_coord) {
                         plr[p].y = min_coord;
                         borderhit = 1;
                     }
