@@ -4,6 +4,9 @@ KOPS
 :point_right: **The original README.txt can be found as
 [src/README.txt](./src/README.txt).**
 
+:point_right: **The original user manual as
+[doc/manual.txt](./doc/manual.txt).**
+
 This is a classic 90s 2D cave flying shooter game, ported to SDL2. It
 runs on at least macOS, Linux and Windows.
 
