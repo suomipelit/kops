@@ -59,84 +59,7 @@ Author contact info
 `------------------------------------------------------------------------'
 LICENSE
 
-    Using this software means that you accept this license agreement:
-
-    This software/data is owned by Jetro Lauha (hereinafter referred as
-    "author"). This software/data is protected by both Finland's Copyright
-    Law and international copyright trade provisions. By your using the
-    software/data, you accept the terms and conditions of this agreement.
-    You have no rights or privileges beyond those specifically spelled out
-    under this license agreement. The author retains title to this
-    software/data.
-
-    You assume complete responsibility for the selection, installation, and
-    use of this program. If you do not agree with the terms and conditions
-    contained in this agreement, please return the packaged media and
-    possible associated documentation to the author (no reimbursement).
-
-    1. AUTHORIZED USE OF THE SOFTWARE/DATA: Under this agreement, your
-    authorized use of this program is limited to these
-    activities/functions:
-
-	a. You may use the software/data on one or more computers at a time.
-        b. You may freely move the program from one computer location to
-           another.
-	c. You may distribute copies of the software/data. You must transfer
-	   whole unaltered original copy of the software/data installation
-	   package and the receiving person must accept this license as well.
-	   If these conditions are not met you may not transfer the
-	   software/data.
-
-    2. UNAUTHORIZED USE OF THE SOFTWARE/DATA:
-    By law you MAY NOT DO THE FOLLOWING:
-
-        a. Modify, alter, merge or adapt the software/data or portions of it.
-        b. Reverse assemble, reverse engineer, decompile, reverse compile,
-           or disassemble the program or create derivative works.
-        c. Sublicense, time-share, rent, lease, sublease, assign the software,
-           disk, or documentation.
-        d. Remove or obscure the author's copyright.
-        e. Use the software/data for any commercial transaction, sale,
-           barter, or exchange for anything of value.
-
-        Contact the author for inclusion with magazines or other compilations.
-
-    3. LIMITED WARRANTIES: The product is provided "AS IS" without warranty
-    of any kind, either expressed or implied, including but not limited to
-    the implied warranties of merchantability and fitness for a particular
-    purpose. The entire risk as to quality and performance of this program
-    is with you. You assume the entire expense of necessary servicing and
-    repair.
-
-    4. TERMS: This license agreement is effective from the day you use the
-    software/data first time and continues until you return the original
-    software/data to the author and certify in writing that you have
-    destroyed all copies you may have recorded on any storage system or
-    other medium.
-
-    5. TERMINATION OF THE AGREEMENT: If any of the terms of this agreement
-    are broken, the author has the right to terminate the license agreement
-    and request that you return the software/data to the author. If such
-    should occur, then you must also certify in writing that you have not
-    retained or transferred any copy of the software/data.
-
-    6. GOVERNING LAW: This license agreement is to be governed by the laws
-    of Finland and all relevant international laws and treaties. In case of
-    dispute arbitration the place of arbitration shall be Helsinki, Finland.
-    The language of arbitration shall be Finnish.
-
-    7. PURPOSE OF DISTRIBUTION OF LICENSE: You agree to use your best
-    efforts and take every reasonable step to protect the software from
-    use, reproduction, or distribution except as authorized by this license
-    agreement. Much time and effort has been spent to develop this program.
-    To use the product in violation of copyright laws and this license
-    agreement is illegal, dishonest and unfair.
-
-    8. ENTIRE AGREEMENT: This license agreement constitutes the entire
-    agreement between you and the author for use of this software/data.
-
-    You acknowledge that you have read this agreement, understand it, and
-    agree to be bound by the terms and conditions.
+    See LICENSE file.
 
 .------------------------------------------------------------------------.
 | 3. How to play                                                         |
@@ -485,7 +408,6 @@ Credits
         Erkki Turunen
 
     Uses SDL (http://www.libsdl.org)
-    Uses FMOD (http://www.fmod.org)
     Uses ZLIB (by Jean-loup Gailly and Mark Adler)
 
     Thanks to
