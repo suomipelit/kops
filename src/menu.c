@@ -298,7 +298,6 @@ void levwin3()
 
 void levelsmenu()
 {
-#define LEVMENUOPT 4
     int menuexit = 255;
     int a;
     lm1win = 0;

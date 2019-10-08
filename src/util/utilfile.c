@@ -56,7 +56,7 @@ void util_finit()
     }
 }
 
-UTIL_FILE *util_fopen(char *filename)
+static UTIL_FILE *_util_fopen(const char *filename, const char *open_mode)
 {
     UTIL_FILE *ufp;
     char mode = 0;
@@ -77,11 +77,11 @@ UTIL_FILE *util_fopen(char *filename)
     if (mode == 1) { /* ufl */
         ufp->fsize = util_flib[lib].fsize[fno];
         ufp->fstart = util_flib[lib].fstart[fno];
-        ufp->fp = fopen(util_flib[lib].libname, "rb"); /* binary file */
+        ufp->fp = fopen(util_flib[lib].libname, open_mode); /* binary file */
         fseek(ufp->fp, ufp->fstart, SEEK_SET);
         ufp->pos = ufp->fstart;
     } else {                             /* normal file */
-        ufp->fp = fopen(filename, "rb"); /* binary file */
+        ufp->fp = fopen(filename, open_mode); /* binary file */
         if (ufp->fp != NULL) {
             ufp->fsize = util_filesize(ufp->fp);
             ufp->fstart = 0;
@@ -94,42 +94,14 @@ UTIL_FILE *util_fopen(char *filename)
     return (ufp);
 }
 
+UTIL_FILE *util_fopen(char *filename)
+{
+    return _util_fopen(filename, "rb");
+}
+
 UTIL_FILE *util_fopent(char *filename)
 {
-    UTIL_FILE *ufp;
-    char mode = 0;
-    int a, b, lib = 0, fno = 0;
-
-    ufp = (UTIL_FILE *)malloc(sizeof(UTIL_FILE));
-    for (b = 0; b < UTIL_MAXLIBS; b++) {
-        if (util_flib[b].files > 0) {
-            for (a = 0; a < util_flib[b].files; a++) {
-                if (stricmp(filename, util_flib[b].fname[a]) == 0) {
-                    lib = b;
-                    fno = a;
-                    mode = 1;
-                }
-            }
-        }
-    }
-    if (mode == 1) { /* ufl */
-        ufp->fsize = util_flib[lib].fsize[fno];
-        ufp->fstart = util_flib[lib].fstart[fno];
-        ufp->fp = fopen(util_flib[lib].libname, "rt"); /* text file */
-        fseek(ufp->fp, ufp->fstart, SEEK_SET);
-        ufp->pos = ufp->fstart;
-    } else {                             /* normal file */
-        ufp->fp = fopen(filename, "rt"); /* text file */
-        if (ufp->fp != NULL) {
-            ufp->fsize = util_filesize(ufp->fp);
-            ufp->fstart = 0;
-            ufp->pos = 0;
-        } else {
-            free(ufp);
-            return (NULL);
-        }
-    }
-    return (ufp);
+    return _util_fopen(filename, "rt");
 }
 
 size_t util_fread(void *buf, size_t elsize, size_t nelem, UTIL_FILE *fp)
@@ -245,13 +217,7 @@ int util_fcloselib(char *filename)
     if (lib == UTIL_MAXLIBS) {
         return (-1);
     }
-    util_flib[lib].files = 0;
-    util_flib[lib].crypt = 0;
-    free(util_flib[lib].fname);
-    free(util_flib[lib].fsize);
-    free(util_flib[lib].fstart);
-    free(util_flib[lib].info);
-    memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
+    util_fcloselibno(lib);
     return (0);
 }
 
@@ -264,22 +230,6 @@ void util_fcloselibno(int lib)
     free(util_flib[lib].fstart);
     free(util_flib[lib].info);
     memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
-}
-
-void util_fclosealllibs()
-{
-    int lib;
-    for (lib = 0; lib < UTIL_MAXLIBS; lib++) {
-        if (util_flib[lib].files > 0) {
-            util_flib[lib].files = 0;
-            util_flib[lib].crypt = 0;
-            free(util_flib[lib].fname);
-            free(util_flib[lib].fsize);
-            free(util_flib[lib].fstart);
-            free(util_flib[lib].info);
-            memset(&util_flib[lib].libname, 0, UTIL_FILENAMELEN);
-        }
-    }
 }
 
 int util_fclose(UTIL_FILE *fp)
@@ -304,16 +254,6 @@ int util_ferror(UTIL_FILE *fp)
         return (-1);
     } else {
         return (0);
-    }
-}
-
-int util_fgetc(UTIL_FILE *fp)
-{
-    if (fp->pos < fp->fstart + fp->fsize) {
-        fp->pos++;
-        return (fgetc(fp->fp));
-    } else {
-        return (EOF);
     }
 }
 
@@ -343,17 +283,8 @@ int util_fseek(UTIL_FILE *fp, long int offset, int where)
     }
 }
 
-long int util_ftell(UTIL_FILE *fp)
-{
-    return ((fp->pos) - (fp->fstart));
-}
-
 long int util_fsize(UTIL_FILE *fp)
 {
     return (fp->fsize);
 }
 
-long int util_fstart(UTIL_FILE *fp)
-{
-    return (fp->fstart);
-}

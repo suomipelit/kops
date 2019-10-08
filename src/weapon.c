@@ -639,7 +639,7 @@ void initweapons()
     weapons[W_DOT].pick = pickSpecial;
 
     /* End of Records. */
-};
+}
 
 static void ultraThrSpecial(int p)
 {
@@ -705,13 +705,13 @@ static void movePyrotech(int p)
         ammo[p].x += ammo[p].xi;
         ammo[p].y += ammo[p].yi;
     } else {
-        if ((cnt & 3) == 0) {
+        if ((cnt & 3u) == 0) {
             if ((*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) > 0) && (*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) < 8)) {
                 if (rand() % 5 == 0) {
                     newammocrap(p, 3);
                 }
             } else {
-                if ((cnt & 31) == 0) {
+                if ((cnt & 31u) == 0) {
                     sound_eff(S_MINIBLAST, 32, 128, 16384, 0);
                 }
                 newammoa(p);
@@ -727,11 +727,11 @@ static void moveToxicWast(int p)
         ammo[p].x += ammo[p].xi;
         ammo[p].y += ammo[p].yi;
     } else {
-        if ((cnt & 7) == 0) {
+        if ((cnt & 7u) == 0) {
             sound_eff(S_HEATSTIK, 32, 128, 8192, 0);
             newammoa(p);
         }
-        if (((cnt & 7) == 3) && (rand() % 5 == 0)) {
+        if (((cnt & 7u) == 3) && (rand() % 5 == 0)) {
             newammocrap(p, 3);
         }
     }
@@ -755,8 +755,8 @@ static void moveLash(int p)
     ammo[p].yi += ammogravity;
     ammo[p].x += ammo[p].xi;
     ammo[p].y += ammo[p].yi;
-    if ((cnt & 3) == 0) {
-        if ((cnt & 7) == 0) {
+    if ((cnt & 3u) == 0) {
+        if ((cnt & 7u) == 0) {
             sound_eff(S_LASHTIK, 64, 128, 16384, 0);
         }
         newammoa(p);
@@ -780,7 +780,7 @@ static void moveHeatSeek(int p)
 
     c = 0;
 
-    if ((cnt & 15) == 0) {
+    if ((cnt & 15u) == 0) {
         sound_eff(S_HEATSTIK, 64, 128, 16384, 0);
     }
 
@@ -873,13 +873,13 @@ static void moveSuperPyro(int p)
         ammo[p].x += ammo[p].xi;
         ammo[p].y += ammo[p].yi;
     } else {
-        if ((cnt & 3) == 0) {
+        if ((cnt & 3u) == 0) {
             if ((*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) > 0) && (*(mask + (ammo[p].yp - 4) * levw + ammo[p].xp) < 8)) {
                 if (rand() % 5 == 0) {
                     newammocrap(p, 3);
                 }
             } else {
-                if ((cnt & 31) == 0) {
+                if ((cnt & 31u) == 0) {
                     sound_eff(S_GASBLAST, 32, 128, 16384, 0);
                 }
                 newammoa(p);

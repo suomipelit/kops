@@ -488,9 +488,7 @@ void initlevels()
     struct stat filestat;
 #endif
 #endif
-    int rc;
     int a;
-    rc = 0;
     levels = 0;
     alllevels = LEVELS;
     for (a = 0; a < MAXLEVELS; a++) {
@@ -520,7 +518,7 @@ void initlevels()
 #ifdef REG
     /*  if registered version, scan for external levels (*.KOP) */
 #ifdef _WIN32
-    rc = hFile = _findfirst("*.KOP", &fileinfo);
+    int rc = hFile = _findfirst("*.KOP", &fileinfo);
     if (rc >= 0)
         rc = 0;
     while ((rc == 0) && (alllevels < MAXLEVELS)) {

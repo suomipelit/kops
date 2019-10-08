@@ -58,7 +58,7 @@ void kprintfs(FONT fnt, int x, int y, char *format, ...)
 }
 
 void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
-                 int x1, int y1, int x2, int y2, int pgwid, Uint8 *dest, Uint8 *sour)
+                 int x1, int y1, int x2, int y2, int pgwid, Uint8 *dest, const Uint8 *sour)
 /* centered, scaled, clipped and transparent sprite routine */
 {
     int xinc, yinc, tx, ty, u, v, v2, scro, souru, sourv, w, h, x, y, xx, yy, c, txwid = wid;
@@ -119,7 +119,7 @@ void sctrspritem(int mx, int my, int wid, int hei, int scwid, int schei,
 }
 
 void exspriterep(int xx, int yy, int width, int height, int x1, int y1,
-                 int x2, int y2, int pgwid, Uint8 color, Uint8 *dest, Uint8 *sour)
+                 int x2, int y2, int pgwid, Uint8 color, Uint8 *dest, const Uint8 *sour)
 /* clipped and color replaced sprite routine, doesn't overwrite colors 1-11 */
 {
     int a, b, c, souro, wid, hei, x, y;
@@ -245,56 +245,6 @@ void exline(int x1, int y1, int x2, int y2, int cx1, int cy1,
             ((*(dest + o) == EXMIN - 1) || (*(dest + o) > EXMAX))) {
             *(Uint8 *)(dest + o) = c;
         }
-        if (d < 0) {
-            d += di1;
-            x += xi1;
-            y += yi1;
-        } else {
-            d += di2;
-            x += xi2;
-            y += yi2;
-        }
-    }
-}
-
-void trline(int x1, int y1, int x2, int y2, Uint8 c, int pgwid, Uint8 *dest)
-{
-    int i, dx, dy, n, d, di1, di2, xi1, xi2, yi1, yi2;
-    int x, y;
-    dx = (((x2 - x1) < 0) ? -(x2 - x1) : (x2 - x1));
-    dy = (((y2 - y1) < 0) ? -(y2 - y1) : (y2 - y1));
-
-    if (dx >= dy) {
-        n = dx + 1;
-        d = (dy << 1) - dx;
-        di1 = (dy << 1);
-        di2 = ((dy - dx) << 1);
-        xi1 = 1;
-        xi2 = 1;
-        yi1 = 0;
-        yi2 = 1;
-    } else {
-        n = dy + 1;
-        d = (dx << 1) - dy;
-        di1 = (dx << 1);
-        di2 = ((dx - dy) << 1);
-        xi1 = 0;
-        xi2 = 1;
-        yi1 = 1;
-        yi2 = 1;
-    }
-    if (x1 > x2) {
-        xi1 = -xi1;
-        xi2 = -xi2;
-    }
-    if (y1 > y2) {
-        yi1 = -yi1;
-        yi2 = -yi2;
-    }
-    x = x1;
-    y = y1;
-    for (i = 1; i <= n; i++) {
-        *(Uint8 *)(dest + y * pgwid + x) = c;
         if (d < 0) {
             d += di1;
             x += xi1;

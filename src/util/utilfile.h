@@ -48,20 +48,19 @@ extern void util_finit();
 extern int util_fopenlib(char *filename);
 extern int util_fcloselib(char *filename);
 extern void util_fcloselibno(int lib);
-extern void util_fclosealllibs();
+
 extern UTIL_FILE *util_fopen(char *filename);
 extern UTIL_FILE *util_fopent(char *filename);
 extern int util_fclose(UTIL_FILE *fp);
 extern int util_feof(UTIL_FILE *fp);
 extern int util_ferror(UTIL_FILE *fp);
-extern int util_fgetc(UTIL_FILE *fp);
+
 extern void util_fgetpos(UTIL_FILE *fp, int *pos);
 extern int util_fsetpos(UTIL_FILE *fp, int *pos);
 extern size_t util_fread(void *buf, size_t elsize, size_t nelem, UTIL_FILE *fp);
 extern int util_fseek(UTIL_FILE *fp, long int offset, int where);
-extern long int util_ftell(UTIL_FILE *fp);
+
 extern long int util_fsize(UTIL_FILE *fp);
-extern long int util_fstart(UTIL_FILE *fp);
 
 #ifdef __cplusplus
 };
