@@ -4,8 +4,13 @@ KOPS
 :point_right: **The original README.txt can be found as
 [src/README.txt](./src/README.txt).**
 
-:point_right: **The original user manual as
+:point_right: **The original user manual can be found as
 [doc/manual.txt](./doc/manual.txt).**
+
+:point_right: **Binary data is currently provided as a separate
+download [here at
+SourceForge](https://sourceforge.net/projects/kops/files/kops/kops-initial-data/kops-data-20030415.zip/download).**
+Extract into the working copy directory.
 
 This is a classic 90s 2D cave flying shooter game, ported to SDL2. It
 runs on at least macOS, Linux and Windows.
@@ -14,11 +19,6 @@ The port is maintained by the [Suomipelit][suomipelit-gh]
 organization, whose mission is to archive, port, and maintain classic
 Finnish freeware and shareware games.  Feel free to [join the
 Suomipelit Slack][suomipelit-slack] too!
-
-:point_right: Binary data is currently provided as a separate download
-[here at
-SourceForge](https://sourceforge.net/projects/kops/files/kops/kops-initial-data/kops-data-20030415.zip/download). Extract
-into the working copy directory.
 
 Differences compared to the original game
 -----------------------------------------
