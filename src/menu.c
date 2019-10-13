@@ -31,6 +31,7 @@
 #include "load.h"
 #include "init.h"
 #include "sound.h"
+#include "timer.h"
 
 PIC menupic, menublur;
 Uint32 menufrm;
@@ -79,7 +80,7 @@ void dostatus()
 
     if (testmode == 1) {
         kprintfs(font, 1, 1, "average fps: %d.%d",
-                 TIMERRATE * drawnframes / totalframes, (TIMERRATE * 10 * drawnframes / totalframes) % 10);
+                 timer_rate * drawnframes / totalframes, (timer_rate * 10 * drawnframes / totalframes) % 10);
     }
 }
 
