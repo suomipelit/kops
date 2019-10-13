@@ -59,7 +59,7 @@ Status](https://travis-ci.org/suomipelit/kops.svg?branch=master)](https://travis
 **Requirements:**
 
 - CMake
-- C++ compiler: At least gcc, clang and Visual Studio are supported
+- C compiler: At least gcc, clang and Visual Studio are supported
 - Libraries: SDL2, SDL2_mixer, zlib
   - On macOS, you can install these with Homebrew. `brew install sdl2
     sdl2_mixer zlib`
