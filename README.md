@@ -42,6 +42,8 @@ Changes in SDL2 port:
 
 - Greatly reduced CPU load
 
+- F9/F10 can be used to adjust the internal game clock.
+
 Fixes:
 
 - Type changes to fix runtime crash on x64 builds

@@ -918,7 +918,7 @@ void game()
             }
 #endif
 
-            /*
+         /*
          * game pause
          */
             if ((key(K_F11)) || (waskey(K_F11))) {
