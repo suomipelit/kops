@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "global.h"
+#include "timer.h"
 #include "wport.h"
 
 volatile short int cstart[768], cdest[768], ctemp[768];
@@ -121,7 +122,14 @@ static int handle_special_key(const SDL_KeyboardEvent *key)
     if (key->keysym.scancode == SDL_SCANCODE_RETURN && key->keysym.mod & KMOD_LALT) {
         toggle_fullscreen();
         return 1;
+    } else if (key->keysym.scancode == SDL_SCANCODE_F9) {
+        settimer(timer_rate - 5);
+        return 2;
+    } else if (key->keysym.scancode == SDL_SCANCODE_F10) {
+        settimer(timer_rate + 5);
+        return 3;
     }
+
     return 0;
 }
 
