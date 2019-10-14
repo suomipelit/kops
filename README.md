@@ -79,5 +79,12 @@ cmake ..
 cmake --build .
 ```
 
+Releases
+--------
+
+**Version 1 - 2019-10-14**
+
+- Initial release
+
 [suomipelit-gh]: https://github.com/suomipelit
 [suomipelit-slack]: https://join.slack.com/t/suomipelit/shared_invite/enQtNDg1ODkwODU4MTE4LWExY2Q3Mjc0ODg3OTY3ZjlmYThkZDRlMDBjZWUwM2I4NWZlZTFkMWI4YjM1OTM1ODQ4NGQ1NGFiNjQ5MjY0NzM
