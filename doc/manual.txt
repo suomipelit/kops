@@ -11,7 +11,7 @@
  ##'   "########  `##########'    ###                .########'
           `##"'       "###"       ###                `##""' [Sol]
                                    "#
-Freeware Release User Manual v 1.1
+Freeware Release User Manual v 1.2+sp1
 
 Contents
 1. What's KOPS?
@@ -364,6 +364,8 @@ Solutions:
 | 6. Revision History                                                    |
 `------------------------------------------------------------------------'
 
+Version 1.2+sp1     (October 2019)
+  + See README.md
 Version 1.1         (September 2001)
   + Code cleanups
   + Port level file converter to work with windows/linux
