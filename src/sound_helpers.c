@@ -20,7 +20,7 @@ Mix_Music *load_music_file(char *filename)
 
             if (buffer) {
                 if (util_fread(buffer, handle->fsize, 1, handle)) {
-                    SDL_RWops *rwops = SDL_RWFromMem(buffer, data_size);
+                    SDL_RWops *rwops = SDL_RWFromMem(buffer, (int)data_size);
                     music = Mix_LoadMUSType_RW(rwops, MUS_MOD, SDL_TRUE);
                     // The rwops is freed above by LoadMUS
                 }
@@ -50,7 +50,7 @@ Sample *load_sample_file(char *filename)
                     memset(sample, 0, sizeof(Sample));
 
                     sample->audio_buf = buffer;
-                    sample->audio_len = data_size;
+                    sample->audio_len = (int)data_size;
                 } else {
                     free(buffer);
                 }
