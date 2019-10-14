@@ -481,7 +481,7 @@ void initlevels()
 #ifdef REG
 #ifdef _WIN32
     struct _finddata_t fileinfo;
-    long hFile;
+    intptr_t hFile;
 #else
     DIR *dirp;
     struct dirent *dp;
@@ -518,7 +518,7 @@ void initlevels()
 #ifdef REG
     /*  if registered version, scan for external levels (*.KOP) */
 #ifdef _WIN32
-    int rc = hFile = (long)_findfirst("*.KOP", &fileinfo);
+    intptr_t rc = hFile = _findfirst("*.KOP", &fileinfo);
     if (rc >= 0)
         rc = 0;
     while ((rc == 0) && (alllevels < MAXLEVELS)) {
