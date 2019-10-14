@@ -501,21 +501,21 @@ void optionsmenu()
     update();
 
     for (a = 0; a < OPTMENUOPT; a++) {
-        kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 270 + a * 25, menustr[a]);
+        kprintfs(bigfont[0], (int)((640 - strlen(menustr[a]) * 25) / 2), (int)(270 + a * 25), menustr[a]);
     }
 
-    kprintfs(bigfont[0], (640 - strlen(menustr[0]) * 25) / 2 + 250, 270, "%s", parallaxdraw ? "on" : "off");
-    kprintfs(bigfont[0], (640 - strlen(menustr[1]) * 25) / 2 + 350, 295, "%d", slots);
+    kprintfs(bigfont[0], (int)((640 - strlen(menustr[0]) * 25) / 2 + 250), 270, "%s", parallaxdraw ? "on" : "off");
+    kprintfs(bigfont[0], (int)((640 - strlen(menustr[1]) * 25) / 2 + 350), 295, "%d", slots);
 
     for (a = 0; a < s_musvol / 8; a++) {
-        kprintfs(bigfont[0], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 320, "\333");
+        kprintfs(bigfont[0], (int)((640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25), 320, "\333");
     }
 
     for (a = 0; a < s_effvol / 8; a++) {
-        kprintfs(bigfont[0], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 345, "\333");
+        kprintfs(bigfont[0], (int)((640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25), 345, "\333");
     }
 
-    kprintfs(bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 370, gravtxt[gravvalue]);
+    kprintfs(bigfont[0], (int)((640 - strlen(menustr[4]) * 25) / 2 + 225), 370, gravtxt[gravvalue]);
 
     clearkeys();
 
@@ -531,35 +531,35 @@ void optionsmenu()
 
         /*  active row & small rotating ships */
         memcpy(menutmp, menupic.pic + (sel * 25 + 270) * 640, 640 * 25);
-        kprintf(menutmp, bigfont[1], (640 - strlen(menustr[sel]) * 25) / 2, 0, 640, menustr[sel]);
+        kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[sel]) * 25) / 2), 0, 640, menustr[sel]);
 
         if (sel == 0) {
-            kprintf(menutmp, bigfont[1], (640 - strlen(menustr[0]) * 25) / 2 + 250, 0, 640, "%s",
+            kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[0]) * 25) / 2 + 250), 0, 640, "%s",
                     parallaxdraw ? "on" : "off");
         }
 
         if (sel == 1) {
-            kprintf(menutmp, bigfont[1], (640 - strlen(menustr[1]) * 25) / 2 + 350, 0, 640, "%d", slots);
+            kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[1]) * 25) / 2 + 350), 0, 640, "%d", slots);
         }
 
         if (sel == 2) {
             for (a = 0; a < s_musvol / 8; a++) {
-                kprintf(menutmp, bigfont[1], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 0, 640, "\333");
+                kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25), 0, 640, "\333");
             }
         }
 
         if (sel == 3) {
             for (a = 0; a < s_effvol / 8; a++) {
-                kprintf(menutmp, bigfont[1], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 0, 640, "\333");
+                kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25), 0, 640, "\333");
             }
         }
 
         if (sel == 4) {
-            kprintf(menutmp, bigfont[1], (640 - strlen(menustr[4]) * 25) / 2 + 225, 0, 640,
+            kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[4]) * 25) / 2 + 225), 0, 640,
                     gravtxt[gravvalue]);
         }
 
-        jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 16, 4, 32, 32, 16,
+        jcscalesprite((int)((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 16), 4, 32, 32, 16,
                       16, 0, 0, 639, 24, 640, menutmp, othgfx[2].pic + ((menufrm / 2 + 32) & 63) * 32 * 32);
 
         for (b = 0; b < 32; b++) {
@@ -569,7 +569,7 @@ void optionsmenu()
             }
         }
 
-        jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 - 32, 4, 32, 32, 16, 16, 0, 0, 639, 24, 640,
+        jcscalesprite((int)((640 - strlen(menustr[sel]) * 25) / 2 - 32), 4, 32, 32, 16, 16, 0, 0, 639, 24, 640,
                       menutmp, menutmp + 640 * 32);
         jvdump((270 + sel * 25) * 640, 640 * 25, menutmp);
 
@@ -577,28 +577,28 @@ void optionsmenu()
         if ((waskey(K_UP)) || (waskey(K_DOWN)) || (waskey(K_ESC)) || (waskey(K_UP2)) || (waskey(K_DOWN2))) {
             sound_eff(S_MENUMOVE, 64, 128, 16384, 1);
             memcpy(menutmp, menupic.pic + (sel * 25 + 270) * 640, 640 * 25);
-            kprintf(menutmp, bigfont[0], (640 - strlen(menustr[sel]) * 25) / 2, 0, 640, menustr[sel]);
+            kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[sel]) * 25) / 2), 0, 640, menustr[sel]);
             if (sel == 0) {
-                kprintf(menutmp, bigfont[0], (640 - strlen(menustr[0]) * 25) / 2 + 250, 0, 640, "%s",
+                kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[0]) * 25) / 2 + 250), 0, 640, "%s",
                         parallaxdraw ? "on" : "off");
             }
             if (sel == 1) {
-                kprintf(menutmp, bigfont[0], (640 - strlen(menustr[1]) * 25) / 2 + 350, 0, 640, "%d", slots);
+                kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[1]) * 25) / 2 + 350), 0, 640, "%d", slots);
             }
             if (sel == 2) {
                 for (a = 0; a < s_musvol / 8; a++) {
-                    kprintf(menutmp, bigfont[0], (640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25, 0, 640,
+                    kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[2]) * 25) / 2 + 325 + a * 25), 0, 640,
                             "\333");
                 }
             }
             if (sel == 3) {
                 for (a = 0; a < s_effvol / 8; a++) {
-                    kprintf(menutmp, bigfont[0], (640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25, 0, 640,
+                    kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[3]) * 25) / 2 + 325 + a * 25), 0, 640,
                             "\333");
                 }
             }
             if (sel == 4) {
-                kprintf(menutmp, bigfont[0], (640 - strlen(menustr[4]) * 25) / 2 + 225, 0, 640,
+                kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[4]) * 25) / 2 + 225), 0, 640,
                         gravtxt[gravvalue]);
             }
             jvdump((270 + sel * 25) * 640, 640 * 25, menutmp);
@@ -761,12 +761,12 @@ Uint8 mainmenu()
     update();
 
     for (a = 0; a < MENU_total; a++) {
-        kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
+        kprintfs(bigfont[0], (int)((640 - strlen(menustr[a]) * 25) / 2), 220 + a * 32, menustr[a]);
     }
 
-    kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+    kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_players]) * 25) / 2 + 225), 252, "%d", players);
 #if EXPERIMENTAL_BOT_SUPPORT
-    kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+    kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150), 284, "%d", bots);
 #endif
     menutmp = (Uint8 *)malloc(640 * 300 + 32 * 32);
     menufrm = 0;
@@ -793,21 +793,21 @@ Uint8 mainmenu()
 
         /*  active row & rotating ships */
         memcpy(menutmp, menupic.pic + (sel * 32 + 216) * 640, 640 * 32);
-        kprintf(menutmp, bigfont[1], (640 - strlen(menustr[sel]) * 25) / 2, 4, 640, menustr[sel]);
+        kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[sel]) * 25) / 2), 4, 640, menustr[sel]);
 
         if (sel == MENU_players) {
-            kprintf(menutmp, bigfont[1], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225,
+            kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[MENU_players]) * 25) / 2 + 225),
                     4, 640, "%d", players);
         }
 #if EXPERIMENTAL_BOT_SUPPORT
         else if (sel == MENU_bots) {
-            kprintf(menutmp, bigfont[1], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150,
+            kprintf(menutmp, bigfont[1], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150),
                     4, 640, "%d", bots);
         }
 #endif
-        jcsprite((640 - strlen(menustr[sel]) * 25) / 2 - 48, 0,
+        jcsprite((int)((640 - strlen(menustr[sel]) * 25) / 2 - 48), 0,
                  32, 32, 640, menutmp, othgfx[2].pic + ((menufrm / 2 + 32) & 63) * 32 * 32);
-        jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 48, 8,
+        jcscalesprite((int)((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 48), 8,
                       32, 32, 16, 16, 0, 0, 639, 31, 640, menutmp,
                       othgfx[2].pic + ((menufrm / 2 + 32) & 63) * 32 * 32);
 
@@ -818,9 +818,9 @@ Uint8 mainmenu()
             }
         }
 
-        jcsprite((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 16, 0, 32, 32, 640,
+        jcsprite((int)((640 - strlen(menustr[sel]) * 25) / 2 + strlen(menustr[sel]) * 25 + 16), 0, 32, 32, 640,
                  menutmp, menutmp + 640 * 32);
-        jcscalesprite((640 - strlen(menustr[sel]) * 25) / 2 - 64, 8, 32, 32, 16, 16, 0, 0, 639, 31, 640,
+        jcscalesprite((int)((640 - strlen(menustr[sel]) * 25) / 2 - 64), 8, 32, 32, 16, 16, 0, 0, 639, 31, 640,
                       menutmp, menutmp + 640 * 32);
 
         jvdump((216 + sel * 32) * 640, 640 * 32, menutmp);
@@ -849,15 +849,15 @@ Uint8 mainmenu()
             sound_eff(S_MENUMOVE, 64, 128, 16384, 0);
 
             memcpy(menutmp, menupic.pic + (sel * 32 + 216) * 640, 640 * 32);
-            kprintf(menutmp, bigfont[0], (640 - strlen(menustr[sel]) * 25) / 2, 4, 640, menustr[sel]);
+            kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[sel]) * 25) / 2), 4, 640, menustr[sel]);
 
             if (sel == MENU_players) {
-                kprintf(menutmp, bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 4, 640, "%d",
+                kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[MENU_players]) * 25) / 2 + 225), 4, 640, "%d",
                         players);
             }
 #if EXPERIMENTAL_BOT_SUPPORT
             else if (sel == MENU_bots) {
-                kprintf(menutmp, bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 4, 640, "%d",
+                kprintf(menutmp, bigfont[0], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150), 4, 640, "%d",
                         bots);
             }
 #endif
@@ -933,33 +933,33 @@ Uint8 mainmenu()
                 levelsmenu();
                 jvdump(180 * 640, 300 * 640, menupic.pic + 180 * 640);
                 for (a = 0; a < MENU_total; a++) {
-                    kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
+                    kprintfs(bigfont[0], (int)((640 - strlen(menustr[a]) * 25) / 2), 220 + a * 32, menustr[a]);
                 }
-                kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_players]) * 25) / 2 + 225), 252, "%d", players);
 #if EXPERIMENTAL_BOT_SUPPORT
-                kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150), 284, "%d", bots);
 #endif
                 break;
             case MENU_options:
                 optionsmenu();
                 jvdump(180 * 640, 300 * 640, menupic.pic + 180 * 640);
                 for (a = 0; a < MENU_total; a++) {
-                    kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
+                    kprintfs(bigfont[0], (int)((640 - strlen(menustr[a]) * 25) / 2), 220 + a * 32, menustr[a]);
                 }
-                kprintfs(bigfont[0], (640 - strlen(menustr[MENU_players]) * 25) / 2 + 225, 252, "%d", players);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_players]) * 25) / 2 + 225), 252, "%d", players);
 #if EXPERIMENTAL_BOT_SUPPORT
-                kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150), 284, "%d", bots);
 #endif
                 break;
             case MENU_info:
                 info();
                 jvdump(180 * 640, 300 * 640, menupic.pic + 180 * 640);
                 for (a = 0; a < MENU_total; a++) {
-                    kprintfs(bigfont[0], (640 - strlen(menustr[a]) * 25) / 2, 220 + a * 32, menustr[a]);
+                    kprintfs(bigfont[0], (int)((640 - strlen(menustr[a]) * 25) / 2), 220 + a * 32, menustr[a]);
                 }
-                kprintfs(bigfont[0], (640 - strlen(menustr[1]) * 25) / 2 + 225, 252, "%d", players);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[1]) * 25) / 2 + 225), 252, "%d", players);
 #if EXPERIMENTAL_BOT_SUPPORT
-                kprintfs(bigfont[0], (640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150, 284, "%d", bots);
+                kprintfs(bigfont[0], (int)((640 - strlen(menustr[MENU_bots]) * 25) / 2 + 150), 284, "%d", bots);
 #endif
                 break;
             }

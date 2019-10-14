@@ -108,10 +108,10 @@ size_t util_fread(void *buf, size_t elsize, size_t nelem, UTIL_FILE *fp)
 {
     size_t relem = nelem;
     int bytes;
-    bytes = elsize * nelem;
+    bytes = (int)(elsize * nelem);
     if (bytes > (fp->fstart) + (fp->fsize) - (fp->pos)) {
         relem = ((fp->fstart) + (fp->fsize) - (fp->pos)) / elsize;
-        bytes = relem * elsize;
+        bytes = (int)(relem * elsize);
     }
     if (relem == 0) {
         return (0);
