@@ -9,11 +9,6 @@ KOPS
 :point_right: **The original user manual can be found as
 [doc/manual.txt](./doc/manual.txt).**
 
-:point_right: **Binary data is currently provided as a separate
-download [here at
-SourceForge](https://sourceforge.net/projects/kops/files/kops/kops-initial-data/kops-data-20030415.zip/download).**
-Extract into the working copy directory.
-
 This is a classic 90s 2D cave flying shooter game, ported to SDL2. It
 runs on at least macOS, Linux and Windows.
 
@@ -82,7 +77,7 @@ cmake --build .
 Releases
 --------
 
-**Version 1 - 2019-10-14**
+**TBA, Version 1 - 2019-MM-DD**
 
 - Initial release
 
