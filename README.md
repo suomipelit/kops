@@ -28,6 +28,8 @@ released as version `1.0`, so there might be some changes to the original.
 
 Changes in SDL2 port:
 
+- Game always starts in windowed mode
+
 - Left alt + return toggles full-screen
 
 - Partial A.I. (bot) code added after `1.0` release has been disabled by

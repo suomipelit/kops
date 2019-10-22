@@ -62,16 +62,6 @@ void initGraphics()
     /* Clean up on exit */
     atexit(uninitGraphics);
 
-#ifdef NDEBUG
-#define FULLSCREEN SDL_WINDOW_FULLSCREEN
-#else
-#define FULLSCREEN 0
-#endif
-
-    if (!windowed && FULLSCREEN) {
-        fullscreen = FULLSCREEN;
-    }
-
     /* 8-bit surface for game to write directly to */
     screen = SDL_CreateRGBSurface(0,
                                   X_RESOLUTION, Y_RESOLUTION,
@@ -86,7 +76,7 @@ void initGraphics()
     window = SDL_CreateWindow("KOPS", SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED,
                               screen->w, screen->h,
-                              fullscreen | SDL_WINDOW_OPENGL);
+                              SDL_WINDOW_OPENGL);
 
     if (window == NULL) {
         sprintf(sdf, "Couldn't set 640x480x8 video mode: %s\n", SDL_GetError());
