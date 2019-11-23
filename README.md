@@ -79,7 +79,7 @@ cmake --build .
 Releases
 --------
 
-**TBA, Version 1 - 2019-MM-DD**
+**Version 1 - 2019-11-23**
 
 - Initial release
 
