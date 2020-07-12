@@ -1,6 +1,10 @@
 KOPS
 ====
 
+[![Build Status](https://api.travis-ci.org/suomipelit/kops.svg?branch=master)](https://travis-ci.org/suomipelit/kops)
+[![Downloads](https://img.shields.io/github/downloads/suomipelit/kops/total.svg)](https://github.com/suomipelit/kops/releases)
+[![Latest release](http://img.shields.io/github/release/suomipelit/kops.svg)](https://github.com/suomipelit/kops/releases/latest)
+
 ![KOPS Gameplay](https://github.com/suomipelit/suomipelit.github.io/blob/master/pngs/kops.png)
 
 :point_right: **The original README.txt can be found as
@@ -50,9 +54,6 @@ Fixes:
 Building from source
 --------------------
 
-[![Build
-Status](https://travis-ci.org/suomipelit/kops.svg?branch=master)](https://travis-ci.org/suomipelit/kops)
-
 **Requirements:**
 
 - CMake
@@ -79,7 +80,7 @@ cmake --build .
 Releases
 --------
 
-**Version 1 - 2019-11-23**
+**[Version 1](https://github.com/suomipelit/kops/releases/tag/v1-win) - 2019-11-23**
 
 - Initial release
 
