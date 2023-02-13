@@ -1,7 +1,7 @@
 KOPS
 ====
 
-[![Build Status](https://api.travis-ci.org/suomipelit/kops.svg?branch=master)](https://travis-ci.org/suomipelit/kops)
+[![CI](https://github.com/suomipelit/kops/actions/workflows/ci.yml/badge.svg)](https://github.com/suomipelit/kops/actions/workflows/ci.yml)
 [![Downloads](https://img.shields.io/github/downloads/suomipelit/kops/total.svg)](https://github.com/suomipelit/kops/releases)
 [![Latest release](http://img.shields.io/github/release/suomipelit/kops.svg)](https://github.com/suomipelit/kops/releases/latest)
 
