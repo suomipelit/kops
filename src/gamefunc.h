@@ -20,6 +20,5 @@ extern void newammocrap(int nro, int type);
 extern void newpickammo();
 extern void newcrap(int xp, int yp, int type);
 extern void newboom(int xp, int yp, int type, int transp, int speed);
-extern void savescreenrix(char *fname);
 
 #endif /* !GAMEFUNC_H_INCLUDED */
