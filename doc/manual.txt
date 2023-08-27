@@ -82,9 +82,7 @@ You also must return to a base when the last enemy goes down.
   The bases may also be destroyed along with all the other terrain, but
 they regenerate in time.
   The game can be paused with key F11 (and unpaused with the same key).
-You can also save a screenshot by pressing key F12 (fileformat is
-640x480x256 RIX and filename is KOPSSHOT.RIX). The game can be run in
-windowed mode if started with parameter -c1.
+  The game can be run in windowed mode if started with parameter -c1.
 
 .------------------------------------------------------------------------.
 | 3.1 Weapons                                                            |

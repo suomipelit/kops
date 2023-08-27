@@ -40,8 +40,6 @@
 /* #define VRC */
 /* #define RASTER */
 
-#define SCREENSHOTS
-
 int isqrt(int num)
 {
     return (int)sqrt((double)num);
@@ -903,20 +901,6 @@ void game()
                     }
                 }
             }
-
-            /*
-         * f12 saves screen to SHOT.RIX
-         */
-#ifdef SCREENSHOTS
-            if (key(K_F12)) {
-                gamepause = 1;
-                savescreenrix("kopsshot.rix");
-                while (key(K_F12)) {
-                    update();
-                }
-                gamepause = 0;
-            }
-#endif
 
          /*
          * game pause
