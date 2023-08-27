@@ -110,6 +110,9 @@ void initGraphics()
         jerror(sdf, EXIT_FAILURE);
     }
 
+    /* Keeping the aspect ratio in fullscreen */
+    SDL_RenderSetLogicalSize(renderer, screen->w, screen->h);
+
     /* And finally a texture also matching display colors */
     texture = SDL_CreateTexture(renderer,
                                 SDL_PIXELFORMAT_RGBA8888,
